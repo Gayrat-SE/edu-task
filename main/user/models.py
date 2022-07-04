@@ -56,13 +56,8 @@ class Student(Base, models.Model):
 
 
 class StudentGroup(Base, models.Model):
-
-    gender_choice = (
-        ('Male', 'Male'),
-        ('Female', 'Female'),
-    )
     student = models.ForeignKey(Student, on_delete=models.PROTECT)
     name = models.CharField(max_length=222, blank=True, null=True)
-    owner = models.ForeignKey(Adminstator, on_delete=models.PROTECT)
+    owner = models.ForeignKey(User,  on_delete=models.PROTECT)
     description = models.TextField(blank=True, null=True)
 
