@@ -14,6 +14,10 @@ class User(AbstractUser):
     image = models.ImageField(upload_to='user_images', blank=True, null=True)
     birthday = models.DateField(blank=True, null=True)
     phone = models.IntegerField(blank=True, null=True)
+    has_profile = models.BooleanField(default=False)
+
+    def has_profile_true(self):
+        self.has_profile = True
 
 
 
