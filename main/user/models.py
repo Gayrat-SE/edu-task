@@ -60,4 +60,3 @@ class StudentGroup(Base, models.Model):
     name = models.CharField(max_length=222, blank=True, null=True)
     owner = models.ForeignKey(User,  on_delete=models.PROTECT)
     description = models.TextField(blank=True, null=True)
-
