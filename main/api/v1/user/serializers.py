@@ -6,19 +6,19 @@ class StudentCreateSerializer(serializers.ModelSerializer):
     username = serializers.CharField(source='user.username')
     password = serializers.CharField(write_only = True, source='user.password')
     gender = serializers.CharField(source = 'user.gender')
-    father_name = serializers.CharField(source='user.father_name')
+    birthday = serializers.DateField(source = 'user.birthday')
     first_name = serializers.CharField(source='user.first_name')
     last_name = serializers.CharField(source = 'user.last_name')
     email = serializers.CharField(source = 'user.email')
     phone = serializers.CharField(source = 'user.phone')
     class Meta:
         model = Student
-        fields = ('username', 'password', 'gender', 'father_name', 'first_name', 'last_name', 'email', 'phone')
+        fields = ('username', 'password', 'gender', 'birthday', 'first_name', 'last_name', 'email', 'phone')
 
     def create(self, validated_data):
         user = validated_data.pop('user')
         user = User.objects.create(username=user['username'], first_name = user['first_name'],
-            email = user['email'], gender= user['gender'],   father_name = user['father_name'],
+            email = user['email'], gender= user['gender'],   birthday = user['birthday'],
             last_name = user['last_name'],  phone = user['phone']
         )
         user.set_password('password')
@@ -47,6 +47,10 @@ class StudentGroupCreateSerializer(serializers.ModelSerializer):
 
         return group
 
+class StudentGroupListSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = StudentGroup
+        fields = '__all__'
 
 class TeacherCreateSerializer(serializers.ModelSerializer):
     username = serializers.CharField(source='user.username')

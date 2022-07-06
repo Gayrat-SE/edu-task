@@ -1267,20 +1267,20 @@
 											<input type="text" class="form-control" name="last-name" id="last-name" placeholder="Enter Your Last Name">
 											</div>
 											<div class="form-group">
-											<label>Father Name</label>
-											<input type="text" class="form-control" name="father-name" id="father-name" placeholder="Enter Your Father Name">
+												<label>Birthday</label>
+												<input class="form-control" type="date" id="date" name="date">
 											</div>
 											<div class="form-group">
 											<label>Gender</label>
-											<select class="form-select" id="gender" aria-label="Default select example">
-												<option selected>Open this select menu</option>
+											<select class="form-control form-control-sm" id="gender" aria-label="Default select example">
+												<option selected>Select Gender</option>
 												<option value="Male">Male</option>
 												<option value="Female" >Female</option>
 												</select>
 											</div>
 											<div class="form-group">
 											<label>Group</label>
-											<select class="form-select" aria-label="Default select example">
+											<select disabled class="form-control form-control-sm" aria-label="Default select example">
 											{% for el in student %}
 												<option selected id="group_select" value={{ pk }}>{{ el.name }}</option>
 											{% endfor %}
@@ -1380,7 +1380,7 @@
 			var username = $('#username').val();
 			var first_name = $('#first-name').val();
 			var last_name = $('#last-name').val();
-			var father_name = $('#father-name').val();
+			var birthday = $('#date').val();
 			var gender = $('#gender').val();
 			var email = $('#email').val();
 			var password = $('#password').val();
@@ -1394,7 +1394,7 @@
 					username:username,
 					first_name:first_name,
 					last_name:last_name,
-					father_name:father_name,
+					birthday:birthday,
 					password:password,
 					email:email,
 					phone:phone,
