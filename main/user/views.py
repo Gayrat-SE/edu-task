@@ -1,3 +1,4 @@
+from multiprocessing import context
 from django.shortcuts import render
 from .models import *
 # Create your views here.
@@ -8,11 +9,16 @@ def dashboard(request):
 
 
 def studentGroup(request):
-    return render(request, 'users/student/studentGroup_list.html')
-
-def studentList(request):
-    student = Student.objects.all()
+    groups = StudentGroup.objects.all()
     context = {
-        'student':student
+        'groups':groups
+    }
+    return render(request, 'users/student/studentGroup_list.html', context)
+
+def studentList(request, pk):
+    student = StudentGroup.objects.filter(id = pk)
+    context = {
+        'student':student,
+        'pk':pk
     }
     return render(request, 'users/student/student_list.html', context)

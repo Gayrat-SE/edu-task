@@ -1,8 +1,9 @@
-from .serializers import StudentCreateSerializer, StudentGroupCreateSerializer
-from rest_framework.generics import CreateAPIView
+from .serializers import *
+from rest_framework import generics
 from rest_framework.views import APIView
-from user.models import Student, StudentGroup
+from user.models import *
 from rest_framework.response import Response
+from rest_framework import status
 
 class StudentCreate(APIView):
     
@@ -10,9 +11,20 @@ class StudentCreate(APIView):
         serializer = StudentCreateSerializer(data=request.data)
         if serializer.is_valid(raise_exception=True):
             serializer.save()
+            
+            group_id = self.request.POST.get('group')
+            studentGroup = StudentGroup.objects.filter(id=group_id)[0]
+            username = serializer.data['username']
+            student = Student.objects.filter(user__username = username)[0]
+            studentGroup.student.add(student.id)
+            studentGroup.save()
 
-            return Response(serializer.data)
+            return Response(serializer.data, status=status.HTTP_201_CREATED)
 
-class StudentGroupCreate(CreateAPIView):
+class StudentGroupCreate(generics.CreateAPIView):
     queryset = StudentGroup.objects.all()
     serializer_class = StudentGroupCreateSerializer
+
+class TeacherCreate(generics.CreateAPIView):
+    queryset = Teacher.objects.all()
+    serializer_class = TeacherCreateSerializer

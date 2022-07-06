@@ -41,13 +41,12 @@ class Student(Base, models.Model):
 
     user = models.OneToOneField(User, on_delete=models.CASCADE)
 
-
     def __str__(self):
         return self.user.username
 
 
 class StudentGroup(Base, models.Model):
-    student = models.ForeignKey(Student, on_delete=models.PROTECT)
+    student = models.ManyToManyField(Student, blank=True)
     name = models.CharField(max_length=222, blank=True, null=True)
     owner = models.ForeignKey(User,  on_delete=models.PROTECT)
     description = models.TextField(blank=True, null=True)
