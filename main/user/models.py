@@ -1,8 +1,8 @@
-from hashlib import blake2b
-from re import T
 from django.db import models
 from base.models import Base
 from django.contrib.auth.models import AbstractUser
+from phonenumber_field.modelfields import PhoneNumberField
+
 
 class User(AbstractUser):
     gender_choice = (
@@ -13,7 +13,7 @@ class User(AbstractUser):
     father_name = models.CharField(max_length=222, blank=True, null=True)
     image = models.ImageField(upload_to='user_images', blank=True, null=True)
     birthday = models.DateField(blank=True, null=True)
-    phone = models.IntegerField(blank=True, null=True)
+    phone = PhoneNumberField(blank=True, null=True)
     has_profile = models.BooleanField(default=False)
 
     def has_profile_true(self):
@@ -41,13 +41,12 @@ class Student(Base, models.Model):
 
     user = models.OneToOneField(User, on_delete=models.CASCADE)
 
-
     def __str__(self):
         return self.user.username
 
 
 class StudentGroup(Base, models.Model):
-    student = models.ForeignKey(Student, on_delete=models.PROTECT)
+    student = models.ManyToManyField(Student, blank=True)
     name = models.CharField(max_length=222, blank=True, null=True)
     owner = models.ForeignKey(User,  on_delete=models.PROTECT)
     description = models.TextField(blank=True, null=True)
