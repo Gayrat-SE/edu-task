@@ -4,4 +4,7 @@ urlpatterns = [
     path('student-create', StudentCreate.as_view()),
     path('group-create', StudentGroupCreate.as_view()),
     path('teacher-create', TeacherCreate.as_view()),
+    path('student-list', StudentList.as_view()),
+    path('group-list', StudentGroupList.as_view()),
+    path('group-detail/<int:pk>', StudentGroupDetailList.as_view())
     ]

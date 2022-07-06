@@ -21,31 +21,31 @@ class User(AbstractUser):
 
 
 
-class Admin(Base, models.Model):
+class Admin(Base):
 
-    user = models.OneToOneField(User, on_delete=models.CASCADE)
+    user = models.OneToOneField(User, related_name='owner', on_delete=models.CASCADE)
 
 
     def __str__(self):
         return self.user.username
 
-class Teacher(Base, models.Model):
-    user = models.OneToOneField(User, on_delete=models.CASCADE)
+class Teacher(Base):
+    user = models.OneToOneField(User, related_name='teacher', on_delete=models.CASCADE)
 
     def __str__(self):
         return self.user.username
     
 
-class Student(Base, models.Model):
+class Student(Base):
 
 
-    user = models.OneToOneField(User, on_delete=models.CASCADE)
+    user = models.OneToOneField(User, related_name='student', on_delete=models.CASCADE)
 
     def __str__(self):
         return self.user.username
 
 
-class StudentGroup(Base, models.Model):
+class StudentGroup(Base):
     student = models.ManyToManyField(Student, blank=True)
     name = models.CharField(max_length=222, blank=True, null=True)
     owner = models.ForeignKey(Admin,  on_delete=models.PROTECT)

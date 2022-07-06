@@ -1234,18 +1234,19 @@
 								<th>Description</th>
 								<th>Created Date</th>
 								<th>Status</th>
-								<th class="text-center">Actions</th>
+								<th>Count</th>
 							</tr>
 						</thead>
 						<tbody>
 						{% for i in groups %}
 							<tr>
 								<td><a href="{% url 'students' i.id %}">{{ i.name }}</a></td>
-								<td>{{ i.owner.username }}</td>
+								<td>{{ i.owner.user.username }}</td>
 								<td>{{ i.description }}</td>
 								<td>{{ i.created_at }}</td>
 								<td>{% if i.status == True %} active {% else %} deactive {% endif %}</td>
 								<td>
+								{{ i.student.count }}
 								</td>
 							</tr>
 						{% endfor %}
