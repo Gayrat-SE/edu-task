@@ -48,5 +48,7 @@ class Student(Base, models.Model):
 class StudentGroup(Base, models.Model):
     student = models.ManyToManyField(Student, blank=True)
     name = models.CharField(max_length=222, blank=True, null=True)
-    owner = models.ForeignKey(User,  on_delete=models.PROTECT)
+    owner = models.ForeignKey(Admin,  on_delete=models.PROTECT)
     description = models.TextField(blank=True, null=True)
+    created_at = models.DateField(auto_now=True)
+    status = models.BooleanField(default=False)

@@ -1232,7 +1232,7 @@
 								<th>Name</th>
 								<th>Owner</th>
 								<th>Description</th>
-								<th>DOB</th>
+								<th>Created Date</th>
 								<th>Status</th>
 								<th class="text-center">Actions</th>
 							</tr>
@@ -1243,8 +1243,8 @@
 								<td><a href="{% url 'students' i.id %}">{{ i.name }}</a></td>
 								<td>{{ i.owner.username }}</td>
 								<td>{{ i.description }}</td>
-								<td>22 Jun 1972</td>
-								<td>Active</td>
+								<td>{{ i.created_at }}</td>
+								<td>{% if i.status == True %} active {% else %} deactive {% endif %}</td>
 								<td>
 								</td>
 							</tr>
