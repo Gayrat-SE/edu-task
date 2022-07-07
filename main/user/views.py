@@ -5,7 +5,7 @@ from .models import *
 
 
 def dashboard(request):
-    return render(request, 'users/admin/index.html')
+    return render(request, 'index.html')
 
 
 def studentGroup(request):
