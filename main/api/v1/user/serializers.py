@@ -38,14 +38,7 @@ class StudentListSerializer(serializers.ModelSerializer):
 class StudentGroupCreateSerializer(serializers.ModelSerializer):
     class Meta:
         model = StudentGroup
-        fields = ('name', 'owner', 'description',)
-    
-    def create(self, validated_data):
-        group = StudentGroup(**validated_data)
-        group.status = True
-        group.save()
-
-        return group
+        fields = ('name', 'owner', 'description', 'student')
 
 class StudentGroupListSerializer(serializers.ModelSerializer):
     class Meta:

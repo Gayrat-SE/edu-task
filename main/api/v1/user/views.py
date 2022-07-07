@@ -10,7 +10,6 @@ class StudentCreate(APIView):
     
     def post(self, request):
         serializer = StudentCreateSerializer(data=request.data)
-        print(serializer)
         if serializer.is_valid(raise_exception=True):
             serializer.save()
             group_id = self.request.POST.get('group')
