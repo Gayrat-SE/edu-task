@@ -662,7 +662,7 @@
 </body>
 	<script>
 		$('#submit').on('click', function(){
-			var group = $('#group_select').val();
+			var name = $('#group_select').val();
 			var username = $('#username').val();
 			var first_name = $('#first-name').val();
 			var last_name = $('#last-name').val();
@@ -675,7 +675,7 @@
 				type:'POST',
 				url: '/api/v1/user/student-create',
 				data: {
-					group:group,
+					name:name,
 					gender: gender,
 					username:username,
 					first_name:first_name,
