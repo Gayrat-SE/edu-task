@@ -12,12 +12,11 @@ class StudentCreate(APIView):
         serializer = StudentCreateSerializer(data=request.data)
         if serializer.is_valid(raise_exception=True):
             serializer.save()
-            group_id = self.request.POST.get('group')
-            studentGroup = StudentGroup.objects.filter(id=group_id)[0]
-            username = serializer.data['username']
-            student = Student.objects.filter(user__username = username)[0]
-            studentGroup.student.add(student.id)
-            studentGroup.save()
+            if  self.request.POST.get('group'):
+                studentGroup = StudentGroup.objects.filter(id= self.request.POST.get('group'))[0]
+                student = Student.objects.filter(user__username = serializer.data['username'])[0]
+                studentGroup.student.add(student.id)
+                studentGroup.save()
 
             return Response(serializer.data, status=status.HTTP_201_CREATED)
 

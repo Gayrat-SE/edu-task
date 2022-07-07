@@ -29,6 +29,7 @@ class StudentCreateSerializer(serializers.ModelSerializer):
         student.save()
         return student
 
+
 class StudentListSerializer(serializers.ModelSerializer):
 
     class Meta:
