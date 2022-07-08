@@ -23,15 +23,14 @@ class StudentGroupCreate(generics.CreateAPIView):
 
 
 
-
-
-
 class TeacherCreate(generics.CreateAPIView):
     queryset = Teacher.objects.all()
     serializer_class = TeacherCreateSerializer
 
 
-
+class TeacherUpdate(generics.RetrieveUpdateDestroyAPIView):
+    queryset = Teacher.objects.all()
+    serializer_class = TeacherCreateSerializer
 
 class StudentList(generics.ListAPIView):
     queryset = Student.objects.all()

@@ -115,7 +115,7 @@ class TeacherCreateSerializer(serializers.ModelSerializer):
 
     def create(self, validated_data):
         user = validated_data.pop('user')
-        user = User.objects.create(
+        users = User.objects.create(
             username = user['username'],
             gender = user['gender'],
             birthday = user['birthday'],
@@ -125,9 +125,9 @@ class TeacherCreateSerializer(serializers.ModelSerializer):
             phone = user['phone'],
             )
         
-        user.set_password('password')
-        user.has_profile_true()
-        user.save()
+        users.set_password(user['password'])
+        users.has_profile_true()
+        users.save()
 
         teacher = Teacher(**validated_data)
         teacher.user = user

@@ -625,6 +625,10 @@
 						</tbody>
 					</table>
 				</div>
+				<div class="alert alert-success border-0 alert-dismissible" id="success_message" style="display:none;">
+					<button type="button" class="close" data-dismiss="alert"><span>&times;</span></button>
+					<span class="font-weight-semibold">Well done!</span> You successfully read <a href="#" class="alert-link">this important</a> alert message.
+				</div>
 				<!-- /basic datatable -->
 			</div>
 			<!-- /content area -->
@@ -671,6 +675,8 @@
 			var email = $('#email').val();
 			var password = $('#password').val();
 			var phone = $('#phone').val();
+			var success_message = document.getElementById('success_message');
+			success_message.innerHTML = "";
 			$.ajax({
 				type:'POST',
 				url: '/api/v1/user/student-create',
@@ -688,6 +694,7 @@
 				},
 				success: function(data){
 					window.location = '/user/student-list/{{ pk }}';
+
 				}
 			})
 		});
