@@ -625,6 +625,10 @@
 						</tbody>
 					</table>
 				</div>
+				<div class="alert alert-success border-0 alert-dismissible" id="success_message" style="display:none;">
+					<button type="button" class="close" data-dismiss="alert"><span>&times;</span></button>
+					<span class="font-weight-semibold">Well done!</span> You successfully read <a href="#" class="alert-link">this important</a> alert message.
+				</div>
 				<!-- /basic datatable -->
 			</div>
 			<!-- /content area -->
@@ -662,7 +666,7 @@
 </body>
 	<script>
 		$('#submit').on('click', function(){
-			var name = $('#group_select').val();
+			var group_id = $('#group_select').val();
 			var username = $('#username').val();
 			var first_name = $('#first-name').val();
 			var last_name = $('#last-name').val();
@@ -671,11 +675,13 @@
 			var email = $('#email').val();
 			var password = $('#password').val();
 			var phone = $('#phone').val();
+			var success_message = document.getElementById('success_message');
+			success_message.innerHTML = "";
 			$.ajax({
 				type:'POST',
-				url: '/api/v1/user/student-create',
+				url: '/api/v1/user/student/create/',
 				data: {
-					name:name,
+					group_id:group_id,
 					gender: gender,
 					username:username,
 					first_name:first_name,
@@ -688,6 +694,7 @@
 				},
 				success: function(data){
 					window.location = '/user/student-list/{{ pk }}';
+
 				}
 			})
 		});
