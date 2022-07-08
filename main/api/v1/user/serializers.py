@@ -51,35 +51,6 @@ class StudentUpdateSerializer(serializers.ModelSerializer):
         model = Student
         fields = ('username', 'password', 'gender', 'birthday', 'first_name', 'last_name', 'email', 'phone')
 
-    def update(self, instance, validated_data):
-        user = validated_data.pop('user')
-        if user.get('username'):
-            instance.user.username = user['username']
-            instance.user.save()
-        if user.get('password'):
-            instance.user.set_password(user['password'])
-            instance.user.save()
-        if user.get('gender'):
-            instance.user.gender = user['gender']
-            instance.user.save()
-        if user.get('birthday'):
-            instance.user.birthday = user['birthday']
-            instance.user.save()
-        if user.get('first_name'):
-            instance.user.firts_name = user['first_name']
-            instance.user.save()
-        if user.get('last_name'):
-            instance.user.last_name = user['last_name']
-            instance.user.save()
-        if user.get('email'):
-            instance.user.email = user['email']
-            instance.user.save()
-        if user.get('phone'):
-            instance.user.phone = user['phone']
-            instance.user.save()
-        return instance
-
-
 
 
 
