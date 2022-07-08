@@ -31,16 +31,14 @@ class Admin(Base):
 
 class Teacher(Base):
     user = models.OneToOneField(User, related_name='teacher', on_delete=models.CASCADE)
-
+    position = models.CharField(max_length=255, null=True)
     def __str__(self):
         return self.user.username
     
 
 class Student(Base):
-
-
     user = models.OneToOneField(User, related_name='student', on_delete=models.CASCADE)
-
+    education_start_date = models.DateField(blank=True, null=True)
     def __str__(self):
         return self.user.username
 
