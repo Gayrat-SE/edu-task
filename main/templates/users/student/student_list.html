@@ -666,7 +666,7 @@
 </body>
 	<script>
 		$('#submit').on('click', function(){
-			var name = $('#group_select').val();
+			var group_id = $('#group_select').val();
 			var username = $('#username').val();
 			var first_name = $('#first-name').val();
 			var last_name = $('#last-name').val();
@@ -679,9 +679,9 @@
 			success_message.innerHTML = "";
 			$.ajax({
 				type:'POST',
-				url: '/api/v1/user/student-create',
+				url: '/api/v1/user/student/create/',
 				data: {
-					name:name,
+					group_id:group_id,
 					gender: gender,
 					username:username,
 					first_name:first_name,

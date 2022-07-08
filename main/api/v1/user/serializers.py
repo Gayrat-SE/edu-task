@@ -1,3 +1,6 @@
+from cProfile import label
+import re
+from traceback import print_tb
 from rest_framework import serializers
 from user.models import User, Student, Teacher, Admin, StudentGroup
 from rest_framework.response import Response
@@ -12,18 +15,15 @@ class StudentCreateSerializer(serializers.ModelSerializer):
     last_name = serializers.CharField(source = 'user.last_name')
     email = serializers.CharField(source = 'user.email')
     phone = serializers.CharField(source = 'user.phone')
-    name = serializers.CharField(source = 'studentgroup.name')
+    group_id = serializers.IntegerField(source = 'studentgroup.id', label='id')
 
     class Meta:
         model = Student
-        fields = ('username', 'password', 'gender', 'birthday', 'first_name', 'last_name', 'email', 'phone','name')
+        fields = ('username', 'password', 'gender', 'birthday', 'first_name', 'last_name', 'email', 'phone','group_id')
 
     def create(self, validated_data):
         user = validated_data.pop('user')
-        users = User.objects.create(username=user['username'], first_name = user['first_name'],
-            email = user['email'], gender= user['gender'],   birthday = user['birthday'],
-            last_name = user['last_name'],  phone = user['phone']
-        )
+        users = User.objects.create(**user)
         users.set_password(user['password'])
         users.has_profile_true()
         users.save()
@@ -31,10 +31,11 @@ class StudentCreateSerializer(serializers.ModelSerializer):
 
         student.user = users
         student.save()
-        group = StudentGroup.objects.filter(id = validated_data['studentgroup']['name'])[0]
+        group = StudentGroup.objects.filter(id = validated_data['studentgroup']['id'])[0]
         group.student.add(student.id)
         group.save()
         return student
+    
     
 class StudentUpdateSerializer(serializers.ModelSerializer):
 
@@ -51,6 +52,22 @@ class StudentUpdateSerializer(serializers.ModelSerializer):
         model = Student
         fields = ('username', 'password', 'gender', 'birthday', 'first_name', 'last_name', 'email', 'phone')
 
+    def update(self, instance, validated_data):
+        user = validated_data.pop('user')
+        #for User Update
+        for attr, value in user.items():
+            setattr(instance.user, attr, value)
+        if user.get('password'):
+            instance.user.set_password(user['password'])
+        #for Student Update
+        for attr, value in validated_data.items():
+            setattr(instance, attr, value)
+        instance.user.save()
+        instance.save()
+
+        return instance
+
+
 
 
 
@@ -63,7 +80,7 @@ class StudentListSerializer(serializers.ModelSerializer):
 class StudentGroupCreateSerializer(serializers.ModelSerializer):
     class Meta:
         model = StudentGroup
-        fields = ('name', 'owner', 'description', 'student')
+        fields = ('name', 'owner', 'description', 'student',)
 
 class StudentGroupListSerializer(serializers.ModelSerializer):
     class Meta:
@@ -86,15 +103,7 @@ class TeacherCreateSerializer(serializers.ModelSerializer):
 
     def create(self, validated_data):
         user = validated_data.pop('user')
-        users = User.objects.create(
-            username = user['username'],
-            gender = user['gender'],
-            birthday = user['birthday'],
-            first_name = user['first_name'],
-            last_name = user['last_name'],
-            email = user['email'],
-            phone = user['phone'],
-            )
+        users = User.objects.create(**user)
         
         users.set_password(user['password'])
         users.has_profile_true()
@@ -108,30 +117,17 @@ class TeacherCreateSerializer(serializers.ModelSerializer):
 
     def update(self, instance, validated_data):
         user = validated_data.pop('user')
-        if user.get('username'):
-            instance.user.username = user['username']
-            instance.user.save()
+        #for User Update
+        for attr, value in user.items():
+            setattr(instance.user, attr, value)
         if user.get('password'):
             instance.user.set_password(user['password'])
-            instance.user.save()
-        if user.get('gender'):
-            instance.user.gender = user['gender']
-            instance.user.save()
-        if user.get('birthday'):
-            instance.user.birthday = user['birthday']
-            instance.user.save()
-        if user.get('first_name'):
-            instance.user.firts_name = user['first_name']
-            instance.user.save()
-        if user.get('last_name'):
-            instance.user.last_name = user['last_name']
-            instance.user.save()
-        if user.get('email'):
-            instance.user.email = user['email']
-            instance.user.save()
-        if user.get('phone'):
-            instance.user.phone = user['phone']
-            instance.user.save()
+        #for Student Update
+        for attr, value in validated_data.items():
+            setattr(instance, attr, value)
+        instance.user.save()
+        instance.save()
+
         return instance
 
 

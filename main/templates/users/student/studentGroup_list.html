@@ -552,7 +552,7 @@
 													<label>Admin</label>
 													<select disabled class="form-control form-control-sm" aria-label="Default select example">
 													{% for el in groups %}
-														<option selected id="owner" value={{ el.id }}>{{ el.owner }}</option>
+														<option selected id="owner" value="{{ el.owner.id }}">{{ el.owner }}</option>
 													{% endfor %}
 													</select>
 												</div>
@@ -644,10 +644,10 @@
 			var description = $('#description').val()
 			var owner = $('#owner').val()
 			var student = $('#student').val()
-			console.log(student)
+			console.log(owner)
 			$.ajax({
 				type: "POST",
-				url: '/api/v1/user/group-create',
+				url: '/api/v1/user/group/create/',
 				data:JSON.stringify({
 					student:student,
 					name:name,
