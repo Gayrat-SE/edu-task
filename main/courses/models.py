@@ -23,7 +23,7 @@ class HomeworkSubmission(Base):
     upload_homework_time = models.DateTimeField(auto_now_add=True)
     submission_homework_file = models.FileField(upload_to='answers/', blank=True, 
         validators=[FileExtensionValidator(allowed_extensions=["pdf", "doc", "docx", "ppt"])])
-    submission_rating = models.FloatField(null=True)
+    submission_rating = models.FloatField(blank=True)
 
     def filename(self):
         return os.path.basename(self.submission_homework_file.name)
