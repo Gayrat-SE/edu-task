@@ -14,6 +14,9 @@ class Homework(Base):
     teacher = models.ForeignKey(Teacher, on_delete=models.PROTECT)
     student_group = models.ManyToManyField(StudentGroup)
 
+    def filename(self):
+        return os.path.basename(self.submission_homework_file.name)
+
 class HomeworkSubmission(Base):
     homework = models.ForeignKey(Homework, on_delete=models.CASCADE)
     student = models.ForeignKey(Student, on_delete=models.PROTECT)
