@@ -1,17 +1,8 @@
-from operator import le
-from sqlite3 import IntegrityError
 from rest_framework import serializers
 from user.models import User, Student, Teacher, Admin, StudentGroup
-from rest_framework.response import Response
-import datetime
 from rest_framework import status
-from django.core.exceptions import ValidationError
-from rest_framework.exceptions import APIException
-
-
-class ValidationError400(APIException):
-    status_code = status.HTTP_400_BAD_REQUEST
-
+from rest_framework.exceptions import ValidationError
+from django.db import IntegrityError
 
 class StudentGroupCreateSerializer(serializers.ModelSerializer):
     class Meta:
@@ -46,26 +37,24 @@ class StudentCreateSerializer(serializers.ModelSerializer):
             users.set_password(user['password'])
             users.has_profile_true()
             users.save()
-        except:
-            raise ValidationError400("username exists")
+        except IntegrityError as e:
+            raise ValidationError(e)
 
         groups = validated_data.pop('studentgroups', [])
-        
-        if len(groups) > 0:
-            student = Student(**validated_data)
-            student.user = users
-            student.save()
-            groups[0].student.add(student.id)
-        else:
-            student = Student(**validated_data)
-            student.user = users
-            student.save()
+        student = Student(**validated_data)
+        student.user = users
+        student.save()
+
+        for obj in groups:
+            student.student_list_set = obj
+            student.student_list_set.student.add(student.id)
 
         return student
 
 
     def update(self, instance, validated_data):
         user = validated_data.pop('user')
+        new_groups = validated_data.pop('studentgroups', [])[0]
         #for User Update
         for attr, value in user.items():
             setattr(instance.user, attr, value)
@@ -76,7 +65,6 @@ class StudentCreateSerializer(serializers.ModelSerializer):
             setattr(instance, attr, value)
         instance.user.save()
         instance.save()
-
         return instance
 
 
