@@ -50,6 +50,7 @@ class StudentCreateSerializer(serializers.ModelSerializer):
             raise ValidationError400("username exists")
 
         groups = validated_data.pop('studentgroups', [])
+        
         if len(groups) > 0:
             student = Student(**validated_data)
             student.user = users
