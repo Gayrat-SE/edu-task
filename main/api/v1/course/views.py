@@ -7,6 +7,10 @@ class CreateHomework(CreateAPIView):
     queryset = Homework.objects.all()
     serializer_class = CreateHomeworkSerializer
 
+    def perform_create(self, serializer):
+        print(self.request.user.teacher)
+        serializer.save(teacher = self.request.user.teacher)
+
 
 class SendHomework(CreateAPIView):
     queryset = HomeworkSubmission.objects.all()

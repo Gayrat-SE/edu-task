@@ -44,7 +44,7 @@ class Student(Base):
 
 
 class StudentGroup(Base):
-    student = models.ManyToManyField(Student, blank=True)
+    student = models.ManyToManyField(Student, blank=True, related_name='student_list')
     name = models.CharField(max_length=222)
     owner = models.ForeignKey(Admin,  on_delete=models.PROTECT)
     description = models.TextField(blank=True, null=True)

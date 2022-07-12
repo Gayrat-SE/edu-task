@@ -1,9 +1,31 @@
+from operator import le
+from sqlite3 import IntegrityError
 from rest_framework import serializers
 from user.models import User, Student, Teacher, Admin, StudentGroup
 from rest_framework.response import Response
 import datetime
-class StudentCreateSerializer(serializers.ModelSerializer):
+from rest_framework import status
+from django.core.exceptions import ValidationError
+from rest_framework.exceptions import APIException
 
+
+class ValidationError400(APIException):
+    status_code = status.HTTP_400_BAD_REQUEST
+
+
+class StudentGroupCreateSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = StudentGroup
+        fields = ('name', 'owner', 'description', 'student', )
+
+class StudentGroupListSerializer(serializers.ModelSerializer):
+    id = serializers.PrimaryKeyRelatedField(label='id', read_only = True)
+    class Meta:
+        model = StudentGroup
+        fields = '__all__'
+
+
+class StudentCreateSerializer(serializers.ModelSerializer):
     username = serializers.CharField(source='user.username')
     password = serializers.CharField(write_only = True, source='user.password')
     gender = serializers.CharField(source = 'user.gender')
@@ -12,25 +34,35 @@ class StudentCreateSerializer(serializers.ModelSerializer):
     last_name = serializers.CharField(source = 'user.last_name')
     email = serializers.CharField(source = 'user.email')
     phone = serializers.CharField(source = 'user.phone')
-
+    studentgroups = serializers.PrimaryKeyRelatedField(queryset=StudentGroup.objects.all(), many=True, write_only=True,)
     class Meta:
         model = Student
-        fields = ('username', 'password', 'gender', 'birthday', 'first_name', 'last_name', 'email', 'phone', 'education_start_date',)
+        fields = ('username', 'password', 'gender', 'birthday', 'first_name', 'last_name', 'email', 'phone', 'education_start_date', 'studentgroups')
 
     def create(self, validated_data):
-        user = validated_data.pop('user')
-        users = User.objects.create(**user)
-        users.set_password(user['password'])
-        users.has_profile_true()
-        users.save()
-        student = Student(**validated_data)
-        student.user = users
-        student.save()
-        if self.context["request"].POST.get('group_id'):
-            group = StudentGroup.objects.filter(id = self.context["request"].POST.get('group_id'))[0]
-            group.student.add(student.id)
-            group.save()
+        try:
+            user = validated_data.pop('user')
+            users = User.objects.create(**user)
+            users.set_password(user['password'])
+            users.has_profile_true()
+            users.save()
+        except:
+            raise ValidationError400("username exists")
+
+        groups = validated_data.pop('studentgroups', [])
+        if len(groups) > 0:
+            student = Student(**validated_data)
+            student.user = users
+            student.save()
+            groups[0].student.add(student.id)
+        else:
+            student = Student(**validated_data)
+            student.user = users
+            student.save()
+
         return student
+
+
     def update(self, instance, validated_data):
         user = validated_data.pop('user')
         #for User Update
