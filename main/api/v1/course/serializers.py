@@ -1,7 +1,10 @@
 from rest_framework import serializers
 from courses.models import Homework, HomeworkSubmission
+from datetime import datetime
+
 
 class CreateHomeworkSerializer(serializers.ModelSerializer):
+    
     class Meta:
         model = Homework
         fields = ('homework_title', 'homework_file', 'homework_created_time', 'homework_deadline_time',
@@ -12,4 +15,4 @@ class CreateHomeworkSerializer(serializers.ModelSerializer):
 class SendHomeworkSerializer(serializers.ModelSerializer):
     class Meta:
         model = HomeworkSubmission
-        fields = '__all__'
+        fields = ('homework', 'student', 'upload_homework_time', 'submission_homework_file','submission_rating',)

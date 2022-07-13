@@ -3,6 +3,7 @@ from user.models import User, Student, Teacher, Admin, StudentGroup
 from rest_framework import status
 from rest_framework.exceptions import ValidationError
 from django.db import IntegrityError
+from rest_framework.validators import UniqueValidator
 
 class StudentGroupCreateSerializer(serializers.ModelSerializer):
     class Meta:
@@ -17,7 +18,7 @@ class StudentGroupListSerializer(serializers.ModelSerializer):
 
 
 class StudentCreateSerializer(serializers.ModelSerializer):
-    username = serializers.CharField(source='user.username')
+    username = serializers.CharField(source='user.username', validators =[UniqueValidator(queryset=User.objects.all())] )
     password = serializers.CharField(write_only = True, source='user.password')
     gender = serializers.CharField(source = 'user.gender')
     birthday = serializers.DateField(source = 'user.birthday')
@@ -31,14 +32,12 @@ class StudentCreateSerializer(serializers.ModelSerializer):
         fields = ('username', 'password', 'gender', 'birthday', 'first_name', 'last_name', 'email', 'phone', 'education_start_date', 'studentgroups')
 
     def create(self, validated_data):
-        try:
-            user = validated_data.pop('user')
-            users = User.objects.create(**user)
-            users.set_password(user['password'])
-            users.has_profile_true()
-            users.save()
-        except IntegrityError as e:
-            raise ValidationError(e)
+
+        user = validated_data.pop('user')
+        users = User.objects.create(**user)
+        users.set_password(user['password'])
+        users.has_profile_true()
+        users.save()
 
         groups = validated_data.pop('studentgroups', [])
         student = Student(**validated_data)
@@ -54,7 +53,7 @@ class StudentCreateSerializer(serializers.ModelSerializer):
 
     def update(self, instance, validated_data):
         user = validated_data.pop('user')
-        new_groups = validated_data.pop('studentgroups', [])[0]
+        new_groups = validated_data.pop('studentgroups', [])
         #for User Update
         for attr, value in user.items():
             setattr(instance.user, attr, value)
