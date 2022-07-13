@@ -41,7 +41,8 @@ class HomeworkStudent(Base):
     homework_created_time = models.DateTimeField(auto_now_add=True)
     homework_deadline_time = models.DateTimeField(null=True, validators=[deadline_time])
 
-
+    def filename(self):
+        return os.path.basename(self.homework_file.name)
 
 
 class HomeworkAnswer(Base):

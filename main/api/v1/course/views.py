@@ -28,6 +28,9 @@ class SendHomework(CreateAPIView):
     queryset = HomeworkSubmission.objects.all()
     serializer_class = SendHomeworkSerializer
 
+    def perform_create(self, serializer):
+        serializer.save(student = self.request.user.student)
+
 
 class HomeworkStudents(CreateAPIView):
     queryset = HomeworkStudent.objects.all()
@@ -39,3 +42,6 @@ class HomeworkStudents(CreateAPIView):
 class AnswerStudents(CreateAPIView):
     queryset = HomeworkAnswer.objects.all()
     serializer_class = AnswerHomeworkStudentSerializer
+
+    def perform_create(self, serializer):
+        serializer.save(student = self.request.user.student)
