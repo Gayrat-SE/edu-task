@@ -1,4 +1,3 @@
-from re import T
 from django.db import models
 from user.models import *
 from base.models import Base
