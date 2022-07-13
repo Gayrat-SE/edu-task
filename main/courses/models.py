@@ -1,4 +1,3 @@
-from django.db import models
 from user.models import *
 from base.models import Base
 import os
@@ -7,7 +6,6 @@ from datetime import datetime
 import pytz
 from rest_framework.exceptions import ValidationError
 from django.core.validators import MaxValueValidator, MinValueValidator
-# Create your models here.
 
 
 
@@ -47,6 +45,3 @@ class HomeworkSubmission(Base):
 
     def filename(self):
         return os.path.basename(self.submission_homework_file.name)
-
-
-
