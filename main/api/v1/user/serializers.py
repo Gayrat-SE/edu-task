@@ -1,8 +1,5 @@
 from rest_framework import serializers
 from user.models import User, Student, Teacher, Admin, StudentGroup
-from rest_framework import status
-from rest_framework.exceptions import ValidationError
-from django.db import IntegrityError
 from rest_framework.validators import UniqueValidator
 
 class StudentGroupCreateSerializer(serializers.ModelSerializer):
@@ -45,8 +42,7 @@ class StudentCreateSerializer(serializers.ModelSerializer):
         student.save()
 
         for obj in groups:
-            student.student_list_set = obj
-            student.student_list_set.student.add(student.id)
+            obj.student.add(student.id)
 
         return student
 
