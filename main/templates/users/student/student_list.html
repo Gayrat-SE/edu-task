@@ -48,6 +48,7 @@
             }
             let csrftoken = getToken('csrftoken')
 	</script>
+	
 </head>
 
 <body>
@@ -525,7 +526,7 @@
 		                		<a class="list-icons-item" data-action="collapse"></a>
 								<!-- Button trigger modal -->
 									<button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModal">
-									Add Student
+									Register Student
 									</button>
 									
 									<!-- Modal -->
@@ -584,16 +585,20 @@
 											<label>Password</label>
 											<input type="password" class="form-control" name="password" id="password" placeholder="Enter Your Password">
 											</div>
+										<div class="alert alert-danger border-0 alert-dismissible" id="danger_message" style="display:none;">
+											<button type="button" class="close" data-dismiss="alert"><span>&times;</span></button>
+											<span class="font-weight-semibold" id="error">Username already exist</span>
+							    		</div>
 
 										</div>
 										<div class="modal-footer">
 										<button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-										<button type="button" class="btn btn-primary" id="submit">Add Student</button>
+										<button type="button" class="btn btn-primary" id="submit">Register</button>
 										</div>
 									</div>
 									</div>
 									</div>
-		                	</div>
+		                	</div>		
 	                	</div>
 					</div>
 					<table class="table datatable-basic">
@@ -695,6 +700,10 @@
 				success: function(data){
 					window.location = '/user/student-list/{{ pk }}';
 
+				},
+				error: function(data){
+					console.log(data.responseJSON.username[0])
+					document.getElementById('danger_message').style.display='block'
 				}
 			})
 		});

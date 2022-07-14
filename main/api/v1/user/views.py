@@ -9,6 +9,7 @@ class StudentCreate(generics.CreateAPIView):
     queryset = Student.objects.all()
     serializer_class = StudentCreateSerializer
 
+    
 
 class StudentUpdate(generics.UpdateAPIView):
     queryset = Student.objects.all()
