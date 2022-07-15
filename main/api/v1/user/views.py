@@ -4,11 +4,13 @@ from rest_framework.views import APIView
 from user.models import *
 from rest_framework.response import Response
 from rest_framework import status
+from rest_framework.permissions import IsAuthenticated, AllowAny
+
 
 class StudentCreate(generics.CreateAPIView):
     queryset = Student.objects.all()
     serializer_class = StudentCreateSerializer
-
+    permission_classes = [IsAuthenticated]
     
 
 class StudentUpdate(generics.UpdateAPIView):
@@ -21,6 +23,7 @@ class StudentUpdate(generics.UpdateAPIView):
 class StudentGroupCreate(generics.CreateAPIView):
     queryset = StudentGroup.objects.all()
     serializer_class = StudentGroupCreateSerializer
+    permission_classes = [IsAuthenticated]
 
 
 

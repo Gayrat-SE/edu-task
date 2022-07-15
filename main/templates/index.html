@@ -6,42 +6,42 @@
 	<meta http-equiv="X-UA-Compatible" content="IE=edge">
 	<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 	<title>Limitless - Responsive Web Application Kit by Eugene Kopyov</title>
-	
+
 	<!-- Global stylesheets -->
 	<link href="https://fonts.googleapis.com/css?family=Roboto:400,300,100,500,700,900" rel="stylesheet" type="text/css">
-	<link href="{% static 'css/global/styles.min.css' %}" rel="stylesheet" type="text/css">
-	<link href="{% static '/css/global/bootstrap.min.css' %}" rel="stylesheet" type="text/css">
-	<link href="{% static '/css/global/bootstrap_limitless.min.css' %}" rel="stylesheet" type="text/css">
-	<link href="{% static  '/css/global/layout.min.css' %}" rel="stylesheet" type="text/css">
-	<link href="{% static '/css/global/components.min.css' %}" rel="stylesheet" type="text/css">
-	<link href="{% static '/css/global/colors.min.css'%}" rel="stylesheet" type="text/css">
+	<link href="{% static 'css/icomoon/styles.min.css' %}" rel="stylesheet" type="text/css">
+	<link href="{% static 'css/bootstrap.min.css' %}" rel="stylesheet" type="text/css">
+	<link href="{% static 'css/bootstrap_limitless.min.css' %}" rel="stylesheet" type="text/css">
+	<link href="{% static 'css/layout.min.css' %}" rel="stylesheet" type="text/css">
+	<link href="{% static 'css/components.min.css' %}" rel="stylesheet" type="text/css">
+	<link href="{% static 'css/colors.min.css' %}" rel="stylesheet" type="text/css">
 	<!-- /global stylesheets -->
 
 	<!-- Core JS files -->
-	<script src="{% static '/js/core/jquery.min.js' %}"></script>
-	<script src="{% static '/js/core/bootstrap.bundle.min.js' %}"></script>
-	<script src="{% static '/js/core/blockui.min.js' %}"></script>
+	<script src="{% static 'js/core/js/main/jquery.min.js' %}"></script>
+	<script src="{% static 'js/core/js/main/bootstrap.bundle.min.js' %}"></script>
+	<script src="{% static 'js/core/js/plugins/loaders/blockui.min.js' %}"></script>
 	<!-- /core JS files -->
 
 	<!-- Theme JS files -->
-	<script src="{% static '/js/dashboard/d3.min.js' %}"></script>
-	<script src="{% static '/js/dashboard/d3_tooltip.js' %}"></script>
-	<script src="{% static '/js/dashboard/switchery.min.js' %}"></script>
-	<script src="{% static '/js/dashboard/moment.min.js' %}"></script>
-	<script src="{% static '/js/dashboard/daterangepicker.js' %}"></script>
+	<script src="{% static 'js/core/js/plugins/visualization/d3/d3.min.js' %}"></script>
+	<script src="{% static 'js/core/js/plugins/visualization/d3/d3_tooltip.js' %}"></script>
+	<script src="{% static 'js/core/js/plugins/forms/styling/switchery.min.js' %}"></script>
+	<script src="{% static 'js/core/js/plugins/ui/moment/moment.min.js' %}"></script>
+	<script src="{% static 'js/core/js/plugins/pickers/daterangepicker.js' %}"></script>
 
-	<script src="{% static '/js/dashboard/app.js'%}"></script>
-	<script src="{% static '/js/dashboard/dashboard.js'%}"></script>
-	<script src="{% static '/js/dashboard/streamgraph.js'%}"></script>
-	<script src="{% static '/js/dashboard/sparklines.js' %}"></script>
-	<script src="{% static '/js/dashboard/lines.js'%}"></script>	
-	<script src="{% static '/js/dashboard/areas.js'%}"></script>
-	<script src="{% static '/js/dashboard/donuts.js' %}"></script>
-	<script src="{% static '/js/dashboard/bars.js' %}"></script>
-	<script src="{% static '/js/dashboard/progress.js' %}"></script>
-	<script src="{% static '/js/dashboard/heatmaps.js' %}"></script>
-	<script src="{% static '/js/dashboard/pies.js' %}"></script>
-	<script src="{% static '/js/dashboard/bullets.js' %}"></script>
+	<script src="{% static 'js/core/app.js' %}"></script>
+	<script src="{% static 'js/core/js/demo_pages/dashboard.js' %}"></script>
+	<script src="{% static 'js/core/js/demo_charts/pages/dashboard/light/streamgraph.js' %}"></script>
+	<script src="{% static 'js/core/js/demo_charts/pages/dashboard/light/sparklines.js' %}"></script>
+	<script src="{% static 'js/core/js/demo_charts/pages/dashboard/light/lines.js' %}"></script>	
+	<script src="{% static 'js/core/js/demo_charts/pages/dashboard/light/areas.js' %}"></script>
+	<script src="{% static 'js/core/js/demo_charts/pages/dashboard/light/donuts.js' %}"></script>
+	<script src="{% static 'js/core/js/demo_charts/pages/dashboard/light/bars.js' %}"></script>
+	<script src="{% static 'js/core/js/demo_charts/pages/dashboard/light/progress.js' %}"></script>
+	<script src="{% static 'js/core/js/demo_charts/pages/dashboard/light/heatmaps.js' %}"></script>
+	<script src="{% static 'js/core/js/demo_charts/pages/dashboard/light/pies.js' %}"></script>
+	<script src="{% static 'js/core/js/demo_charts/pages/dashboard/light/bullets.js' %}"></script>
 	<!-- /theme JS files -->
 
 </head>
@@ -345,7 +345,7 @@
 				<li class="nav-item dropdown dropdown-user">
 					<a href="#" class="navbar-nav-link d-flex align-items-center dropdown-toggle" data-toggle="dropdown">
 						<img src="../../../../global_assets/images/placeholders/placeholder.jpg" class="rounded-circle mr-2" height="34" alt="">
-						<span>Victoria</span>
+						<span>{{ request.user.username }}</span>
 					</a>
 
 					<div class="dropdown-menu dropdown-menu-right">
@@ -354,7 +354,7 @@
 						<a href="#" class="dropdown-item"><i class="icon-comment-discussion"></i> Messages <span class="badge badge-pill bg-blue ml-auto">58</span></a>
 						<div class="dropdown-divider"></div>
 						<a href="#" class="dropdown-item"><i class="icon-cog5"></i> Account settings</a>
-						<a href="#" class="dropdown-item"><i class="icon-switch2"></i> Logout</a>
+						<a href="{% url 'logout' %}" class="dropdown-item"><i class="icon-switch2"></i> Logout</a>
 					</div>
 				</li>
 			</ul>
@@ -395,10 +395,12 @@
 							</div>
 
 							<div class="media-body">
-								<div class="media-title font-weight-semibold">Victoria Baker</div>
+							{% if request.user.is_authenticated %}
+								<div class="media-title font-weight-semibold">{{ request.user.username }}</div>
 								<div class="font-size-xs opacity-50">
 									<i class="icon-pin font-size-sm"></i> &nbsp;Santa Ana, CA
 								</div>
+							{% endif %}
 							</div>
 
 							<div class="ml-3 align-self-center">
@@ -413,7 +415,6 @@
 				<!-- Main navigation -->
 				<div class="card card-sidebar-mobile">
 					<ul class="nav nav-sidebar" data-nav-type="accordion">
-
 						<!-- Main -->
 						<li class="nav-item-header"><div class="text-uppercase font-size-xs line-height-xs">Main</div> <i class="icon-menu" title="Main"></i></li>
 						<li class="nav-item">
@@ -424,15 +425,20 @@
 								</span>
 							</a>
 						</li>
+						{% if request.user.owner or request.user.teacher %}
 						<li class="nav-item">
 							<a href="{% url 'student-group' %}" class="nav-link"><i class="icon-copy"></i> <span>Student Groups</span></a>
 						</li>
 						<li class="nav-item">
-							<a href="" class="nav-link"><i class="icon-color-sampler"></i> <span>Teacher List</span></a>
+							<a href=" {% url 'teacher-list' %} " class="nav-link"><i class="icon-color-sampler"></i> <span>Teacher List</span></a>
 						</li>
+						{% endif %}
+						{% if request.user.owner %}
 						<li class="nav-item">
 							<a href="" class="nav-link"><i class="icon-stack"></i> <span>Admin List</span></a>
 						</li>
+						{% endif %}
+						{% if request.user.teacher %}
 						<li class="nav-item">
 							<a href="changelog.html" class="nav-link">
 								<i class="icon-list-unordered"></i>
@@ -440,6 +446,15 @@
 								<span class="badge bg-blue-400 align-self-center ml-auto">2.3</span>
 							</a>
 						</li>
+						{% endif %}
+						{% if request.user.student %}
+                        <li class="nav-item">
+							<a href="{% url 'groups' %}" class="nav-link">
+								<i class="icon-list-unordered"></i>
+								<span>Groups</span>
+                            </a>
+                        </li>
+						{% endif %}
 					</ul>
 				</div>
 				<!-- /main navigation -->

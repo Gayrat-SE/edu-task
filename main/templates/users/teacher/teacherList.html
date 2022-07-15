@@ -6,49 +6,48 @@
 	<meta http-equiv="X-UA-Compatible" content="IE=edge">
 	<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 	<title>Limitless - Responsive Web Application Kit by Eugene Kopyov</title>
-
 	<!-- Global stylesheets -->
 	<link href="https://fonts.googleapis.com/css?family=Roboto:400,300,100,500,700,900" rel="stylesheet" type="text/css">
-	<link href="{% static 'css/global/styles.min.css' %}" rel="stylesheet" type="text/css">
-	<link href="{% static '/css/global/bootstrap.min.css' %}" rel="stylesheet" type="text/css">
-	<link href="{% static '/css/global/bootstrap_limitless.min.css' %}" rel="stylesheet" type="text/css">
-	<link href="{% static  '/css/global/layout.min.css' %}" rel="stylesheet" type="text/css">
-	<link href="{% static '/css/global/components.min.css' %}" rel="stylesheet" type="text/css">
-	<link href="{% static '/css/global/colors.min.css'%}" rel="stylesheet" type="text/css">
+	<link href="{% static 'css/icomoon/styles.min.css' %}" rel="stylesheet" type="text/css">
+	<link href="{% static 'css/bootstrap.min.css' %}" rel="stylesheet" type="text/css">
+	<link href="{% static 'css/bootstrap_limitless.min.css' %}" rel="stylesheet" type="text/css">
+	<link href="{% static 'css/layout.min.css' %}" rel="stylesheet" type="text/css">
+	<link href="{% static 'css/components.min.css' %}" rel="stylesheet" type="text/css">
+	<link href="{% static 'css/colors.min.css' %}" rel="stylesheet" type="text/css">
 	<!-- /global stylesheets -->
 
 	<!-- Core JS files -->
-	<script src="{% static '/js/core/jquery.min.js' %}"></script>
-	<script src="{% static '/js/core/bootstrap.bundle.min.js' %}"></script>
-	<script src="{% static '/js/core/blockui.min.js' %}"></script>
+	<script src="{% static 'js/core/js/main/jquery.min.js' %}"></script>
+	<script src="{% static 'js/core/js/main/bootstrap.bundle.min.js' %}"></script>
+	<script src="{% static 'js/core/js/plugins/loaders/blockui.min.js' %}"></script>
 	<!-- /core JS files -->
 
 	<!-- Theme JS files -->
-	<script src="{% static '/js/datatable/datatables.min.js'%}"></script>
-	<script src="{% static '/js/datatable/select2.min.js' %}"></script>
-
-	<script src="{% static '/js/core/app.js' %}"></script>
-	<script src="{% static '/js/datatable/datatables_basic.js' %}"></script>
+	<script src="{% static 'js/core/js/plugins/tables/datatables/datatables.min.js' %}"></script>
+	<script src="{% static 'js/core/js/plugins/forms/selects/select2.min.js' %}"></script>
+	<script src="{% static 'ls/core/js/plugins/forms/styling/uniform.min.js'%}"></script>
+	<script src="{% static 'js/core/app.js' %}"></script>
+	<script src="{% static 'js/core/js/demo_pages/datatables_basic.js' %}"></script>
+	<script src="{% static 'js/core//js/demo_pages/form_inputs.js' %}"></script>
 	<!-- /theme JS files -->
 	<script>
-		 function getToken(name) {
-                var cookieValue = null;
-                if (document.cookie && document.cookie !== '') {
-                    var cookies = document.cookie.split(';');
-                    for (var i = 0; i < cookies.length; i++) {
-                        var cookie = cookies[i].trim();
-                        // Does this cookie string begin with the name we want?
-                        if (cookie.substring(0, name.length + 1) === (name + '=')) {
-                            cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
-                            break;
-                        }
-                    }
-                }
-                return cookieValue;
-            }
-            let csrftoken = getToken('csrftoken')
-	</script>
-	
+		function getToken(name) {
+			   var cookieValue = null;
+			   if (document.cookie && document.cookie !== '') {
+				   var cookies = document.cookie.split(';');
+				   for (var i = 0; i < cookies.length; i++) {
+					   var cookie = cookies[i].trim();
+					   // Does this cookie string begin with the name we want?
+					   if (cookie.substring(0, name.length + 1) === (name + '=')) {
+						   cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+						   break;
+					   }
+				   }
+			   }
+			   return cookieValue;
+		   }
+		   let csrftoken = getToken('csrftoken')
+   </script>
 </head>
 
 <body>
@@ -418,7 +417,6 @@
 				<!-- Main navigation -->
 				<div class="card card-sidebar-mobile">
 					<ul class="nav nav-sidebar" data-nav-type="accordion">
-
 						<!-- Main -->
 						<li class="nav-item-header"><div class="text-uppercase font-size-xs line-height-xs">Main</div> <i class="icon-menu" title="Main"></i></li>
 						<li class="nav-item">
@@ -429,15 +427,20 @@
 								</span>
 							</a>
 						</li>
+						{% if request.user.owner or request.user.teacher %}
 						<li class="nav-item">
 							<a href="{% url 'student-group' %}" class="nav-link active"><i class="icon-copy"></i> <span>Student Groups</span></a>
 						</li>
 						<li class="nav-item">
-							<a href="" class="nav-link"><i class="icon-color-sampler"></i> <span>Teacher List</span></a>
+							<a href=" {% url 'teacher-list' %} " class="nav-link"><i class="icon-color-sampler"></i> <span>Teacher List</span></a>
 						</li>
+						{% endif %}
+						{% if request.user.owner %}
 						<li class="nav-item">
 							<a href="" class="nav-link"><i class="icon-stack"></i> <span>Admin List</span></a>
 						</li>
+						{% endif %}
+						{% if request.user.teacher %}
 						<li class="nav-item">
 							<a href="changelog.html" class="nav-link">
 								<i class="icon-list-unordered"></i>
@@ -445,6 +448,15 @@
 								<span class="badge bg-blue-400 align-self-center ml-auto">2.3</span>
 							</a>
 						</li>
+						{% endif %}
+						{% if request.user.student %}
+                        <li class="nav-item">
+							<a href="{% url 'groups' %}" class="nav-link">
+								<i class="icon-list-unordered"></i>
+								<span>Groups</span>
+                            </a>
+                        </li>
+						{% endif %}
 					</ul>
 				</div>
 				<!-- /main navigation -->
@@ -460,28 +472,13 @@
 		<div class="content-wrapper">
 
 			<!-- Page header -->
-			<div class="page-header page-header-light">
-				<div class="page-header-content header-elements-md-inline">
-					<div class="page-title d-flex">
-						<h4><i class="icon-arrow-left52 mr-2"></i> <span class="font-weight-semibold">Datatables</span> - Basic</h4>
-						<a href="#" class="header-elements-toggle text-default d-md-none"><i class="icon-more"></i></a>
-					</div>
-
-					<div class="header-elements d-none">
-						<div class="d-flex justify-content-center">
-							<a href="#" class="btn btn-link btn-float text-default"><i class="icon-bars-alt text-primary"></i><span>Statistics</span></a>
-							<a href="#" class="btn btn-link btn-float text-default"><i class="icon-calculator text-primary"></i> <span>Invoices</span></a>
-							<a href="#" class="btn btn-link btn-float text-default"><i class="icon-calendar5 text-primary"></i> <span>Schedule</span></a>
-						</div>
-					</div>
-				</div>
+			<dss="page-header page-header-light">
 
 				<div class="breadcrumb-line breadcrumb-line-light header-elements-md-inline">
 					<div class="d-flex">
 						<div class="breadcrumb">
 							<a href="index.html" class="breadcrumb-item"><i class="icon-home2 mr-2"></i> Home</a>
-							<a href="datatable_basic.html" class="breadcrumb-item">Datatables</a>
-							<span class="breadcrumb-item active">Basic</span>
+
 						</div>
 
 						<a href="#" class="header-elements-toggle text-default d-md-none"><i class="icon-more"></i></a>
@@ -492,49 +489,35 @@
 							<a href="#" class="breadcrumb-elements-item">
 								<i class="icon-comment-discussion mr-2"></i>
 								Support
-							</a>
-
-							<div class="breadcrumb-elements-item dropdown p-0">
-								<a href="#" class="breadcrumb-elements-item dropdown-toggle" data-toggle="dropdown">
-									<i class="icon-gear mr-2"></i>
-									Settings
-								</a>
-
-								<div class="dropdown-menu dropdown-menu-right">
-									<a href="#" class="dropdown-item"><i class="icon-user-lock"></i> Account security</a>
-									<a href="#" class="dropdown-item"><i class="icon-statistics"></i> Analytics</a>
-									<a href="#" class="dropdown-item"><i class="icon-accessibility"></i> Accessibility</a>
-									<div class="dropdown-divider"></div>
-									<a href="#" class="dropdown-item"><i class="icon-gear"></i> All settings</a>
-								</div>
-							</div>
+							</a>	
 						</div>
 					</div>
 				</div>
-			</div>
+			</dss=>
 			<!-- /page header -->
 
 
 			<!-- Content area -->
-			<div class="content">	
+			<div class="content">
+
 				<!-- Basic datatable -->
 				<div class="card">
 					<div class="card-header header-elements-inline">
-						<h5 class="card-title">Student List</h5>
+						<h5 class="card-title">Teacher List</h5>
 						<div class="header-elements">
 							<div class="list-icons">
 		                		<a class="list-icons-item" data-action="collapse"></a>
-								<!-- Button trigger modal -->
-									<button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModal">
-									Register Student
-									</button>
-									
-									<!-- Modal -->
-									<div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+		                		<!-- Button trigger modal -->
+								<button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModal">
+									Add Teacher
+								</button>
+								
+								<!-- Modal -->
+								<div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
 									<div class="modal-dialog" role="document">
 									<div class="modal-content">
 										<div class="modal-header">
-										<h5 class="modal-title" id="exampleModalLabel">Student Registrations</h5>
+										<h5 class="modal-title" id="exampleModalLabel">Teacher Registrations</h5>
 										<button type="button" class="close" data-dismiss="modal" aria-label="Close">
 										<span aria-hidden="true">&times;</span>
 										</button>
@@ -559,18 +542,10 @@
 											</div>
 											<div class="form-group">
 											<label>Gender</label>
-											<select class="form-control form-control-sm" id="gender" aria-label="Default select example">
+											<select class="form-check" id="gender" aria-label="Default select example">
 												<option selected>Select Gender</option>
 												<option value="Male">Male</option>
 												<option value="Female" >Female</option>
-												</select>
-											</div>
-											<div class="form-group">
-											<label>Group</label>
-											<select disabled class="form-control form-control-sm" aria-label="Default select example">
-											{% for el in student %}
-												<option selected id="group_select" value={{ pk }}>{{ el.name }}</option>
-											{% endfor %}
 											</select>
 											</div>
 											<div class="form-group">
@@ -585,25 +560,23 @@
 											<label>Password</label>
 											<input type="password" class="form-control" name="password" id="password" placeholder="Enter Your Password">
 											</div>
-										<div class="alert alert-danger border-0 alert-dismissible" id="danger_message" style="display:none;">
-											<button type="button" class="close" data-dismiss="alert"><span>&times;</span></button>
-											<span class="font-weight-semibold" id="error">Username already exist</span>
-							    		</div>
 
 										</div>
 										<div class="modal-footer">
 										<button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-										<button type="button" class="btn btn-primary" id="submit">Register</button>
+										<button type="button" class="btn btn-primary" id="submit">Add Student</button>
 										</div>
 									</div>
 									</div>
 									</div>
-		                	</div>		
+								
+		                	</div>
 	                	</div>
 					</div>
 					<table class="table datatable-basic">
 						<thead>
 							<tr>
+								<th>Select</th>
 								<th>Username</th>
 								<th>First Name</th>
 								<th>Last Name</th>
@@ -613,28 +586,22 @@
 							</tr>
 						</thead>
 						<tbody>
-						{% for el in student %}
-							{% for i in el.student.all %}
+						{% for el in teachers %}
 							<tr>
-								<td>{{ i.user.username }}</td>
-								<td><a href="#">{{ i.user.first_name }}</a></td>
-								<td>{{ i.user.last_name}}</td>
-								<td>{{ i.user.birthday }}</td>
-								<td>{{ i.user.email }}</td>
-								<td>
-								{{ i.user.phone }}
-								</td>
+								<td><input type="checkbox" name="" id=""></td>
+								<td>{{ el.user.username }}</td>
+								<td>{{ el.user.first_name }}</td>
+								<td>{{ el.user.last_name}}</td>
+								<td>{{ el.user.birthday }}</td>
+								<td>{{ el.user.email }}</td>
+								<td>{{ el.user.phone }}</td>
 							</tr>
-							{% endfor %}
 						{% endfor %}
 						</tbody>
 					</table>
 				</div>
-				<div class="alert alert-success border-0 alert-dismissible" id="success_message" style="display:none;">
-					<button type="button" class="close" data-dismiss="alert"><span>&times;</span></button>
-					<span class="font-weight-semibold">Well done!</span> You successfully read <a href="#" class="alert-link">this important</a> alert message.
-				</div>
 				<!-- /basic datatable -->
+
 			</div>
 			<!-- /content area -->
 
@@ -650,14 +617,8 @@
 
 				<div class="navbar-collapse collapse" id="navbar-footer">
 					<span class="navbar-text">
-						&copy; 2015 - 2018. <a href="#">Limitless Web App Kit</a> by <a href="http://themeforest.net/user/Kopyov" target="_blank">Eugene Kopyov</a>
+						&copy; 2022. <a href="#">Edu Task Management</a> 
 					</span>
-
-					<ul class="navbar-nav ml-lg-auto">
-						<li class="nav-item"><a href="https://kopyov.ticksy.com/" class="navbar-nav-link" target="_blank"><i class="icon-lifebuoy mr-2"></i> Support</a></li>
-						<li class="nav-item"><a href="http://demo.interface.club/limitless/docs/" class="navbar-nav-link" target="_blank"><i class="icon-file-text2 mr-2"></i> Docs</a></li>
-						<li class="nav-item"><a href="https://themeforest.net/item/limitless-responsive-web-application-kit/13080328?ref=kopyov" class="navbar-nav-link font-weight-semibold"><span class="text-pink-400"><i class="icon-cart2 mr-2"></i> Purchase</span></a></li>
-					</ul>
 				</div>
 			</div>
 			<!-- /footer -->
@@ -669,43 +630,35 @@
 	<!-- /page content -->
 
 </body>
-	<script>
-		$('#submit').on('click', function(){
-			var studentgroups = $('#group_select').val();
-			var username = $('#username').val();
-			var first_name = $('#first-name').val();
-			var last_name = $('#last-name').val();
-			var birthday = $('#date').val();
-			var gender = $('#gender').val();
-			var email = $('#email').val();
-			var password = $('#password').val();
-			var phone = $('#phone').val();
-			var success_message = document.getElementById('success_message');
-			success_message.innerHTML = "";
-			$.ajax({
-				type:'POST',
-				url: '/api/v1/user/student/create/',
-				data: {
-					studentgroups:studentgroups,
-					gender: gender,
-					username:username,
-					first_name:first_name,
-					last_name:last_name,
-					birthday:birthday,
-					password:password,
-					email:email,
-					phone:phone,
-					csrfmiddlewaretoken: $('input[name=csrfmiddlewaretoken]').val()
-				},
-				success: function(data){
-					window.location = '/user/student-list/{{ pk }}';
+<script>
+    $('#submit').on('click', function(){
+		var username = $('#username').val();
+		var first_name = $('#first-name').val();
+		var last_name = $('#last-name').val();
+		var birthday = $('#date').val();
+		var gender = $('#gender').val();
+		var email = $('#email').val();
+		var password = $('#password').val();
+		var phone = $('#phone').val();
+		$.ajax({
+			type:'POST',
+			url: '/api/v1/user/teacher-create',
+			data: {
+				gender: gender,
+				username:username,
+				first_name:first_name,
+				last_name:last_name,
+				birthday:birthday,
+				password:password,
+				email:email,
+				phone:phone,
+				csrfmiddlewaretoken: $('input[name=csrfmiddlewaretoken]').val()
+			},
+			success: function(data){
+				window.location = '/users/teacher-list/';
+			}
+		})
+	});
+</script>
 
-				},
-				error: function(data){
-					console.log(data.responseJSON.username[0])
-					document.getElementById('danger_message').style.display='block'
-				}
-			})
-		});
-	</script>
 </html>

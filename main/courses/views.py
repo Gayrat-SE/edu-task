@@ -1,12 +1,17 @@
 from django.shortcuts import render
 from user.models import StudentGroup
 from .models import Homework
+from django.views.generic import DetailView
+from django.contrib.auth.mixins import LoginRequiredMixin
 # Create your views here.
 
+class DetailHomework(LoginRequiredMixin, DetailView):
+    login_url = "login"
+    model = StudentGroup
+    template_name: str = "hometasks/task.html"
 
-def student_groups(request):
-    student_groups = StudentGroup.objects.filter(student = request.user.student.id)
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
 
-
-def homeworklist(request, pk):
-    homeworks = Homework.objects.filter(student_group = pk)
+        context['homework'] = Homework.objects.filter(student_group = self.object.id)
+        return context
