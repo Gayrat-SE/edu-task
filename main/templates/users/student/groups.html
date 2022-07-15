@@ -1,32 +1,34 @@
-{% extends '../../base.html' %}
+{% extends 'base.html' %}
 {% block  content %}
     {% if request.user.student %}
-    <div class="content">
-        <div class="row">
-            <div class="col-sm-4 ">
+<div class="content  ">
+        <div class="d-flex flex-wrap">
+            <div class="row ">
             {% for el in groups %}
-                <div class="card d-flex flex-wrap">
-                    <div class="card-header bg-dark">
-                        <h2 class="card-title">{{ el.name }}</h2>
-                    </div>
-                    <div class=" card-header  header-elements-inline">  
-                        <h6 class="card-title">Students</h6>
-                        <div class="header-elements">
-                            <span class="badge badge-pill bg-dark">{{ el.student.count }}</span>
+                <div  class="m-2" style="width: 400px;">
+                    <div class="card">
+                        <div class="card-header bg-dark">
+                            <h2 class="card-title">{{ el.name }}</h2>
                         </div>
-                    </div>
-                    
-                    <div class="card-header" style="padding: 15px !important;">
-                        <a href="{% url 'homework' el.pk %}" class="header-elements-inline" >
-                            <h5 class="card-title ">Tasks</h5>
+                        <div class=" card-header  header-elements-inline">  
+                            <h6 class="card-title">Students</h6>
                             <div class="header-elements">
-                                <span class="badge badge-pill bg-dark">{{ homeworks.count }}</span>
+                                <span class="badge badge-pill bg-dark">{{ el.student.count }}</span>
                             </div>
-                        </a>                        
+                        </div>
+                        
+                        <div class="card-header" style="padding: 15px !important;">
+                            <a href=" {% url 'homework' el.id %}" class="header-elements-inline" >
+                                <h5 class="card-title ">Tasks</h5>
+                                <div class="header-elements">
+                                    <span class="badge badge-pill bg-dark">{{ homeworks.count }}</span>
+                                </div>
+                            </a>                        
+                        </div>
                     </div>
                 </div>
                 {% endfor %}
-            </div> 
+            </div>
         </div>
     </div>
     {% endif %}

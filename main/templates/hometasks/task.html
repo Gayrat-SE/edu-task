@@ -10,12 +10,13 @@
                 <span class="d-block h5">
                     {{ el.homework_text }}
                 </span>
-                <a href="/home/gayrat/Downloads/Gayrat's Resume (3) (1).pdf" download class="h5">Download the Task File</a>
+                <a href="{{ el.homework_file.url }}" download class="h5">Download the Task File</a>
                 <p class="h4 mt-2">Deadline: <time>{{ el.homework_deadline_time }}</time> </p>
+                
             </div>
             <div class="card-body">
                 <!-- Button trigger modal -->
-                <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModal">
+                <button type="button" class="btn btn-primary" id="overlay"  data-toggle="modal"  data-id="{{ el.id }}" data-target="#exampleModal">
                 Upload File
                 </button>
 
@@ -29,6 +30,7 @@
                             </button>
                         </div>
                         <div class="modal-body">
+                            <form method="post" id="post-form" enctype="multipart/form-data">{% csrf_token %}
                                 <div class="card">
     
                                     <div class="card-body" id="forms-target-left">
@@ -42,11 +44,13 @@
                                             <textarea rows="5" cols="5" class="form-control" placeholder="Enter your message here"></textarea>
                                         </div>
     
-                                        <div class="text-right">
-                                            <button type="submit" id="submit" class="btn btn-primary">Submit File <i class="icon-paperplane ml-2"></i></button>
-                                        </div>
+                                        <div class="modal-footer">
+											<button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+											<button type="button" class="btn btn-primary" id="submit">Add Student</button>
+										</div>
                                     </div>
                                 </div>
+                            </form>
                         </div>
                     </div>
                 </div>
@@ -56,10 +60,33 @@
     {% endfor %}
     </div>
     <script>
+        let objects = document.querySelectorAll('#overlay')
+        for (let item of objects){
+		   item.addEventListener('click', function() {
+			   get_img(item.dataset.id)
+		   })
+	   }
+       function get_img(homework) {
         $('#submit').on('click', function(){
-            var file = $('#file').val
-            console.log(file)
-        });
+            let input = document.getElementById('file');
+            var crf_token = $('[name="csrfmiddlewaretoken"]').attr('value');
+            let data = new FormData();
+            data.append('submission_homework_file', input.files[0]);
+            data.append('homework', homework)
+            data.append('csrfmiddlewaretoken', crf_token)
+            fetch('/api/v1/course/homework/answer/', {
+                method: 'POST',
+                body: data,
+                headers: {
+                'Authorization': csrftoken
+                    },
+            }).then(response => {
+                return response.json();
+            }).then(data => {
+                window.location = '/course/homework/{{ group.id }}';
+		},
+        )}
+        )}
     </script>
 {% endif %}
 {% endblock content %}
