@@ -12,6 +12,11 @@ class DetailHomework(LoginRequiredMixin, DetailView):
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        context['group'] = StudentGroup.objects.get(id = self.object.id)
+        context['group_id'] = StudentGroup.objects.get(id = self.object.id)
         context['homework'] = Homework.objects.filter(student_group = self.object.id)
         return context
+
+def sendhomework(request):
+    list_groups = StudentGroup.objects.all()
+    context = {'list_groups':list_groups}
+    return render(request, 'hometasks/hometask.html', context)

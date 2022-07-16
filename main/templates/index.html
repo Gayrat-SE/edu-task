@@ -440,9 +440,9 @@
 						{% endif %}
 						{% if request.user.teacher %}
 						<li class="nav-item">
-							<a href="changelog.html" class="nav-link">
+							<a href="{% url 'sendhomework' %}" class="nav-link">
 								<i class="icon-list-unordered"></i>
-								<span>Massages</span>
+								<span>Send Homework</span>
 								<span class="badge bg-blue-400 align-self-center ml-auto">2.3</span>
 							</a>
 						</li>

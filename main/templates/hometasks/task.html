@@ -3,8 +3,10 @@
 {% block content %}
 {% if request.user.student %}
     <div class="content">
-    {% for el in homework %}
-        <div class="card col-5 d-flex">
+    <div class="d-flex flex-wrap">
+            <div class="row">
+        {% for el in homework %}
+        <div class="card m-2 col-5 d-flex" style="width:400px">
             <div class="card-header">
                 <h3>{{ el.teacher.position }}</h3>
                 <span class="d-block h5">
@@ -12,6 +14,7 @@
                 </span>
                 <a href="{{ el.homework_file.url }}" download class="h5">Download the Task File</a>
                 <p class="h4 mt-2">Deadline: <time>{{ el.homework_deadline_time }}</time> </p>
+                <p class="h4 mt-2" id="answers"></p>
                 
             </div>
             <div class="card-body">
@@ -45,7 +48,6 @@
                                         </div>
     
                                         <div class="modal-footer">
-											<button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
 											<button type="button" class="btn btn-primary" id="submit">Add Student</button>
 										</div>
                                     </div>
@@ -58,6 +60,8 @@
             </div>
         </div>
     {% endfor %}
+    </div>
+    </div>
     </div>
     <script>
         let objects = document.querySelectorAll('#overlay')
@@ -83,7 +87,8 @@
             }).then(response => {
                 return response.json();
             }).then(data => {
-                window.location = '/course/homework/{{ group.id }}';
+                window.location = '/course/homework/{{ group_id.id }}';
+                
 		},
         )}
         )}

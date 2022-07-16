@@ -21,7 +21,7 @@ class Homework(Base):
     homework_text = models.TextField(blank=True)
     homework_file = models.FileField(upload_to='homeworks/questions/group/')
     homework_created_time = models.DateTimeField(auto_now_add=True)
-    homework_deadline_time = models.DateTimeField(null=True, validators=[deadline_time])
+    homework_deadline_time = models.DateTimeField(null=True, validators=[deadline_time], blank=True)
     teacher = models.ForeignKey(Teacher, on_delete=models.PROTECT, blank=True)
     student_group = models.ManyToManyField(StudentGroup)
     student = models.ForeignKey(Student, on_delete=models.PROTECT, blank=True, null=True)
