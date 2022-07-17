@@ -435,23 +435,22 @@
 						</li>
 						{% if request.user.owner or request.user.teacher %}
 						<li class="nav-item">
-							<a href="{% url 'student-group' %}" class="nav-link active"><i class="icon-copy"></i> <span>Student Groups</span></a>
+							<a href="{% url 'student-group' %}" class="nav-link active"><i class="icon-copy"></i> <span>Группы Студентов</span></a>
 						</li>
 						<li class="nav-item">
-							<a href=" {% url 'teacher-list' %} " class="nav-link"><i class="icon-color-sampler"></i> <span>Teacher List</span></a>
+							<a href=" {% url 'teacher-list' %} " class="nav-link"><i class="icon-color-sampler"></i> <span>Список Учителей</span></a>
 						</li>
 						{% endif %}
 						{% if request.user.owner %}
 						<li class="nav-item">
-							<a href="" class="nav-link"><i class="icon-stack"></i> <span>Admin List</span></a>
+							<a href="" class="nav-link"><i class="icon-stack"></i> <span>Список Администраторов</span></a>
 						</li>
 						{% endif %}
 						{% if request.user.teacher %}
 						<li class="nav-item">
-							<a href="changelog.html" class="nav-link">
+							<a href="{% url 'sendhomework' %}" class="nav-link">
 								<i class="icon-list-unordered"></i>
-								<span>Massages</span>
-								<span class="badge bg-blue-400 align-self-center ml-auto">2.3</span>
+								<span>Отправить Задание</span>
 							</a>
 						</li>
 						{% endif %}
@@ -459,7 +458,7 @@
                         <li class="nav-item">
 							<a href="{% url 'groups' %}" class="nav-link">
 								<i class="icon-list-unordered"></i>
-								<span>Groups</span>
+								<span>Группы</span>
                             </a>
                         </li>
 						{% endif %}

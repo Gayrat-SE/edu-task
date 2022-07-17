@@ -10,16 +10,18 @@
                         <div class="card-header bg-dark">
                             <h2 class="card-title">{{ el.name }}</h2>
                         </div>
-                        <div class=" card-header  header-elements-inline">  
-                            <h6 class="card-title">Students</h6>
-                            <div class="header-elements">
-                                <span class="badge badge-pill bg-dark">{{ el.student.count }}</span>
-                            </div>
+                        <div class=" card-header" >  
+                            <a href=" {% url 'students' el.id %}" class="header-elements-inline" >
+                                <h5 class="card-title">Студенты</h5>
+                                <div class="header-elements">
+                                    <span class="badge badge-pill bg-dark">{{ el.student.count }}</span>
+                                </div>
+                        </a>
                         </div>
                         
-                        <div class="card-header" style="padding: 15px !important;">
+                        <div class="card-header">
                             <a href=" {% url 'homework' el.id %}" class="header-elements-inline" >
-                                <h5 class="card-title ">Tasks</h5>
+                                <h5 class="card-title ">Задачи</h5>
                                 <div class="header-elements">
                                     <span class="badge badge-pill bg-dark">{{ homeworks.count }}</span>
                                 </div>

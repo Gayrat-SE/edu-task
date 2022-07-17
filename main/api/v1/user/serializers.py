@@ -21,12 +21,14 @@ class StudentCreateSerializer(serializers.ModelSerializer):
     birthday = serializers.DateField(source = 'user.birthday')
     first_name = serializers.CharField(source='user.first_name')
     last_name = serializers.CharField(source = 'user.last_name')
+    father_name = serializers.CharField(source = 'user.father_name')
     email = serializers.CharField(source = 'user.email')
     phone = serializers.CharField(source = 'user.phone')
     studentgroups = serializers.PrimaryKeyRelatedField(queryset=StudentGroup.objects.all(), many=True, write_only=True,)
     class Meta:
         model = Student
-        fields = ('username', 'password', 'gender', 'birthday', 'first_name', 'last_name', 'email', 'phone', 'education_start_date', 'studentgroups')
+        fields = ('username', 'password', 'gender', 'birthday', 'first_name', 'last_name', 'email', 'phone', 'education_start_date', 'studentgroups',
+        'father_name',)
 
     def create(self, validated_data):
 

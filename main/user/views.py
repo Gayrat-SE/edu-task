@@ -1,22 +1,30 @@
 from django.shortcuts import render
 from courses.models import Homework
 from .models import *
-from django.contrib.auth.views import LoginView, LogoutView
+from django.contrib.auth.views import LogoutView
 from django.urls import reverse_lazy, reverse
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.views import View
 from django.views.generic import ListView, DetailView
 # Create your views here.
 
-class LoginUser(LoginView):
-    template_name: str = "users/login_simple.html"
-    def get_success_url(self):
-        success_url = reverse_lazy("index")
-        return success_url
-
 
 class UserLogoutView(LogoutView):
     next_page = reverse_lazy('login')
+
+
+class TeacherProfile(LoginRequiredMixin, ListView):
+    login_url = "login"
+    context_object_name = "user"
+    model = User
+    template_name: str = "users/teacher/teacherProfile.html"
+
+class StudentProfile(LoginRequiredMixin, ListView):
+    login_url = "login"
+    context_object_name = "user"
+    model = User
+    template_name: str = "users/student/studentProfile.html"
+
 
 
 class Dashboard(LoginRequiredMixin, View):
@@ -46,6 +54,7 @@ class TeacherList(LoginRequiredMixin, ListView):
     login_url = "login"
     model = Teacher
     template_name: str = 'users/teacher/teacherList.html'
+    context_object_name = "teachers"
 
 
 class StudentGroups(LoginRequiredMixin, ListView):

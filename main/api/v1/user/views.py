@@ -30,6 +30,7 @@ class StudentGroupCreate(generics.CreateAPIView):
 class TeacherCreate(generics.CreateAPIView):
     queryset = Teacher.objects.all()
     serializer_class = TeacherCreateSerializer
+    permission_classes = [IsAuthenticated]
 
 
 class TeacherUpdate(generics.RetrieveUpdateDestroyAPIView):
