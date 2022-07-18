@@ -158,6 +158,7 @@
 		var last_name = $('#last_name').val()
 		var father_name = $('#father_name').val()
 		var email = $('#email').val()
+		var phone = $('#phone').val()
 		$.ajax({
 			type: 'PATCH',
 			url: "/api/v1/user/student/update/{{ request.user.student.id }}/",
@@ -166,6 +167,7 @@
 				last_name:last_name,
 				father_name:father_name,
 				email:email,
+				phone:phone,
 
 			},
 			beforeSend: function (xhr) {

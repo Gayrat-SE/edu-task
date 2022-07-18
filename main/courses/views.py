@@ -43,9 +43,9 @@ class CheckHomeworkStudent(LoginRequiredMixin, DetailView):
     def get_object(self, queryset=None):
         return StudentGroup.objects.get(id = self.kwargs.get('pk'))
     def get_context_data(self, **kwargs):
-        context = super().get_context_data(**kwargs)
-        context['Students'] = StudentGroup.objects.filter(id = self.kwargs.get('pk'))
-        context['Homework'] = Homework.objects.filter(teacher = self.request.user.teacher, student_group = self.get_object())
-        context['AnswerHomework'] = HomeworkSubmission.objects.filter(homework__in = context['Homework'])
-        print(context['AnswerHomework'])
-        return context
+        try:
+            context = super().get_context_data(**kwargs)
+            context['Homework'] = Homework.objects.filter(teacher = self.request.user.teacher, student_group = self.get_object())
+            return context
+        except:
+            return {"msg":"error"}

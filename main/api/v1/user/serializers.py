@@ -2,6 +2,11 @@ from rest_framework import serializers
 from user.models import User, Student, Teacher, Admin, StudentGroup
 from rest_framework.validators import UniqueValidator
 
+class UserListSerializers(serializers.ModelSerializer):
+    class Meta:
+        model = User
+        fields = '__all__'
+
 class StudentGroupCreateSerializer(serializers.ModelSerializer):
     class Meta:
         model = StudentGroup
@@ -66,10 +71,16 @@ class StudentCreateSerializer(serializers.ModelSerializer):
 
 
 class StudentListSerializer(serializers.ModelSerializer):
-
+    user = serializers.SerializerMethodField(read_only = True)
     class Meta:
         model = Student
         fields = '__all__'
+
+    def get_user(self, obj):
+        id = obj.user
+        serializer_userId = UserListSerializers(id, many=False)
+
+        return serializer_userId.data
 
 class StudentGroupCreateSerializer(serializers.ModelSerializer):
     class Meta:
@@ -137,8 +148,8 @@ class AdminCreateSerializer(serializers.ModelSerializer):
     birthday = serializers.DateField(source = 'user.birthday')
     father_name = serializers.CharField(source = 'user.father_name')
     class Meta:
-        model = Teacher
-        fields = ('username', 'password', 'gender', 'birthday', 'first_name', 'last_name', 'email', 'phone', 'position', 'father_name')
+        model = Admin
+        fields = ('username', 'password', 'gender', 'birthday', 'first_name', 'last_name', 'email', 'phone', 'father_name')
 
     def create(self, validated_data):
         user = validated_data.pop('user')
