@@ -9,6 +9,7 @@ $('#submit').on('click', function(){
 	var email = $('#email').val();
 	var password = $('#password').val();
 	var phone = $('#phone').val();
+	var father_name = $('#father_name').val()
 	$.ajax({
 		type:'POST',
 		url: '/api/v1/user/student/create/',
@@ -22,7 +23,8 @@ $('#submit').on('click', function(){
 			password:password,
 			email:email,
 			phone:phone,
-			csrfmiddlewaretoken: $('input[name=csrfmiddlewaretoken]').val()
+			csrfmiddlewaretoken: $('input[name=csrfmiddlewaretoken]').val(),
+			father_name:father_name,
 		},
 		beforeSend: function (xhr) {
 			xhr.setRequestHeader("X-CSRFToken", csrftoken);

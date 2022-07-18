@@ -24,4 +24,4 @@ class SendHomework(CreateAPIView):
     serializer_class = SendHomeworkSerializer
 
     def perform_create(self, serializer):
-        serializer.save(student = self.request.user.student)
+        serializer.save(student = self.request.user.student, is_answered = True)

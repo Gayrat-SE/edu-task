@@ -1,0 +1,48 @@
+{% extends '../../base.html' %}
+
+{% block content %}
+{% if request.user.teacher %}
+<div class="content">
+        <div class="card">
+            <div class="card-header">
+                <h2>Student Submissions</h2>
+            </div>
+            <table class="table datatable-basic">
+                <thead>
+                    <tr>
+                        <th>Select</th>
+                        <th>Username</th>
+                        <th>First Name</th>
+                        <th>Last Name</th>
+                        <th>Email</th>
+                        <th>Phone</th>
+                        <th>Answer</th>
+                        <th>Mark</th>
+                    </tr>
+                </thead>
+                <div class="card-body">
+                    <tbody>
+                    {% for el in Students %}
+                        {% for i in el.student.all %}
+                        <tr>
+                            <td><input type="checkbox" name="" id=""></td>
+                            <td>{{ i.user.username }}</td>
+                            <td>{{ i.user.first_name }}</td>
+                            <td>{{ i.user.last_name }}</td>
+                            <td>{{ i.user.email }}</td>
+                            <td>{{ i.user.phone }}</td>
+                        {% for answered in AnswerHomework %}
+                            {% if i.id == answered.student.id %}
+                                <td><i class="icon-checkmark3 text-success"></i></td>
+                            {% endif %}
+                        {% endfor %}
+                        </tr>
+                        {% endfor %}
+                    {% endfor %}
+                    </tbody>
+                </div>
+            </table>
+        </div>
+    </div>
+{% endif %}
+{% endblock content %}

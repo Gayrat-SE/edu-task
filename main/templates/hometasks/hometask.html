@@ -32,6 +32,10 @@
                         </select>
                     </label>
                 </div>
+                <div class="alert alert-danger border-0 alert-dismissible" id="error" style="display: None;">
+                    <button type="button" class="close" data-dismiss="alert"><span>&times;</span></button>
+                    <span class="font-weight-semibold">Oh snap!</span> Error Time
+                </div>
                 <div class="card-footer">
                     <button type="button" class="btn btn-primary" id="submit">Добавить</button>
                 </div>
@@ -46,14 +50,15 @@
             let homework_text = $('#description').val();
             let homework_deadline_time = $('#date').val();
             let groups = $('#groups').val()
+            let datetime = $('#datetime').val()
             let data = new FormData();
             data.append('homework_file', input.files[0]);
             data.append('homework_title', homework_title);
             data.append('homework_text', homework_text);
-            data.append('csrfmiddlewaretoken', crf_token)
+            data.append('csrfmiddlewaretoken', crf_token);
+            data.append('homework_deadline_time', datetime);
             for (var i = 0; i < groups.length; i++) {
                 data.append('student_group', groups[i]);
-                console.log(groups[i])
             }
             
             fetch('/api/v1/course/homework/create/', {
@@ -61,16 +66,27 @@
                 headers: {
                     'X-CSRFToken': csrftoken,
                 },
-                body:data
+                body:data,
             }).then(response => {
                 return response.json();
             }).then(data => {
-                console.log(data)
-                window.location = '/course/homework/create';
-                
-		},
+                if (data['homework_deadline_time'][0] == 'Error Time'){
+                    document.getElementById('error').style.display = 'block'
+                }else{
+                    window.location = '/course/homework/create';
+                    
+                }
+		    }
         )}
         );
+    </script>
+    <script>
+        $(function () {
+          $('#datetime').datetimepicker({
+              inline: true,
+              sideBySide: true
+          });
+      });
     </script>
     {% endif %}
 {% endblock content %}

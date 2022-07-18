@@ -34,6 +34,8 @@
 	<script src="{% static 'js/core/js/demo_pages/form_inputs.js' %}"></script>
 	<script src="{% static 'js/core/js/demo_pages/extension_dnd.js' %}"></script>
 	<!-- /theme JS files -->
+	<script src="{% static 'js/core/js/plugins/ui/moment/moment.min.js' %}"></script>
+    <script src="{% static 'js/core/js/plugins/pickers/daterangepicker.js' %}"></script>
 	<script>
 		function getToken(name) {
 			   var cookieValue = null;
@@ -357,7 +359,11 @@
 					</a>
 
 					<div class="dropdown-menu dropdown-menu-right">
-						<a href="#" class="dropdown-item"><i class="icon-user-plus"></i> My profile</a>
+						{% if request.user.student %}
+						<a href="{% url 'studentProfile' %}" class="dropdown-item"><i class="icon-user-plus"></i> My profile</a>
+						{% elif request.user.teacher %}
+						<a href="{% url 'teacherProfile' %}" class="dropdown-item"><i class="icon-user-plus"></i> My profile</a>
+						{% endif %}
 						<a href="#" class="dropdown-item"><i class="icon-coins"></i> My balance</a>
 						<a href="#" class="dropdown-item"><i class="icon-comment-discussion"></i> Messages <span class="badge badge-pill bg-blue ml-auto">58</span></a>
 						<div class="dropdown-divider"></div>
@@ -447,11 +453,12 @@
 						</li>
 						{% endif %}
 						{% if request.user.teacher %}
-						<li class="nav-item">
-							<a href="{% url 'sendhomework' %}" class="nav-link">
-								<i class="icon-list-unordered"></i>
-								<span>Отправить Задание</span>
-							</a>
+						<li class="nav-item nav-item-submenu">
+						<a href="#" class="nav-link"><i class="icon-select2"></i> <span>Задачи</span></a>
+						<ul class="nav nav-group-sub" data-submenu-title="Pickers">
+							<li class="nav-item"><a href="{% url 'sendhomework' %}" class="nav-link">Отправить Задание</a></li>
+							<li class="nav-item"><a href="{% url 'checkhomeworkgroup' %}" class="nav-link">Проверка Задачи</a></li>
+						</ul>
 						</li>
 						{% endif %}
 						{% if request.user.student %}

@@ -25,6 +25,11 @@ class StudentProfile(LoginRequiredMixin, ListView):
     model = User
     template_name: str = "users/student/studentProfile.html"
 
+class AdminProfile(LoginRequiredMixin, ListView):
+    login_url = "login"
+    model = User
+    template_name: str = "users/admin/adminProfile.html"
+
 
 
 class Dashboard(LoginRequiredMixin, View):

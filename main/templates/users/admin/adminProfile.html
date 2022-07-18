@@ -48,7 +48,7 @@
 							<div class="row">
 								<div class="col-md-6">
 									<label>Email</label>
-									<input type="text"  value="{{ request.user.email }}" id="email" class="form-control">
+									<input type="text" value="{{ request.user.email }}" id="email" class="form-control">
 								</div>
 								<div class="col-md-6">
 									<label>Your Gender</label>
@@ -64,7 +64,6 @@
 								<div class="col-md-6">
 									<label>Phone</label>
 									<input type="text" value="{{ request.user.phone }}" id="phone" class="form-control">
-									<span class="form-text text-muted">+99-99-9999-9999</span>
 								</div>
 
 								<div class="col-md-6">
@@ -159,10 +158,9 @@
 		var last_name = $('#last_name').val()
 		var father_name = $('#father_name').val()
 		var email = $('#email').val()
-
 		$.ajax({
 			type: 'PATCH',
-			url: "/api/v1/user/teacher/update/{{ request.user.teacher.id }}/",
+			url: "/api/v1/user/admin/update/{{ request.user.owner.id }}/",
 			data: {
 				first_name:first_name,
 				last_name:last_name,

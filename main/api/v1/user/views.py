@@ -53,3 +53,12 @@ class StudentGroupList(generics.ListAPIView):
 class StudentGroupDetailList(generics.RetrieveAPIView):
     queryset = StudentGroup.objects.all()
     serializer_class = StudentGroupListSerializer
+
+class AdminCreate(generics.CreateAPIView):
+    queryset = Admin.objects.all()
+    serializer_class = AdminCreateSerializer
+    permission_classes = [IsAuthenticated]
+
+class AdminUpdate(generics.RetrieveUpdateDestroyAPIView):
+    queryset = Admin.objects.all()
+    serializer_class = AdminCreateSerializer

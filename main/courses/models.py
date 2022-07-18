@@ -21,7 +21,7 @@ class Homework(Base):
     homework_text = models.TextField(blank=True)
     homework_file = models.FileField(upload_to='homeworks/questions/group/')
     homework_created_time = models.DateTimeField(auto_now_add=True)
-    homework_deadline_time = models.DateTimeField(null=True, validators=[deadline_time], blank=True)
+    homework_deadline_time = models.DateTimeField(validators=[deadline_time])
     teacher = models.ForeignKey(Teacher, on_delete=models.PROTECT, blank=True)
     student_group = models.ManyToManyField(StudentGroup)
     student = models.ForeignKey(Student, on_delete=models.PROTECT, blank=True, null=True)
@@ -36,12 +36,12 @@ class Homework(Base):
 
 
 class HomeworkSubmission(Base):
-    homework = models.ForeignKey(Homework, on_delete=models.CASCADE)
+    homework = models.ForeignKey(Homework, on_delete=models.CASCADE, related_name='homeworks')
     student = models.ForeignKey(Student, on_delete=models.PROTECT)
     upload_homework_time = models.DateTimeField(auto_now_add=True)
     submission_homework_file = models.FileField(upload_to='homeworks/answers/', blank=True, 
         validators=[FileExtensionValidator(allowed_extensions=["pdf", "doc", "docx", "ppt"])])
     submission_rating = models.IntegerField(blank=True, validators=[MaxValueValidator(5), MinValueValidator(0)])
-
+    is_answered = models.BooleanField(default=False)
     def filename(self):
         return os.path.basename(self.submission_homework_file.name)

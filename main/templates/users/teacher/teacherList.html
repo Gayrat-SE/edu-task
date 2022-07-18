@@ -532,8 +532,12 @@
 											<input type="text" class="form-control" name="fist-name" id="first-name" placeholder="Введите Имя">
 											</div>
 											<div class="form-group">
-											<label>Фамилия</label>
-											<input type="text" class="form-control" name="last-name" id="last-name" placeholder="Введите Фамилию">
+												<label>Фамилия</label>
+												<input type="text" class="form-control" name="last-name" id="last-name" placeholder="Введите Фамилию">
+											</div>
+											<div class="form-group">
+												<label>Отчество</label>
+												<input type="text" class="form-control" name="father-name" id="father_name" placeholder="Введите Отчество">
 											</div>
 											<div class="form-group">
 												<label>День рождения</label>
@@ -645,6 +649,7 @@
 		var password = $('#password').val();
 		var phone = $('#phone').val();
 		var position = $('#position').val();
+		var father_name = $('#father_name').val()
 		$.ajax({
 			type:'POST',
 			url: '/api/v1/user/teacher/create/',
@@ -658,6 +663,7 @@
 				email:email,
 				phone:phone,
 				position:position,
+				father_name:father_name,
 				csrfmiddlewaretoken: $('input[name=csrfmiddlewaretoken]').val(),
 			},
 			beforeSend: function (xhr) {

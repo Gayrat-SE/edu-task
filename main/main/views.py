@@ -10,4 +10,6 @@ class LoginUser(LoginView):
             success_url = reverse_lazy("studentProfile")
         elif hasattr(self.request.user, 'teacher'):
             success_url = reverse_lazy("teacherProfile")
+        elif hasattr(self.request.user, 'owner'):
+            success_url = reverse_lazy("adminProfile")
         return success_url
