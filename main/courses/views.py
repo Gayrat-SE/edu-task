@@ -15,7 +15,6 @@ class DetailHomework(LoginRequiredMixin, DetailView):
         context['group_id'] = StudentGroup.objects.get(id = self.object.id)
         context['homeworks'] = Homework.objects.filter(student_group = self.object.id)
         context['homeworksubmission'] = HomeworkSubmission.objects.filter(homework__in = context['homeworks'], student = self.request.user.student)
-        print(context['homeworksubmission'])
         return context
 
 def sendhomework(request):
@@ -32,7 +31,6 @@ class CheckHomeworkGroup(LoginRequiredMixin, ListView):
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         context['checkHomeworkGroupList'] = Homework.objects.filter(teacher = self.request.user.teacher)
-        context['answeredCountGroup'] = HomeworkSubmission.objects.filter(homework__in = context['checkHomeworkGroupList'])
         return context
 
 
