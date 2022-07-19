@@ -10,26 +10,24 @@
             <table class="table datatable-basic table-hover">
                 <thead>
                     <tr>
-                        <th>Select</th>
-                        <th>Homework title</th>
-                        <th>Subject</th>
-                        <th>Homework created time</th>
-                        <th>Deadline</th>
-                        <th>Homework file</th>
+                        <th>Выбрать</th>
+                        <th>Название Задачи</th>
+                        <th>Предмет</th>
+                        <th>Время Создания Задачи</th>
+                        <th>Срок</th>
+                        <th>Файл Задачи</th>
                     </tr>
                 </thead>
                 <div class="card-body">
                     <tbody>
                     {% for el in Homework %}
                         <tr>
-                            <a type="button" data-id="{{ el.id }}" id="overlay"  data-toggle="modal" data-target="#modal_full">
-                                <td><input type="checkbox" name="" id=""></td>
-                                <td>{{ el.homework_title }}</td>
-                                <td>{{ request.user.teacher.position }}</td>
-                                <td>{{ el.homework_created_time }}</td>
-                                <td>{{ el.homework_deadline_time }}</td>
-                                <td><a href="{{ el.homework_file.url }}">Homework File</a></td>
-                            </a>
+                            <td><input type="checkbox" name="" id=""></td>
+                            <td>{{ el.homework_title }}</td>
+                            <td><a type="button" data-id="{{ el.id }}" id="overlay"  data-toggle="modal" data-target="#modal_full">{{ request.user.teacher.position }}</a></td>
+                            <td>{{ el.homework_created_time }}</td>
+                            <td>{{ el.homework_deadline_time }}</td>
+                            <td><a href="{{ el.homework_file.url }}">Homework File</a></td>
                         </tr>
                     {% endfor %}
                     </tbody>
@@ -59,12 +57,12 @@
                         <table id="example" class="table datatable-basic table-hover" style="width:100%">
                             <thead>
                                 <tr>
-                                    <th>Username</th>
-                                    <th>First Name</th>
-                                    <th>Last Name</th>
-                                    <th>Created Task answer</th>
-                                    <th>Submission File</th>
-                                    <th>Actions</th>
+                                    <th>Имя пользователя</th>
+                                    <th>Имя</th>
+                                    <th>Фамилия</th>
+                                    <th>Время Создания Ответа</th>
+                                    <th>Файл Ответов</th>
+                                    <th>Действия</th>
                                 </tr>
                             </thead>
                         </table>
