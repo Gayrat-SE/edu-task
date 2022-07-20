@@ -11,7 +11,7 @@
             <table class="table datatable-basic table-hover">
                 <thead>
                     <tr>
-                        <th>Выбрать</th>
+                        <th>№</th>
                         <th>Название Задачи</th>
                         <th>Предмет</th>
                         <th>Время Создания Задачи</th>
@@ -23,7 +23,7 @@
                     <tbody>
                     {% for el in Homework %}
                         <tr type="button" data-id="{{ el.id }}" id="overlay"  data-toggle="modal" data-target="#modal_full" >
-                            <td><input type="checkbox" name=""></td>
+                            <td>{{ forloop.counter }}</td>
                             <td>{{ el.homework_title }}</td>
                             <td>{{ request.user.teacher.position }}</td>
                             <td>{{ el.homework_created_time }}</td>
@@ -100,7 +100,7 @@
                         "ordering": false,
                         "bDestroy": true,
                         select: {
-                            style:    'os',
+                            style:    'multi',
                             selector: 'td:first-child'
                         },
                         order: [[1, 'asc']],
