@@ -3,9 +3,10 @@
 {% block content %}
 {% if request.user.teacher %}
 <div class="content">
+    <form method="post" id="myform">
         <div class="card">
             <div class="card-header">
-                <h2>Student Submissions</h2>
+                <h2>Вопросы</h2>
             </div>
             <table class="table datatable-basic table-hover">
                 <thead>
@@ -21,10 +22,10 @@
                 <div class="card-body">
                     <tbody>
                     {% for el in Homework %}
-                        <tr>
-                            <td><input type="checkbox" name="" id=""></td>
+                        <tr type="button" data-id="{{ el.id }}" id="overlay"  data-toggle="modal" data-target="#modal_full" >
+                            <td><input type="checkbox" name=""></td>
                             <td>{{ el.homework_title }}</td>
-                            <td><a type="button" data-id="{{ el.id }}" id="overlay"  data-toggle="modal" data-target="#modal_full">{{ request.user.teacher.position }}</a></td>
+                            <td>{{ request.user.teacher.position }}</td>
                             <td>{{ el.homework_created_time }}</td>
                             <td>{{ el.homework_deadline_time }}</td>
                             <td><a href="{{ el.homework_file.url }}">Homework File</a></td>
@@ -47,7 +48,7 @@
                     <!-- Hover rows -->
                     <div class="card">
                         <div class="card-header header-elements-inline">
-                            <h5 class="card-title">Submissions</h5>
+                            <h5 class="card-title">Ответы</h5>
                             <div class="header-elements">
                                 <div class="list-icons">
                                     <a class="list-icons-item" data-action="collapse"></a>
@@ -57,14 +58,28 @@
                         <table id="example" class="table datatable-basic table-hover" style="width:100%">
                             <thead>
                                 <tr>
-                                    <th>Имя пользователя</th>
+                                    <th></th>
                                     <th>Имя</th>
                                     <th>Фамилия</th>
                                     <th>Время Создания Ответа</th>
                                     <th>Файл Ответов</th>
                                     <th>Действия</th>
+                                    <th>Оценка</th>
+                                    <th>Поставить Оценку</th>
                                 </tr>
                             </thead>
+                            <tbody>
+                            <tr>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                            </tr>
+                        </tbody>
                         </table>
                     </div>
                     <!-- /hover rows -->
@@ -72,49 +87,104 @@
 
                 <div class="modal-footer">
                     <button type="button" class="btn btn-link" data-dismiss="modal">Close</button>
-                    <button type="button"  class="btn bg-primary">Save changes</button>
+                    <button type="button" id="submit"  class="btn bg-primary">Save changes</button>
                 </div>
             </div>
         </div>
-    </div>
+    </form>
+</div>
     <!-- /full width modal -->
     <script>
-
+        
         let objects = document.querySelectorAll('#overlay')
         for (let item of objects){
 		   item.addEventListener('click', function() {
 			   get_submissions(item.dataset.id)
-               console.log(item.dataset.id)
 		   })
 	   }
+       var editor;
        function get_submissions(homework_id){
-        var tablets = document.getElementById('tablets')
-            fetch('/api/v1/course/submissions/list/' + homework_id + '/', {
-                method: 'GET',
-            }).then(response => {
-                return response.json();
-            }).then(data =>{
-                console.log(data)
                 $(document).ready(function () {
-                    $('#example').DataTable({
+                    var mytable = $('#example').DataTable({
+                        "ordering": false,
                         "bDestroy": true,
+                        columnDefs:[
+                            {   
+                                targets: 0,
+                                checkboxes: {
+                                    selectRow: true
+                                },
+                            }
+                        ],
+                        select:{
+                            style:'multi',
+                            selector: 'td:first-child'
+                        },
+                        order: [[1, 'asc']],
+                        
+                        "language": {
+                            "emptyTable": "Нет никакого ответа",
+                            "infoEmpty": "Отображение от 0 до 0 из 0 записей",
+                            "search": "Поиск:   ",
+                            "info": "Отображение от _START_ до _END_ из _TOTAL_ записей",
+                        },
                         ajax: {
                             url: '/api/v1/course/submissions/list/' + homework_id + '/',
                             dataSrc: '',
-                        },
+                        }, 
                         columns: [
-                            {data: 'student.user.username'},
+                            {data: 'id'},
                             {data: 'student.user.first_name'},
                             {data: 'student.user.last_name'},
                             {data: 'upload_homework_time', render: function(date){ return moment(date).locale('uz').format('lll') }},
                             {data: 'submission_homework_file', render: function (file) { return '<a href="' + file + '" target="_blank">Download File</a>'; }},
                             {data: 'is_answered'},
-                        ]
+                            {
+                                data: 'submission_rating'
+                            },
+                            {data:'id', render: function(mark){ return '<input class="rating" type="number" min="0" max="5" style="width:50px;" id="' + mark + '" >'},}
+                        ],
                     });
+                    // Handle form submission event
+                    $('#submit').on('click', function(e){
+                        var rows_selected = mytable.column(0).checkboxes.selected();
+                        checkboxes = document.getElementsByClassName("dt-checkboxes")
+                        for(var i=0; i<checkboxes.length; i++)
+                            if(checkboxes[i].checked){
+                                var data = mytable.row(i).data()
+                            }
+                        // Iterate over all selected checkboxes
+                        $.each(rows_selected, function(index, rowId){
+                            var id = String(rowId)
+                            var submission_rating = $("#"+id).val()
+                            // Create a hidden element
+                            $.ajax({
+                                type: 'POST',
+                                url: '/api/v1/course/rating/create/',
+                                data:JSON.stringify( {
+                                    id:id,
+                                    submission_rating:submission_rating,
+                                    csrfmiddlewaretoken: csrftoken
+                                }),
+                                contentType: "application/json; charset=utf-8",
+                                dataType: "json",
+                                beforeSend: function (xhr) {
+                                    xhr.setRequestHeader("X-CSRFToken", csrftoken);
+                                },
+                                success: function(data){
+                                    window.location = '/course/detail/students/{{ group.id }}';
+                                },
+                                error: function(data){
+                                    console.log(data)
+                                }
+                            })
+                        });
+                        });
                 });
-            }
-            )
        }
+    </script>
+    <script>
+        
     </script>
 {% endif %}
 {% endblock content %}

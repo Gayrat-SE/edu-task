@@ -71,8 +71,7 @@ class StudentGroups(LoginRequiredMixin, ListView):
         context = super().get_context_data(**kwargs)
         try:
             context['groups'] = StudentGroup.objects.filter(student = self.request.user.student.id)
-            for group in context['groups']:
-                context['homeworks'] = Homework.objects.filter(student_group = group)
+            context['homeworks'] = Homework.objects.filter(student_group__in = context['groups'])
             return context
         except:
             return {"msg":"error"}

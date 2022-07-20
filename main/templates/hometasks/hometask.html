@@ -25,7 +25,8 @@
                 </div>
                 <div class="form-group ">
                     <label>Выберите группы</label>
-                        <select multiple="multiple" class="form-control" id="groups" >
+                        <select class="form-control" id="groups" >
+                            <option value="Выберите Группу">Выберите Группу</option>
                             {% for groups in list_groups %}
                             <option value="{{ groups.id }}">{{ groups.name }}</option>
                             {% endfor %}
@@ -49,7 +50,7 @@
             let homework_title = $('#name').val();
             let homework_text = $('#description').val();
             let homework_deadline_time = $('#date').val();
-            let groups = $('#groups').val()
+            let group = $('#groups').val()
             let datetime = $('#datetime').val()
             let data = new FormData();
             data.append('homework_file', input.files[0]);
@@ -57,9 +58,7 @@
             data.append('homework_text', homework_text);
             data.append('csrfmiddlewaretoken', crf_token);
             data.append('homework_deadline_time', datetime);
-            for (var i = 0; i < groups.length; i++) {
-                data.append('student_group', groups[i]);
-            }
+            data.append('student_group', group)
             
             fetch('/api/v1/course/homework/create/', {
                 method: 'POST',

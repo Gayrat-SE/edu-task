@@ -1,8 +1,10 @@
+from email.headerregistry import Group
 from django.shortcuts import render
 from user.models import StudentGroup
 from .models import Homework, HomeworkSubmission
 from django.views.generic import DetailView, ListView
 from django.contrib.auth.mixins import LoginRequiredMixin
+from django.db.models import Q
 # Create your views here.
 
 class DetailHomework(LoginRequiredMixin, DetailView):
@@ -30,7 +32,8 @@ class CheckHomeworkGroup(LoginRequiredMixin, ListView):
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        context['checkHomeworkGroupList'] = Homework.objects.filter(teacher = self.request.user.teacher)
+        context['checkHomeworkGroupList'] = StudentGroup.objects.filter(groups__teacher = self.request.user.teacher).distinct()
+        print(context['checkHomeworkGroupList'])
         return context
 
 
@@ -44,6 +47,7 @@ class CheckHomeworkStudent(LoginRequiredMixin, DetailView):
         try:
             context = super().get_context_data(**kwargs)
             context['Homework'] = Homework.objects.filter(teacher = self.request.user.teacher, student_group = self.get_object())
+            context['group'] = self.get_object()
             return context
         except:
             return {"msg":"error"}

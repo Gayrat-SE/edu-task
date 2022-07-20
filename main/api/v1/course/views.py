@@ -1,7 +1,11 @@
+
+from turtle import home
+from user.models import StudentGroup, Student
 from .serializers import (
     CreateHomeworkSerializer,
     SendHomeworkSerializer,
-    SubmissionHomeworkList
+    SubmissionHomeworkList,
+    AnswerHomeworkRating
     )
 from rest_framework.generics import CreateAPIView, ListAPIView, ListCreateAPIView
 from courses.models import (
@@ -35,3 +39,8 @@ class HomeworkSubmissions(ListAPIView):
         if self.kwargs["pk"]:
             submissions = HomeworkSubmission.objects.filter(homework = self.kwargs["pk"])
             return submissions
+
+
+class CreateRatingAnswerHomework(CreateAPIView):
+    serializer_class = AnswerHomeworkRating
+    queryset = HomeworkSubmission.objects.all()

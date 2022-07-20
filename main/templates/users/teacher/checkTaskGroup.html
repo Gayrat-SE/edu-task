@@ -8,11 +8,11 @@
                 <h2>Given Task </h2>
             </div>
             <div class="card-body">
-                <table class="table datatable-basic">
+                <table class="table datatable-basic table-hover">
                     <thead>
                         <tr>
                             <th>Group</th>
-                            <th>Teacher</th>
+                            <th>Owner</th>
                             <th>Created Date</th>
                             <th>Student</th>
                             <th>Answers</th>
@@ -21,16 +21,14 @@
                     </thead>
                     <tbody>
                     {% for el in checkHomeworkGroupList %}
-                        {% for i in el.student_group.all %}
                         <tr>
-                            <td><a href="{% url 'checkhomeworkstudent' i.id %}">{{ i.name }}</a></td>
-                            <td>{{ el.teacher }}</td>
-                            <td>{{ el.homework_created_time }}</td>
-                            <td>{{ i.student.count }}</td>
+                            <td><a href="{% url 'checkhomeworkstudent' el.id %}">{{ el.name }}</a></td>
+                            <td>{{ el.owner }}</td>
+                            <td>{{ el.created_at }}</td>
+                            <td>{{ el.student.count }}</td>
                             <td>15</td>
                             <td>Active</td>
                         </tr>
-                        {% endfor %}
                     {% endfor %}
                     </tbody>
                 </table>

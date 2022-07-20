@@ -30,3 +30,17 @@ class SubmissionHomeworkList(serializers.ModelSerializer):
         serializer_user = StudentListSerializer(user, many=False)
 
         return serializer_user.data
+
+
+class AnswerHomeworkRating(serializers.ModelSerializer):
+    id = serializers.IntegerField(label='id')
+    class Meta:
+        model = HomeworkSubmission
+        fields = ['id', 'submission_rating']
+
+    def create(self, validated_data):
+        answer = HomeworkSubmission.objects.get(id = validated_data['id'])
+        answer.submission_rating = validated_data['submission_rating']
+        answer.save()
+
+        return answer
