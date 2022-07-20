@@ -3,7 +3,8 @@ from courses.models import *
 from datetime import datetime
 from rest_framework.exceptions import ValidationError
 from api.v1.user.serializers import StudentListSerializer
-
+from datetime import datetime
+import pytz
 
 class CreateHomeworkSerializer(serializers.ModelSerializer):
 
@@ -36,11 +37,15 @@ class AnswerHomeworkRating(serializers.ModelSerializer):
     id = serializers.IntegerField(label='id')
     class Meta:
         model = HomeworkSubmission
-        fields = ['id', 'submission_rating']
+        fields = ['id', 'submission_rating',]
+
 
     def create(self, validated_data):
         answer = HomeworkSubmission.objects.get(id = validated_data['id'])
-        answer.submission_rating = validated_data['submission_rating']
-        answer.save()
+        if answer.homework.homework_deadline_time < answer.upload_homework_time:
+            raise serializers.ValidationError({"Time":"Time out"})
+        else:
+            answer.submission_rating = validated_data['submission_rating']
+            answer.save()
 
         return answer

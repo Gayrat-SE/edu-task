@@ -1,0 +1,50 @@
+{% extends 'base.html' %}
+
+{% block content %}
+{% if request.user.student %}
+    <div class="content">
+        <!-- Open menu on click -->
+				<div class="card">
+					<div class="card-header header-elements-inline">
+						<h5 class="card-title">Open menu on click</h5>
+						<div class="header-elements">
+							<div class="list-icons">
+		                		<a class="list-icons-item" data-action="collapse"></a>
+		                		<a class="list-icons-item" data-action="reload"></a>
+		                	</div>
+	                	</div>
+					</div>
+
+					<div class="table-responsive">
+						<table class="table table-hover">
+							<thead>
+								<tr>
+									<th>#</th>
+									<th>Предмет</th>
+									<th>Учитель</th>
+                                    <th>Задача</th>
+									<th>Оценка</th>
+								</tr>
+							</thead>
+							<tbody>
+                            {% for el in ratings %}
+								<tr>
+									<td>{{ forloop.counter }}</td>
+									<td>{{ el.homework.teacher.position }}</td>
+									<td>{{ el.homework.teacher }}</td>
+                                    <td>{{ el.homework.homework_title }}</td>
+                                    {% if el.submission_rating %}
+									<td>{{ el.submission_rating }}</td>
+                                    {% else %}
+                                    <td></td>
+                                    {% endif %}
+								</tr>
+                            {% endfor %}
+							</tbody>
+						</table>
+					</div>
+				</div>
+				<!-- /open menu on click -->
+    </div>
+{% endif %}
+{% endblock %}

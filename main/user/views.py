@@ -1,11 +1,12 @@
 from django.shortcuts import render
-from courses.models import Homework
+from courses.models import Homework, HomeworkSubmission
 from .models import *
 from django.contrib.auth.views import LogoutView
 from django.urls import reverse_lazy, reverse
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.views import View
 from django.views.generic import ListView, DetailView
+from django.core.exceptions import ObjectDoesNotExist
 # Create your views here.
 
 
@@ -73,5 +74,19 @@ class StudentGroups(LoginRequiredMixin, ListView):
             context['groups'] = StudentGroup.objects.filter(student = self.request.user.student.id)
             context['homeworks'] = Homework.objects.filter(student_group__in = context['groups'])
             return context
-        except:
+        except ObjectDoesNotExist:
             return {"msg":"error"}
+
+
+class GetStudentMark(LoginRequiredMixin, ListView):
+    login_url = "login"
+    model = HomeworkSubmission
+    template_name: str = 'users/student/studentMarks.html'
+
+    def get_context_data(self, **kwargs):
+        try:
+            context = super().get_context_data(**kwargs)
+            context['ratings'] = HomeworkSubmission.objects.filter(student = self.request.user.student)
+        except ObjectDoesNotExist:
+            return {"error":"you dont have permission"}
+        return context

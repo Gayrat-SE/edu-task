@@ -46,6 +46,10 @@
 
                 <div class="modal-body">
                     <!-- Hover rows -->
+                    <div class="alert alert-danger alert-styled-left alert-dismissible col-3" id="danger" style="display: None;">
+                        <button type="button" class="close" data-dismiss="alert"><span>&times;</span></button>
+                        <span class="font-weight-semibold" id="text">Oh snap!</span>
+                    </div>
                     <div class="card">
                         <div class="card-header header-elements-inline">
                             <h5 class="card-title">Ответы</h5>
@@ -65,21 +69,8 @@
                                     <th>Файл Ответов</th>
                                     <th>Действия</th>
                                     <th>Оценка</th>
-                                    <th>Поставить Оценку</th>
                                 </tr>
                             </thead>
-                            <tbody>
-                            <tr>
-                                <td></td>
-                                <td></td>
-                                <td></td>
-                                <td></td>
-                                <td></td>
-                                <td></td>
-                                <td></td>
-                                <td></td>
-                            </tr>
-                        </tbody>
                         </table>
                     </div>
                     <!-- /hover rows -->
@@ -108,16 +99,8 @@
                     var mytable = $('#example').DataTable({
                         "ordering": false,
                         "bDestroy": true,
-                        columnDefs:[
-                            {   
-                                targets: 0,
-                                checkboxes: {
-                                    selectRow: true
-                                },
-                            }
-                        ],
-                        select:{
-                            style:'multi',
+                        select: {
+                            style:    'os',
                             selector: 'td:first-child'
                         },
                         order: [[1, 'asc']],
@@ -132,32 +115,29 @@
                             url: '/api/v1/course/submissions/list/' + homework_id + '/',
                             dataSrc: '',
                         }, 
+                        columnDefs:[{
+                            className: 'select-checkbox',
+                            targets:   0,
+                            orderable: false
+                        }],
                         columns: [
-                            {data: 'id'},
+                            {data: 'id', render: function(id){ return '<input type="checkbox" id="' + id + '" style="display: None;" >'}},
                             {data: 'student.user.first_name'},
                             {data: 'student.user.last_name'},
                             {data: 'upload_homework_time', render: function(date){ return moment(date).locale('uz').format('lll') }},
                             {data: 'submission_homework_file', render: function (file) { return '<a href="' + file + '" target="_blank">Download File</a>'; }},
                             {data: 'is_answered'},
                             {
-                                data: 'submission_rating'
+                                data: 'submission_rating',  render: function(mark){ return '<input class="rating" type="number" min="0" max="5" style="width:50px;" value="' + mark + '" >'}
                             },
-                            {data:'id', render: function(mark){ return '<input class="rating" type="number" min="0" max="5" style="width:50px;" id="' + mark + '" >'},}
                         ],
                     });
                     // Handle form submission event
                     $('#submit').on('click', function(e){
-                        var rows_selected = mytable.column(0).checkboxes.selected();
-                        checkboxes = document.getElementsByClassName("dt-checkboxes")
-                        for(var i=0; i<checkboxes.length; i++)
-                            if(checkboxes[i].checked){
-                                var data = mytable.row(i).data()
-                            }
-                        // Iterate over all selected checkboxes
-                        $.each(rows_selected, function(index, rowId){
-                            var id = String(rowId)
-                            var submission_rating = $("#"+id).val()
-                            // Create a hidden element
+                        for (var i=0; i < mytable.$('tr.selected').length; i++){
+                            var submission_rating = mytable.$('tr.selected')[i].children[6].lastElementChild.value
+                            var id = mytable.$('tr.selected')[i].children[0].children[0].id
+                            console.log(id)
                             $.ajax({
                                 type: 'POST',
                                 url: '/api/v1/course/rating/create/',
@@ -178,7 +158,7 @@
                                     console.log(data)
                                 }
                             })
-                        });
+                        }
                         });
                 });
        }

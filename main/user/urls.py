@@ -11,6 +11,7 @@ urlpatterns = [
 
     path('student-groups', Groups.as_view(), name='student-group'),
     path('student-list/<int:pk>', DetailGroup.as_view(), name='students'),
+    path('rating/', GetStudentMark.as_view(), name='rating'),
 
     path('teacher-list/', TeacherList.as_view(), name='teacher-list'),
     
