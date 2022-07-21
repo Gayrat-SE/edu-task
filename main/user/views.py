@@ -36,8 +36,15 @@ class AdminProfile(LoginRequiredMixin, ListView):
 class Dashboard(LoginRequiredMixin, View):
     login_url = "login"
     def get(self, request):
-    
-        return render(request, 'index.html')
+        student_count = Student.objects.all().count()
+        teacher_count = Teacher.objects.all().count()
+        user_count = User.objects.all().count()
+        context = {
+            "student_count":student_count,
+            "teacher_count":teacher_count,
+            "user_count":user_count
+        }
+        return render(request, 'index.html', context=context)
 
 
 class Groups(LoginRequiredMixin, ListView):
