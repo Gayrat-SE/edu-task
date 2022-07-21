@@ -114,39 +114,29 @@
 				</div>
 
 				<div class="card-body">
-					<form action="#">
+					<form method="PATCH">{% csrf_token %}
+						<div class="form-check">
+							<label class="form-check-label">
+								<input type="checkbox" onclick="checkboxBtn()" id="check" class="form-check-input">
+								<span class="form-check-sign" id="checkText">Изменение имя пользователя и пароля</span>
+							</label>
+						</div>
 						<div class="form-group">
 							<div class="row">
+
 								<div class="col-md-6">
-									<label>Username</label>
-									<input type="text" value="{{ request.user.username }}" readonly="readonly" class="form-control">
+									<label>Имя пользователя</label>
+									<input type="text" value="{{ request.user.username }}" readonly="readonly" class="form-control" id="usernameInp" placeholder="Имя пользователя">
 								</div>
 
 								<div class="col-md-6">
-									<label>Current password</label>
-									<input type="password" value="" readonly="readonly" class="form-control">
+									<label>Новый пароль</label>
+									<input type="password" value="" readonly="readonly" class="form-control" id="passwordBtn" placeholder="Новый пароль">
 								</div>
 							</div>
 						</div>
-
-						<div class="form-group">
-							<div class="row">
-								<div class="col-md-6">
-									<label>New password</label>
-									<input type="password" placeholder="Enter new password" class="form-control">
-								</div>
-
-								<div class="col-md-6">
-									<label>Repeat New password</label>
-									<input type="password" placeholder="Repeat new password" class="form-control">
-								</div>
-							</div>
-						</div>
-
-						
-
 						<div class="text-right">
-							<button type="submit" class="btn btn-primary">Save changes</button>
+							<button type="button" class="btn btn-primary m-3" id="change">Сохранить</button>
 						</div>
 					</form>
 				</div>
@@ -182,5 +172,39 @@
 			}
 		})
 	});
+</script>
+<script>
+	// checkboxBtn
+	function checkboxBtn(){
+		if(document.getElementById("check").checked){
+			document.getElementById("usernameInp").readOnly = false;
+			document.getElementById("passwordBtn").readOnly = false;
+			$('#change').on('click', function(){
+				username = $('#usernameInp').val()
+				password = $('#passwordBtn').val()
+				$.ajax({
+					type:'PATCH',
+					url: "/api/v1/user/teacher/update/{{ request.user.teacher.id }}/",
+					data:JSON.stringify( {
+						username:username,
+						password:password,
+						csrfmiddlewaretoken: csrftoken
+					}),
+					contentType: "application/json; charset=utf-8",
+					dataType: "json",
+					beforeSend: function (xhr) {
+						xhr.setRequestHeader("X-CSRFToken", csrftoken);
+					},
+					success: function(data){
+						console.log(data)
+					}
+				})
+			});
+		}
+		else{
+			document.getElementById("usernameInp").readOnly = true;
+			document.getElementById("passwordBtn").readOnly=true;
+		}
+  }
 </script>
 {% endblock content %}				
