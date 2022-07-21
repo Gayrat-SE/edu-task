@@ -118,20 +118,20 @@
 						<div class="form-check">
 							<label class="form-check-label">
 								<input type="checkbox" onclick="checkboxBtn()" id="check" class="form-check-input">
-								<span class="form-check-sign" id="checkText">Изменение имя пользователя и пароля</span>
+								<span class="form-check-sign" id="checkText">Изменение пароля</span>
 							</label>
 						</div>
 						<div class="form-group">
 							<div class="row">
 
 								<div class="col-md-6">
-									<label>Имя пользователя</label>
-									<input type="text" value="{{ request.user.username }}" readonly="readonly" class="form-control" id="usernameInp" placeholder="Имя пользователя">
+									<label>Новый пароль</label>
+									<input type="password" value="" readonly="readonly" class="form-control" id="passwordBtn" placeholder="Новый пароль">
 								</div>
 
 								<div class="col-md-6">
-									<label>Новый пароль</label>
-									<input type="password" value="" readonly="readonly" class="form-control" id="passwordBtn" placeholder="Новый пароль">
+									<label>Подвержение пароля</label>
+									<input type="password" value="" readonly="readonly" class="form-control" id="passwordBtn2" placeholder="Новый пароль">
 								</div>
 							</div>
 						</div>
@@ -177,29 +177,31 @@
 	// checkboxBtn
 	function checkboxBtn(){
 		if(document.getElementById("check").checked){
-			document.getElementById("usernameInp").readOnly = false;
+			document.getElementById("passwordBtn2").readOnly = false;
 			document.getElementById("passwordBtn").readOnly = false;
 			$('#change').on('click', function(){
-				username = $('#usernameInp').val()
+				passwordBtn2 = $('#passwordBtn2').val()
 				password = $('#passwordBtn').val()
-				$.ajax({
-					type:'PATCH',
-					url: "/api/v1/user/teacher/update/{{ request.user.teacher.id }}/",
-					data:JSON.stringify( {
-						username:username,
-						password:password,
-						csrfmiddlewaretoken: csrftoken
-					}),
-					contentType: "application/json; charset=utf-8",
-					dataType: "json",
-					beforeSend: function (xhr) {
-						xhr.setRequestHeader("X-CSRFToken", csrftoken);
-					},
-					success: function(data){
-						console.log(data)
-					}
-				})
-			});
+				if (passwordBtn2 == password){
+					$.ajax({
+						type:'PATCH',
+						url: "/api/v1/user/teacher/update/{{ request.user.teacher.id }}/",
+						data:JSON.stringify( {
+							password:password,
+							csrfmiddlewaretoken: csrftoken
+						}),
+						contentType: "application/json; charset=utf-8",
+						dataType: "json",
+						beforeSend: function (xhr) {
+							xhr.setRequestHeader("X-CSRFToken", csrftoken);
+						},
+						success: function(data){
+							window.location = '/user/teacher/profile';
+						}
+					})
+				}
+				});
+				
 		}
 		else{
 			document.getElementById("usernameInp").readOnly = true;
