@@ -1,0 +1,130 @@
+{% extends '../../base.html' %}
+
+
+{% block content %}
+    <div id='calendar'></div>
+
+	            <!-- Disabled animation -->
+				<div id="modal_animation" class="modal fade" tabindex="-1">
+					<div class="modal-dialog">
+						<div class="modal-content">
+							<div class="modal-header">
+								<h5 class="modal-title" id="modal-title">Lesson</h5>
+								<button type="button" class="close" data-dismiss="modal">&times;</button>
+							</div>
+                            <form method="post" id="post-form" enctype="multipart/form-data">{% csrf_token %}
+                                <div class="card-body" id="forms-target-left">
+                                    <div class="form-group">
+                                        <label>Заглавие</label>
+                                        <input type="text" class="form-control" name="name" id="title" placeholder="Введите Название">
+                                    </div>
+                                    <div class="form-group">
+                                        <label>Группа</label>
+                                        <select class="form-control form-control-sm" id="group_select">
+                                            {% for el in groups %}
+                                                <option value={{ el.id }}>{{ el.name }}</option>
+                                            {% endfor %}
+                                        </select>
+                                    </div>
+                                    <div class="modal-footer">
+                                        <button type="button" class="btn btn-primary" id="submit">Добавить</button>
+                                    </div>
+                                </div>
+                            </form>
+						</div>
+					</div>
+				</div>
+				<!-- /disabled animation -->
+
+<script>
+
+    function loadCalendar() {
+        var calendarEl = document.getElementById('calendar');
+        var calendar = new FullCalendar.Calendar(calendarEl, {
+            locale: 'ru',
+            selectable: true,
+            plugins: ['interaction', 'dayGrid'],
+            firstDay : 1,
+            header: {
+                left: 'today',
+                center: 'title',
+                right: 'prev, next',
+            },
+            select: function(start, end){
+                $('#modal_animation').modal();
+                $('#submit').on('click', function(){
+                    var title = $('#title').val()
+                    if (title){
+                        var start_date = start.start.toISOString();
+                        var end_date = start.end.toISOString();
+                        var group_select = $('#group_select').val()
+                        $.ajax({
+                            type:"POST",
+                            url: "/api/v1/lesson/create/lesson/",
+                            data:{
+                                "title":title,
+                                "start_date":start_date,
+                                "end_date": end_date,
+                                "groups":group_select,
+                                csrfmiddlewaretoken: csrftoken
+                            },
+
+                            dataType: "json",
+                            beforeSend: function (xhr) {
+                                xhr.setRequestHeader("X-CSRFToken", csrftoken);
+                            },
+                            success: function(data){
+                                calendar.addEvent({
+                                    title:title,
+                                    start: start_date,
+                                    end:end_date,
+                                })
+                            }
+                        })
+                    }
+                })
+            },
+            events: function(info, successCallback){
+                var start_date = info.start.toISOString();
+                var end_date = info.end.toISOString();
+                $.ajax({
+                type: "GET",
+                url: "/api/v1/lesson/list/lesson/",
+                dataType: "json",
+                data: {
+                    'start_date':start_date,
+                    'end_date':end_date,
+                    csrfmiddlewaretoken:$('input[name=csrfmiddlewaretoken]').val()
+                },
+                headers: {'X-CSRFToken': csrftoken},
+                success: function(data){
+                    container = []
+                    if (data){
+                    for (let i = 0; i < data.length; i++) {
+                    var title = data[i].title
+                    var start_date = data[i].start_date
+                    var end_date = data[i].end_date
+                    var id = data[i].id
+                    var url = data[i].join_url
+                    container.push({title:title, start:start_date, end:end_date, id:id, url:url})
+                    }
+                    };
+                    successCallback(
+                    container
+                    )
+                }
+                });
+            },
+
+        });
+        calendar.render();
+    };
+
+    if (document.readyState !== 'complete') {
+            document.addEventListener('DOMContentLoaded', loadCalendar);
+    } else {
+            loadCalendar();
+    }
+</script>
+
+{% endblock %}

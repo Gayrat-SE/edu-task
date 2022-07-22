@@ -25,6 +25,8 @@ urlpatterns = [
     path('user/', include("user.urls")),
     path('api/', include('api.urls')),
     path('course/', include("courses.urls")),
-    path('', LoginUser.as_view(), name='login')
+    path('', LoginUser.as_view(), name='login'),
+    path('lesson/', include("lesson.urls")),
+    path('zoom/', include("zoom.urls")),
 ]
 urlpatterns+= static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

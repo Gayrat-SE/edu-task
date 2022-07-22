@@ -4,41 +4,61 @@
 {% block content %}
     <div id='calendar'></div>
 
-	            <!-- Disabled animation -->
-				<div id="modal_animation" class="modal fade" tabindex="-1">
-					<div class="modal-dialog">
+	            <!-- Horizontal form modal -->
+				<div id="modal_form_horizontal" class="modal fade" tabindex="-1">
+					<div class="modal-dialog modal-lg">
 						<div class="modal-content">
 							<div class="modal-header">
-								<h5 class="modal-title" id="modal-title"></h5>
+								<h5 class="modal-title" >Конференция zoom</h5>
 								<button type="button" class="close" data-dismiss="modal">&times;</button>
 							</div>
 
-							<div class="modal-body">
-								<h6 class="font-weight-semibold" id="modalBody"></h6>
-								<a href="" id="fileBody" target="_blank"></a>
-							</div>
-                            <form method="post" id="post-form" enctype="multipart/form-data">{% csrf_token %}
-                                <div class="card-body" id="forms-target-left">
-                                    <h6 class="font-weight-semibold">Ответить:</h6>
-                                    <div class="form-group">
-                                        <label class="cursor-move">Прикрепить файл:</label>
-                                        <input type="file" id="file" name="file" class="form-input-styled" data-fouc>
-                                    </div>
+							<form action="#" class="form-horizontal">
+								<div class="modal-body">
+									<div class="form-group row">
+										<label class="col-form-label col-sm-3">Имя учителя</label>
+										<div class="col-sm-9">
+											<input type="text" readonly="readonly" id="teacher"  class="form-control">
+										</div>
+									</div>
 
-                                    <div class="form-group">
-                                        <label class="cursor-move">Ваш Коммит:</label>
-                                        <textarea rows="5" cols="5" class="form-control" placeholder="Введите сообщение"></textarea>
-                                    </div>
+									<div class="form-group row">
+										<label class="col-form-label col-sm-3">Должность</label>
+										<div class="col-sm-9">
+											<input type="text" readonly="readonly" id="position"  class="form-control">
+										</div>
+									</div>
 
-                                    <div class="modal-footer">
-                                        <button type="button" class="btn btn-primary" id="submit">Добавить файл</button>
-                                    </div>
-                                </div>
-                            </form>
+                                    <div class="form-group row">
+										<label class="col-form-label col-sm-3">Заглавие</label>
+										<div class="col-sm-9">
+											<input type="text" readonly="readonly" id="title"  class="form-control">
+										</div>
+									</div>
+
+									<div class="form-group row">
+										<label class="col-form-label col-sm-3">Урок zoom URL-адреса</label>
+										<div class="col-sm-9">
+											<a href="" id="zoom_url" class="modal-title"  target="_blank"></a>
+										</div>
+									</div>
+
+									<div class="form-group">
+                                        <label>Начинает:</label>
+                                        <div class="input-group">
+                                            <span class="input-group-prepend">
+                                                <span class="input-group-text"><i class="icon-calendar22"></i></span>
+                                            </span>
+                                            <input type="text" readonly="readonly" class="form-control" id="time"> 
+                                        </div>
+								    </div>
+								</div>
+
+							</form>
 						</div>
 					</div>
 				</div>
-				<!-- /disabled animation -->
+				<!-- /horizontal form modal -->
 
 <script>
 
@@ -55,15 +75,15 @@
                 right: 'prev, next',
             },
             events: [
-            {% for event in homeworks %}
+            {% for event in lesson %}
             	{
                 id:'{{ event.id }}',
-                title: '{{ event.teacher.position }}',
-                description: '{{ event.homework_title }}',
-                start: '{{ event.homework_created_time | date:"Y-m-d" }}',
-                end: '{{ event.homework_deadline_time | date:"Y-m-d" }}',
-                file: '{{ event.filename }}',
-                file_url: '{{ event.homework_file.url }}',
+                title: '{{ event.title }}',
+                position: '{{ event.teacher.position }}',
+                teacher: '{{ event.teacher.user.first_name }}',
+                start: '{{ event.start_date | date:"Y-m-d" }}',
+                end: '{{ event.end_date | date:"Y-m-d" }}',
+                zoom_url: '{{ event.zoom_join_url }}',
                 allDay: false,
             	},
             {% endfor %}
@@ -71,32 +91,13 @@
 
             eventClick: function(event) {
                 console.log('modal', event);
-                $('#modal_animation').modal();
-                $('#modal-title').html(event.event.title);
-                $('#modalBody').html(event.event.extendedProps.description);
-                $('#fileBody').html(event.event.extendedProps.file)[0].href = event.event.extendedProps.file_url
-                $('#submit').on('click', function(){
-                    let input = document.getElementById('file');
-                    var crf_token = $('[name="csrfmiddlewaretoken"]').attr('value');
-                    var homework = event.event._def.publicId
-                    let data = new FormData();
-                    data.append('submission_homework_file', input.files[0]);
-                    data.append('homework', homework)
-                    data.append('csrfmiddlewaretoken', crf_token)
-                    fetch('/api/v1/course/homework/answer/', {
-                        method: 'POST',
-                        body: data,
-                        headers: {
-                        'Authorization': csrftoken
-                            },
-                    }).then(response => {
-                        return response.json();
-                    }).then(data => {
-                        window.location = '/user/calendar';
-                        
-                },
-                )}
-                )
+                $('#modal_form_horizontal').modal();
+                $('#title').val(event.event.title);
+                $('#teacher').val(event.event.extendedProps.teacher);
+                
+                $('#time').val(moment(event.event.end).locale('uz').format('lll'))
+                $('#position').val(event.event.extendedProps.position);
+                $('#zoom_url').html(event.event.extendedProps.zoom_url)[0].href = event.event.extendedProps.zoom_url
             },
 
         });

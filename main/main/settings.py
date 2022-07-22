@@ -53,6 +53,8 @@ INSTALLED_APPS = [
     'courses',
     'base',
     'user',
+    'lesson',
+    'zoom',
 ]
 
 MIDDLEWARE = [

@@ -17,5 +17,6 @@ urlpatterns = [
     
     path('groups', StudentGroups.as_view(), name='groups'),
 
-    path('calendar', Calendar.as_view(), name='calendar')
+    path('calendar', StudentCalendar.as_view(), name='calendar'),
+    path('teacher/calendar', TeacherCalendar.as_view(), name='teacherCalendar')
 ]

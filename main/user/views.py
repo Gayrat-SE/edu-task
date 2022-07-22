@@ -1,3 +1,5 @@
+from multiprocessing import context
+from lesson.models import Event
 from django.shortcuts import render
 from courses.models import Homework, HomeworkSubmission
 from .models import *
@@ -7,6 +9,7 @@ from django.contrib.auth.mixins import LoginRequiredMixin
 from django.views import View
 from django.views.generic import ListView, DetailView
 from django.core.exceptions import ObjectDoesNotExist
+from lesson.models import Event
 # Create your views here.
 
 
@@ -112,17 +115,27 @@ class GetStudentMark(LoginRequiredMixin, ListView):
         return context
 
 
-class Calendar(LoginRequiredMixin, ListView):
+class StudentCalendar(LoginRequiredMixin, ListView):
     login_url = "login"
-    model = Homework
+    model = Event
     template_name: str = 'users/student/calendar.html'
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         try:
             context = super().get_context_data(**kwargs)
-            context['homeworks'] = Homework.objects.filter(student_group__student = self.request.user.student.id)
             context['student'] = StudentGroup.objects.filter(student = self.request.user.student.id)
+            context['lesson'] = Event.objects.filter(groups__in = context['student'] )
+            print(context["lesson"])
         except ObjectDoesNotExist:
             return {"error":"you dont have permission"}
+        return context
+
+class TeacherCalendar(LoginRequiredMixin, ListView):
+    login_url = "login"
+    model = Event
+    template_name: str = 'users/teacher/calendar.html'
+    def get_context_data(self, **kwargs):
+        context =  super().get_context_data(**kwargs)
+        context['groups'] = StudentGroup.objects.all()
         return context
