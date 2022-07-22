@@ -17,10 +17,6 @@
 				<div class="card-body">
 					<form method="PATCH">{% csrf_token %}
 						<div class="form-group">
-							<div class="alert alert-success border-0 alert-dismissible" style="display: none;" id="success">
-								<button type="button" class="close" data-dismiss="alert"><span>&times;</span></button>
-								<span class="font-weight-semibold">Well done!</span> Your profile update
-							</div>
 							<div class="row">
 								<div class="col-md-6">
 									<label>Username</label>
@@ -92,7 +88,7 @@
 							</div>
 						</div>
 						<div class="text-right">
-							<button type="button" class="btn btn-primary m-3" id="submit">Сохранить</button>
+							<button type="button" class="btn btn-primary m-3" id="pnotify-profile-success">Сохранить</button>
 						</div>
 					</form>
 				</div>
@@ -147,7 +143,7 @@
 	<!-- /left content -->
 </div>
 <script>
-	$('#submit').on('click', function(){
+	$('#pnotify-profile-success').on('click', function(){
 		var first_name = $('#first_name').val()
 		var last_name = $('#last_name').val()
 		var father_name = $('#father_name').val()
@@ -168,7 +164,6 @@
 				xhr.setRequestHeader("X-CSRFToken", csrftoken);
 			},
 			success: function(data){
-				document.getElementById('success').style.display='block'
 			}
 		})
 	});
@@ -204,7 +199,7 @@
 				
 		}
 		else{
-			document.getElementById("usernameInp").readOnly = true;
+			document.getElementById("passwordBtn2").readOnly = true;
 			document.getElementById("passwordBtn").readOnly=true;
 		}
   }

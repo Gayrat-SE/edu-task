@@ -38,13 +38,26 @@ class Dashboard(LoginRequiredMixin, View):
     def get(self, request):
         student_count = Student.objects.all().count()
         teacher_count = Teacher.objects.all().count()
-        user_count = User.objects.all().count()
-        context = {
-            "student_count":student_count,
-            "teacher_count":teacher_count,
-            "user_count":user_count
-        }
-        return render(request, 'index.html', context=context)
+        try:
+            user_count = User.objects.all().count()
+            answer = HomeworkSubmission.objects.filter(student = request.user.student.id).count()
+            homework = Homework.objects.filter(student_group__student = request.user.student.id).count()
+            context = {
+                "answer":answer,
+                "homework":homework,
+                "student_count":student_count,
+                "teacher_count":teacher_count,
+                "user_count":user_count,
+            }
+            return render(request, 'index.html', context=context)
+        except ObjectDoesNotExist:
+            user_count = User.objects.all().count()
+            context = {
+                "student_count":student_count,
+                "teacher_count":teacher_count,
+                "user_count":user_count,
+            }
+            return render(request, 'index.html', context=context)
 
 
 class Groups(LoginRequiredMixin, ListView):
@@ -94,6 +107,22 @@ class GetStudentMark(LoginRequiredMixin, ListView):
         try:
             context = super().get_context_data(**kwargs)
             context['ratings'] = HomeworkSubmission.objects.filter(student = self.request.user.student)
+        except ObjectDoesNotExist:
+            return {"error":"you dont have permission"}
+        return context
+
+
+class Calendar(LoginRequiredMixin, ListView):
+    login_url = "login"
+    model = Homework
+    template_name: str = 'users/student/calendar.html'
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        try:
+            context = super().get_context_data(**kwargs)
+            context['homeworks'] = Homework.objects.filter(student_group__student = self.request.user.student.id)
+            context['student'] = StudentGroup.objects.filter(student = self.request.user.student.id)
         except ObjectDoesNotExist:
             return {"error":"you dont have permission"}
         return context

@@ -1,0 +1,113 @@
+{% extends '../../base.html' %}
+
+
+{% block content %}
+    <div id='calendar'></div>
+
+	            <!-- Disabled animation -->
+				<div id="modal_animation" class="modal fade" tabindex="-1">
+					<div class="modal-dialog">
+						<div class="modal-content">
+							<div class="modal-header">
+								<h5 class="modal-title" id="modal-title"></h5>
+								<button type="button" class="close" data-dismiss="modal">&times;</button>
+							</div>
+
+							<div class="modal-body">
+								<h6 class="font-weight-semibold" id="modalBody"></h6>
+								<a href="" id="fileBody" target="_blank"></a>
+							</div>
+                            <form method="post" id="post-form" enctype="multipart/form-data">{% csrf_token %}
+                                <div class="card-body" id="forms-target-left">
+                                    <h6 class="font-weight-semibold">Ответить:</h6>
+                                    <div class="form-group">
+                                        <label class="cursor-move">Прикрепить файл:</label>
+                                        <input type="file" id="file" name="file" class="form-input-styled" data-fouc>
+                                    </div>
+
+                                    <div class="form-group">
+                                        <label class="cursor-move">Ваш Коммит:</label>
+                                        <textarea rows="5" cols="5" class="form-control" placeholder="Введите сообщение"></textarea>
+                                    </div>
+
+                                    <div class="modal-footer">
+                                        <button type="button" class="btn btn-primary" id="submit">Добавить файл</button>
+                                    </div>
+                                </div>
+                            </form>
+						</div>
+					</div>
+				</div>
+				<!-- /disabled animation -->
+
+<script>
+
+    function loadCalendar() {
+        var calendarEl = document.getElementById('calendar');
+        var calendar = new FullCalendar.Calendar(calendarEl, {
+            locale: 'ru',
+            selectable: true,
+            plugins: ['interaction', 'dayGrid'],
+            firstDay : 1,
+            header: {
+                left: 'today',
+                center: 'title',
+                right: 'prev, next',
+            },
+            events: [
+            {% for event in homeworks %}
+            	{
+                id:'{{ event.id }}',
+                title: '{{ event.teacher.position }}',
+                description: '{{ event.homework_title }}',
+                start: '{{ event.homework_created_time | date:"Y-m-d" }}',
+                end: '{{ event.homework_deadline_time | date:"Y-m-d" }}',
+                file: '{{ event.filename }}',
+                file_url: '{{ event.homework_file.url }}',
+                allDay: false,
+            	},
+            {% endfor %}
+            ],
+
+            eventClick: function(event) {
+                console.log('modal', event);
+                $('#modal_animation').modal();
+                $('#modal-title').html(event.event.title);
+                $('#modalBody').html(event.event.extendedProps.description);
+                $('#fileBody').html(event.event.extendedProps.file)[0].href = event.event.extendedProps.file_url
+                $('#submit').on('click', function(){
+                    let input = document.getElementById('file');
+                    var crf_token = $('[name="csrfmiddlewaretoken"]').attr('value');
+                    var homework = event.event._def.publicId
+                    let data = new FormData();
+                    data.append('submission_homework_file', input.files[0]);
+                    data.append('homework', homework)
+                    data.append('csrfmiddlewaretoken', crf_token)
+                    fetch('/api/v1/course/homework/answer/', {
+                        method: 'POST',
+                        body: data,
+                        headers: {
+                        'Authorization': csrftoken
+                            },
+                    }).then(response => {
+                        return response.json();
+                    }).then(data => {
+                        window.location = '/user/calendar';
+                        
+                },
+                )}
+                )
+            },
+
+        });
+        calendar.render();
+    };
+
+    if (document.readyState !== 'complete') {
+            document.addEventListener('DOMContentLoaded', loadCalendar);
+    } else {
+            loadCalendar();
+    }
+</script>
+
+{% endblock %}

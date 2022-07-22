@@ -15,5 +15,7 @@ urlpatterns = [
 
     path('teacher-list/', TeacherList.as_view(), name='teacher-list'),
     
-    path('groups', StudentGroups.as_view(), name='groups')
+    path('groups', StudentGroups.as_view(), name='groups'),
+
+    path('calendar', Calendar.as_view(), name='calendar')
 ]

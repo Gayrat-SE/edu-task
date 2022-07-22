@@ -23,7 +23,7 @@ class Homework(Base):
     homework_created_time = models.DateTimeField(auto_now_add=True, blank=True, null=True)
     homework_deadline_time = models.DateTimeField(validators=[deadline_time])
     teacher = models.ForeignKey(Teacher, on_delete=models.PROTECT, blank=True)
-    student_group = models.ForeignKey(StudentGroup, on_delete=models.PROTECT, related_name='groups', null=True)
+    student_group = models.ForeignKey(StudentGroup, on_delete=models.PROTECT, related_name='groups', blank=True, null=True)
     student = models.ForeignKey(Student, on_delete=models.PROTECT, blank=True, null=True)
 
     def filename(self):

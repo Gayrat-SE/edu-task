@@ -15,7 +15,7 @@
                   </div>
                   
                   <div>
-                    Students
+                    Ученики
                   </div>
                 </div>
 
@@ -37,7 +37,7 @@
                   </div>
                   
                   <div>
-                    Teachers
+                    Учителя
                   </div>
                 </div>
               </div>
@@ -55,7 +55,7 @@
                   </div>
                   
                   <div>
-                    Users
+                    Пользователи
                   </div>
                 </div>
               </div>
@@ -65,5 +65,66 @@
           </div>
           <!-- /quick stats boxes -->
         </div>
+        			<!-- Content area -->
+			<div class="content">
+
+				<!-- Pie and donut -->
+				<div class="row">
+        {% if request.user.student %}
+					<div class="col-xl-6">
+
+						<!-- Basic pie -->
+						<div class="card">
+							<div class="card-header header-elements-inline">
+								<div class="header-elements">
+									<div class="list-icons">
+				                		<a class="list-icons-item" data-action="collapse"></a>
+				                		<a class="list-icons-item" data-action="reload"></a>
+				                		<a class="list-icons-item" data-action="remove"></a>
+				                	</div>
+			                	</div>
+							</div>
+
+							<div class="card-body">
+								<div class="chart-container">
+									<div class="chart has-fixed-height" id="homeworks"></div>
+								</div>
+							</div>
+						</div>
+						<!-- /basic pie -->
+
+					</div>
+          {% endif %}
+
+					<div class="col-xl-6">
+
+						<!-- Basic donut -->
+						<div class="card">
+							<div class="card-header header-elements-inline">
+								<div class="header-elements">
+									<div class="list-icons">
+				                		<a class="list-icons-item" data-action="collapse"></a>
+				                		<a class="list-icons-item" data-action="reload"></a>
+				                		<a class="list-icons-item" data-action="remove"></a>
+				                	</div>
+			                	</div>
+							</div>
+
+							<div class="card-body">
+								<div class="chart-container">
+									<div class="chart has-fixed-height" id="users"></div>
+								</div>
+							</div>
+						</div>
+						<!-- /basic donut -->
+
+					</div>
+				</div>	
+				<!-- /pie and donut -->
+      </div>
       <!-- /content area -->
+
+{% block js %}
+			{% include 'dashboard.js' %}
+{% endblock js %}
 {% endblock content %}
