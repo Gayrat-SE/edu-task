@@ -1,10 +1,6 @@
 from rest_framework import serializers
 from courses.models import *
-from datetime import datetime
-from rest_framework.exceptions import ValidationError
 from api.v1.user.serializers import StudentListSerializer
-from datetime import datetime
-import pytz
 
 class CreateHomeworkSerializer(serializers.ModelSerializer):
 

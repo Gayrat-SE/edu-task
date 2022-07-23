@@ -1,6 +1,5 @@
-from django.shortcuts import render, redirect
+from django.shortcuts import redirect
 import requests
-from django.http import HttpResponseRedirect
 # Create your views here.
 
 def base64_encode(message):

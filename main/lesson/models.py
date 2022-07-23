@@ -1,7 +1,5 @@
 from django.db import models
-from base.models import Base
 from user.models import StudentGroup, Teacher
-from django.core.validators import URLValidator
 # Create your models here.
 
 class Event(models.Model):

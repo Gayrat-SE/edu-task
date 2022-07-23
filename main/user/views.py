@@ -1,15 +1,10 @@
-from multiprocessing import context
-from lesson.models import Event
-from django.shortcuts import render
-from courses.models import Homework, HomeworkSubmission
+from courses.models import Homework
 from .models import *
 from django.contrib.auth.views import LogoutView
-from django.urls import reverse_lazy, reverse
+from django.urls import reverse_lazy
 from django.contrib.auth.mixins import LoginRequiredMixin
-from django.views import View
 from django.views.generic import ListView, DetailView
 from django.core.exceptions import ObjectDoesNotExist
-from lesson.models import Event
 # Create your views here.
 
 

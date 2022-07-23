@@ -1,6 +1,3 @@
-
-from re import T
-from user.models import StudentGroup, Student
 from .serializers import (
     CreateHomeworkSerializer,
     SendHomeworkSerializer,
@@ -12,8 +9,6 @@ from courses.models import (
     Homework, 
     HomeworkSubmission,
     )
-from rest_framework.views import APIView
-from rest_framework.response import Response
 
 
 class CreateHomework(CreateAPIView):
