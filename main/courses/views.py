@@ -1,10 +1,9 @@
-from email.headerregistry import Group
 from django.shortcuts import render
 from user.models import StudentGroup
 from .models import Homework, HomeworkSubmission
 from django.views.generic import DetailView, ListView
 from django.contrib.auth.mixins import LoginRequiredMixin
-from django.db.models import Q
+from django.core.exceptions import ObjectDoesNotExist
 # Create your views here.
 
 class DetailHomework(LoginRequiredMixin, DetailView):
@@ -51,3 +50,17 @@ class CheckHomeworkStudent(LoginRequiredMixin, DetailView):
             return context
         except:
             return {"msg":"error"}
+
+
+class GetStudentMark(LoginRequiredMixin, ListView):
+    login_url = "login"
+    model = HomeworkSubmission
+    template_name: str = 'users/student/studentMarks.html'
+
+    def get_context_data(self, **kwargs):
+        try:
+            context = super().get_context_data(**kwargs)
+            context['ratings'] = HomeworkSubmission.objects.filter(student = self.request.user.student)
+        except ObjectDoesNotExist:
+            return {"error":"you dont have permission"}
+        return context

@@ -22,6 +22,7 @@
                                     <div class="form-group">
                                         <label>Группа</label>
                                         <select class="form-control form-control-sm" id="group_select">
+                                            <option select>Выбирайте группу</option>
                                             {% for el in groups %}
                                                 <option value={{ el.id }}>{{ el.name }}</option>
                                             {% endfor %}
@@ -80,7 +81,7 @@
                                     start: start_date,
                                     end:end_date,
                                 })
-                                window.location = '/user/teacher/calendar'
+                                window.location = '/lesson/teacher/calendar'
                             }
                         })
                     }

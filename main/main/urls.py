@@ -17,7 +17,7 @@ from django.contrib import admin
 from django.urls import path, include
 from django.conf.urls.static import static
 from django.conf import settings
-from .views import LoginUser
+from .views import LoginUser, Dashboard
 
 
 urlpatterns = [
@@ -28,5 +28,6 @@ urlpatterns = [
     path('', LoginUser.as_view(), name='login'),
     path('lesson/', include("lesson.urls")),
     path('zoom/', include("zoom.urls")),
+    path('user/dashboard/',Dashboard.as_view(), name='index')
 ]
 urlpatterns+= static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

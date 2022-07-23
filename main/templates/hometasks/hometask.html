@@ -20,8 +20,13 @@
                     <input type="file" class="form-input-styled" id="file" data-fouc>
                 </div>
                 <div class="form-group">
-                    <label>Срок</label>
-                    <input class="form-control daterange-time" type="date" id="datetime" name="date">
+                    <label>Срок:</label>
+                    <div class="input-group">
+                        <span class="input-group-prepend">
+                            <span class="input-group-text"><i class="icon-calendar22"></i></span>
+                        </span>
+                        <input id="datetime" type="datetime-local" class="form-control">
+                    </div>
                 </div>
                 <div class="form-group ">
                     <label>Выберите группы</label>
@@ -49,7 +54,6 @@
             let crf_token = $('[name="csrfmiddlewaretoken"]').attr('value');
             let homework_title = $('#name').val();
             let homework_text = $('#description').val();
-            let homework_deadline_time = $('#date').val();
             let group = $('#groups').val()
             let datetime = $('#datetime').val()
             let data = new FormData();
@@ -78,14 +82,6 @@
 		    }
         )}
         );
-    </script>
-    <script>
-        $(function () {
-          $('#datetime').datetimepicker({
-              inline: true,
-              sideBySide: true
-          });
-      });
     </script>
     {% endif %}
 {% endblock content %}
