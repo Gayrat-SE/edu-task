@@ -2,6 +2,7 @@
 
 
 {% block content %}
+{% if request.user.student %}
     <div id='calendar'></div>
 
 	            <!-- Horizontal form modal -->
@@ -74,27 +75,44 @@
                 center: 'title',
                 right: 'prev, next',
             },
-            events: [
-            {% for event in lesson %}
-            	{
-                id:'{{ event.id }}',
-                title: '{{ event.title }}',
-                position: '{{ event.teacher.position }}',
-                teacher: '{{ event.teacher.user.first_name }}',
-                start: '{{ event.start_date | date:"Y-m-d" }}',
-                end: '{{ event.end_date | date:"Y-m-d" }}',
-                zoom_url: '{{ event.zoom_join_url }}',
-                allDay: false,
-            	},
-            {% endfor %}
-            ],
+            events: function(info, successCallback){
+                var start_date = info.start.toISOString();
+                var end_date = info.end.toISOString();
+                $.ajax({
+                type: "GET",
+                url: "/api/v1/lesson/list/lesson/student/",
+                dataType: "json",
+                data: {
+                    'start_date':start_date,
+                    'end_date':end_date,
+                    csrfmiddlewaretoken:$('input[name=csrfmiddlewaretoken]').val()
+                },
+                headers: {'X-CSRFToken': csrftoken},
+                success: function(data){
+                    container = []
+                    if (data){
+                    for (let i = 0; i < data.length; i++) {
+                    var title = data[i].title
+                    var start_date = data[i].start_date
+                    var end_date = data[i].end_date
+                    var teacher = data[i].teacher.user.first_name
+                    var position = data[i].teacher.position
+                    var zoom_url = data[i].zoom_join_url
+                    var group = data[i].groups.name
+                    container.push({title:title, start:start_date, end:end_date, teacher:teacher, position:position,zoom_url:zoom_url, group:group })
+                    }
+                    };
+                    successCallback(
+                    container
+                    )
+                }
+                });
+            },
 
             eventClick: function(event) {
-                console.log('modal', event);
                 $('#modal_form_horizontal').modal();
                 $('#title').val(event.event.title);
                 $('#teacher').val(event.event.extendedProps.teacher);
-                
                 $('#time').val(moment(event.event.end).locale('uz').format('lll'))
                 $('#position').val(event.event.extendedProps.position);
                 $('#zoom_url').html(event.event.extendedProps.zoom_url)[0].href = event.event.extendedProps.zoom_url
@@ -110,5 +128,5 @@
             loadCalendar();
     }
 </script>
-
+{% endif %}
 {% endblock %}
