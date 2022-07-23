@@ -98,7 +98,6 @@
 					</div>
 				</div>
 				<!-- /horizontal form modal -->
-
 <script>
 
     function loadCalendar() {
@@ -108,6 +107,7 @@
             selectable: true,
             plugins: ['interaction', 'dayGrid'],
             firstDay : 1,
+            initialView: 'resourceTimelineWeek',
             header: {
                 left: 'today',
                 center: 'title',
@@ -141,8 +141,12 @@
                                     title:title,
                                     start: start_date,
                                     end:end_date,
+                                    groups:group_select,
                                 })
                                 window.location = '/lesson/teacher/calendar'
+                            },
+                            error: function(data){
+                                console.log(data)
                             }
                         })
                     }
@@ -168,9 +172,11 @@
                     var title = data[i].title
                     var start_date = data[i].start_date
                     var end_date = data[i].end_date
-                    var id = data[i].id
-                    var url = data[i].join_url
-                    container.push({title:title, start:start_date, end:end_date, id:id, url:url})
+                    var teacher = data[i].teacher.user.first_name
+                    var position = data[i].teacher.position
+                    var zoom_url = data[i].zoom_join_url
+                    var group = data[i].groups.name
+                    container.push({title:title, start:start_date, end:end_date, teacher:teacher, position:position,zoom_url:zoom_url, group:group })
                     }
                     };
                     successCallback(
@@ -179,21 +185,6 @@
                 }
                 });
             },
-            events: [
-            {% for event in lesson %}
-            	{
-                id:'{{ event.id }}',
-                title: '{{ event.title }}',
-                position: '{{ event.teacher.position }}',
-                teacher: '{{ event.teacher.user.first_name }}',
-                start: '{{ event.start_date | date:"Y-m-d" }}',
-                end: '{{ event.end_date | date:"Y-m-d" }}',
-                zoom_url: '{{ event.zoom_join_url }}',
-                group: '{{ event.groups.name }}',
-                allDay: false,
-            	},
-            {% endfor %}
-            ],
             eventClick: function(event) {
                 $('#modal_form_horizontal').modal();
                 $('#titleBody').val(event.event._def.title);

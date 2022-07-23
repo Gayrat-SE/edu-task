@@ -1,17 +1,12 @@
-from django.shortcuts import render
+from urllib import request
 from lesson.models import Event
-from user.models import StudentGroup
 from .serializers import (
     CreateEventSerializer,
     GetEventsSerializer
 )
 from rest_framework.generics import ListAPIView, CreateAPIView
-from rest_framework import status
-from  rest_framework.response import Response
-from rest_framework.permissions import IsAdminUser, IsAuthenticated
-import json
-import requests
 
+from rest_framework.permissions import  IsAuthenticated
 
 class CreateEvent(CreateAPIView):
     permission_classes = [IsAuthenticated]
@@ -24,5 +19,6 @@ class CreateEvent(CreateAPIView):
 class ListLesson(ListAPIView):
     serializer_class = GetEventsSerializer
     def get_queryset(self):
-        teacher_lesson = Event.objects.filter(teacher_id = self.request.user.teacher.id)
+        teacher_lesson = Event.objects.filter(teacher_id = self.request.user.teacher.id,
+            start_date__gte = self.request.GET.get('start_date'), end_date__lte = self.request.GET.get('end_date'))
         return teacher_lesson

@@ -4,6 +4,10 @@ from .models import *
 from django.core.exceptions import ObjectDoesNotExist
 from django.views.generic import ListView
 from django.contrib.auth.mixins import LoginRequiredMixin
+from datetime import datetime
+import pytz
+
+
 
 class StudentCalendar(LoginRequiredMixin, ListView):
     login_url = "login"
@@ -28,5 +32,4 @@ class TeacherCalendar(LoginRequiredMixin, ListView):
     def get_context_data(self, **kwargs):
         context =  super().get_context_data(**kwargs)
         context['groups'] = StudentGroup.objects.all()
-        context['lesson'] = Event.objects.filter(teacher_id = self.request.user.teacher.id )
         return context

@@ -180,3 +180,15 @@ class AdminCreateSerializer(serializers.ModelSerializer):
         instance.save()
 
         return instance
+
+
+class TeacherListSerializer(serializers.ModelSerializer):
+    user = serializers.SerializerMethodField(read_only = True)
+    class Meta:
+        model = Teacher
+        fields = '__all__'
+    def get_user(self, obj):
+        id = obj.user
+        serializer_userId = UserListSerializers(id, many=False)
+
+        return serializer_userId.data
