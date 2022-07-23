@@ -85,7 +85,7 @@
 	<div class="navbar navbar-expand-md navbar-dark">
 		<div class="navbar-brand">
 			<a href="index.html" class="d-inline-block">
-				<img src="{% static 'logo/pie-chart.png' %}" alt="">
+				<img src="{% static 'logo/logo3.png' %}" alt="">
 			</a>
 		</div>
 
@@ -369,8 +369,10 @@
 							{% if request.user.is_authenticated %}
 								<div class="media-title font-weight-semibold">{{ request.user.username }}</div>
 								<div class="font-size-xs opacity-50">
-								{% if request.user.teacher %}
-									{{ request.user.teacher.position }}
+								{% if request.user.teacher.user.gender == 'Female' %}
+									Учительница {{ request.user.teacher.position }}
+								{% elif request.user.teacher.user.gender == 'Male' %}
+									Учитель {{ request.user.teacher.position }}
 								{% elif request.user.student %}
 									Ученик
 								{% else %}
