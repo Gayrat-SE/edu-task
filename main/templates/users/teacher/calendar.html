@@ -2,6 +2,7 @@
 
 
 {% block content %}
+{% if request.user.teacher %}
     <div id='calendar'></div>
 
 	            <!-- Disabled animation -->
@@ -79,6 +80,7 @@
                                     start: start_date,
                                     end:end_date,
                                 })
+                                window.location = '/user/teacher/calendar'
                             }
                         })
                     }
@@ -126,5 +128,5 @@
             loadCalendar();
     }
 </script>
-
+{% endif %}
 {% endblock %}

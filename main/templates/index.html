@@ -95,6 +95,31 @@
 
 					</div>
           {% endif %}
+          {% if request.user.teacher or request.user.owner %}
+          <div class="col-xl-6">
+
+						<!-- Basic pie -->
+						<div class="card">
+							<div class="card-header header-elements-inline">
+								<div class="header-elements">
+									<div class="list-icons">
+				                		<a class="list-icons-item" data-action="collapse"></a>
+				                		<a class="list-icons-item" data-action="reload"></a>
+				                		<a class="list-icons-item" data-action="remove"></a>
+				                	</div>
+			                	</div>
+							</div>
+
+							<div class="card-body">
+								<div class="chart-container">
+									<div class="chart has-fixed-height" id="groups"></div>
+								</div>
+							</div>
+						</div>
+						<!-- /basic pie -->
+
+					</div>
+          {% endif %}
 
 					<div class="col-xl-6">
 

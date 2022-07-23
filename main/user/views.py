@@ -55,10 +55,12 @@ class Dashboard(LoginRequiredMixin, View):
             return render(request, 'index.html', context=context)
         except ObjectDoesNotExist:
             user_count = User.objects.all().count()
+            group = StudentGroup.objects.all()
             context = {
                 "student_count":student_count,
                 "teacher_count":teacher_count,
                 "user_count":user_count,
+                'groups':group
             }
             return render(request, 'index.html', context=context)
 
