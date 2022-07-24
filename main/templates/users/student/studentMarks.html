@@ -31,7 +31,7 @@
 								<tr>
 									<td>{{ forloop.counter }}</td>
 									<td>{{ el.homework.teacher.position }}</td>
-									<td>{{ el.homework.teacher }}</td>
+									<td>{{ el.homework.teacher.user.first_name }}  {{ el.homework.teacher.user.last_name }}</td>
                                     <td>{{ el.homework.homework_title }}</td>
                                     {% if el.submission_rating %}
 									<td>{{ el.submission_rating }}</td>

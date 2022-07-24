@@ -43,5 +43,6 @@ class HomeworkSubmission(Base):
         validators=[FileExtensionValidator(allowed_extensions=["pdf", "doc", "docx", "ppt"])])
     submission_rating = models.IntegerField(blank=True, validators=[MaxValueValidator(5), MinValueValidator(0)], null=True)
     is_answered = models.BooleanField(default=False)
+    file_ratings = models.FileField(upload_to='ratings/', blank=True)
     def filename(self):
         return os.path.basename(self.submission_homework_file.name)

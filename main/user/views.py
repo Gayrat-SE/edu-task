@@ -66,7 +66,7 @@ class StudentGroups(LoginRequiredMixin, ListView):
         context = super().get_context_data(**kwargs)
         try:
             context['groups'] = StudentGroup.objects.filter(student = self.request.user.student.id)
-            context['homeworks'] = Homework.objects.filter(student_group__in = context['groups'])
+            context['homeworks'] = Homework.objects.filter(student_group__in = context['groups']).exclude(homeworks__isnull = False)
             return context
         except ObjectDoesNotExist:
             return {"msg":"error"}

@@ -4,6 +4,7 @@ from .models import Homework, HomeworkSubmission
 from django.views.generic import DetailView, ListView
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.core.exceptions import ObjectDoesNotExist
+from main.table_class import pdf_file_mark
 # Create your views here.
 
 class DetailHomework(LoginRequiredMixin, DetailView):
@@ -14,8 +15,7 @@ class DetailHomework(LoginRequiredMixin, DetailView):
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         context['group_id'] = StudentGroup.objects.get(id = self.object.id)
-        context['homeworks'] = Homework.objects.filter(student_group = self.object.id)
-        context['homeworksubmission'] = HomeworkSubmission.objects.filter(homework__in = context['homeworks'], student = self.request.user.student)
+        context['homeworks'] = Homework.objects.filter(student_group = self.object.id).exclude(homeworks__isnull = False)
         return context
 
 def sendhomework(request):
@@ -58,8 +58,16 @@ class GetStudentMark(LoginRequiredMixin, ListView):
 
     def get_context_data(self, **kwargs):
         try:
+            data = [
+                ["Предмет", "Учитель", "Задача", "Оценка",],
+            ]
             context = super().get_context_data(**kwargs)
             context['ratings'] = HomeworkSubmission.objects.filter(student = self.request.user.student)
+            for info in context['ratings']:
+                for count in range(1, 5):
+                    if count == 2:
+                        data.append([info.homework.teacher.position, info.homework.teacher.user.first_name, info.homework.homework_title, str(info.submission_rating),])
+            pdf_file_mark(self.request, data=data)
         except ObjectDoesNotExist:
             return {"error":"you dont have permission"}
         return context
