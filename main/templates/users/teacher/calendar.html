@@ -3,6 +3,7 @@
 
 {% block content %}
 {% if request.user.teacher %}
+<div class="content">
     <div id='calendar'></div>
 
 	            <!-- Disabled animation -->
@@ -217,5 +218,6 @@
             loadCalendar();
     }
 </script>
+</div>
 {% endif %}
 {% endblock %}

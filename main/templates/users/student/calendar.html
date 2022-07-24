@@ -3,7 +3,9 @@
 
 {% block content %}
 {% if request.user.student %}
+<div class="content">
     <div id='calendar'></div>
+
 
 	            <!-- Horizontal form modal -->
 				<div id="modal_form_horizontal" class="modal fade" tabindex="-1">
@@ -60,7 +62,7 @@
 					</div>
 				</div>
 				<!-- /horizontal form modal -->
-
+</div>
 <script>
 
     function loadCalendar() {
