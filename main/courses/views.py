@@ -32,7 +32,6 @@ class CheckHomeworkGroup(LoginRequiredMixin, ListView):
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         context['checkHomeworkGroupList'] = StudentGroup.objects.filter(groups__teacher = self.request.user.teacher).distinct()
-        print(context['checkHomeworkGroupList'])
         return context
 
 

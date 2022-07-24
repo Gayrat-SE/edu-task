@@ -72,10 +72,11 @@
             selectable: true,
             plugins: ['interaction', 'dayGrid'],
             firstDay : 1,
+            eventLimit: true,
             header: {
-                left: 'today',
+                left: 'prev,next today',
                 center: 'title',
-                right: 'prev, next',
+                right: 'month,agendaWeek,agendaDay'
             },
             events: function(info, successCallback){
                 var start_date = info.start.toISOString();

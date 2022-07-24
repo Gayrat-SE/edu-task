@@ -106,13 +106,14 @@
         var calendar = new FullCalendar.Calendar(calendarEl, {
             locale: 'ru',
             selectable: true,
+            selectHelper: true,
             plugins: ['interaction', 'dayGrid'],
             firstDay : 1,
-            initialView: 'resourceTimelineWeek',
+            eventLimit: true,
             header: {
-                left: 'today',
+                left: 'prev,next today',
                 center: 'title',
-                right: 'prev, next',
+                right: 'month,agendaWeek,agendaDay'
             },
             select: function(start, end){
                 $('#modal_animation').modal();

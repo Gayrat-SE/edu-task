@@ -20,8 +20,8 @@ class Dashboard(LoginRequiredMixin, View):
     def get(self, request):
         student_count = Student.objects.all().count()
         teacher_count = Teacher.objects.all().count()
+        user_count = User.objects.all().count()
         try:
-            user_count = User.objects.all().count()
             answer = HomeworkSubmission.objects.filter(student = request.user.student.id).count()
             homework = Homework.objects.filter(student_group__student = request.user.student.id).count()
             context = {
@@ -33,7 +33,6 @@ class Dashboard(LoginRequiredMixin, View):
             }
             return render(request, 'index.html', context=context)
         except ObjectDoesNotExist:
-            user_count = User.objects.all().count()
             group = StudentGroup.objects.all()
             context = {
                 "student_count":student_count,
