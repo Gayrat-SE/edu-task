@@ -49,13 +49,17 @@ INSTALLED_APPS = [
     'phonenumber_field',
      #THIRD PARTY
     'rest_framework',
+    'channels',
     #APPS
     'courses',
     'base',
     'user',
     'lesson',
     'zoom',
+    'chat',
 ]
+
+
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
@@ -86,6 +90,15 @@ TEMPLATES = [
 ]
 
 WSGI_APPLICATION = 'main.wsgi.application'
+ASGI_APPLICATION = 'main.asgi.application'
+
+
+CHANNEL_LAYERS = {
+    'default': {
+        'BACKEND': 'channels.layers.InMemoryChannelLayer'
+    }
+}
+
 
 
 # Database

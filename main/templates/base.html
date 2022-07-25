@@ -17,6 +17,7 @@
 	<link href="{% static 'css/components.min.css' %}" rel="stylesheet" type="text/css">
 	<link href="{% static 'css/colors.min.css' %}" rel="stylesheet" type="text/css">
     <link href="{% static 'css/groups.css' %}" rel="stylesheet" type="text/css">
+	
 	<!-- /global stylesheets -->
 	<!-- Core JS files -->
 	<script src="{% static 'js/core/js/main/jquery.min.js' %}"></script>
@@ -584,6 +585,9 @@
 
 	</div>
 	<!-- /page content -->
+
+	{% block scripts %}
+    {% endblock %}
 
 </body> 
 
