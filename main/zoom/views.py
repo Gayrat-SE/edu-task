@@ -14,7 +14,7 @@ def base64_encode(message):
 def zoom_callback(request):
     code = request.GET["code"]
     data = requests.post(f"https://zoom.us/oauth/token?grant_type=authorization_code&code={code}&redirect_uri=http://127.0.0.1:8000/zoom/callback/", headers={
-        "Authorization": "Basic " + base64_encode("iNQAbBxZT_CxsC9NPA8WVQ:nifYbhIcS83TbfUuqAJmNoIzJmS9bRm6")
+        "Authorization": "Basic " + base64_encode("LlHLez3YRrKdGQs3Fj1MXg:V6gzNyy9vQ7l50pEEDpqsnFcAuf4iwdJ")
     })
     request.session["zoom_access_token"] = data.json()["access_token"]
 
