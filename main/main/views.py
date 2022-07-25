@@ -23,7 +23,7 @@ class Dashboard(LoginRequiredMixin, View):
         user_count = User.objects.all().count()
         try:
             answer = HomeworkSubmission.objects.filter(student = request.user.student.id).count()
-            homework = Homework.objects.filter(student_group__student = request.user.student.id).count()
+            homework = Homework.objects.filter(student_group__student = request.user.student.id).exclude(homeworks__isnull = False).count()
             context = {
                 "answer":answer,
                 "homework":homework,

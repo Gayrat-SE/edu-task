@@ -1,6 +1,11 @@
 from rest_framework import serializers
 from user.models import User, Student, Teacher, Admin, StudentGroup
 from rest_framework.validators import UniqueValidator
+from courses.models import HomeworkSubmission
+from django.core.files import File
+from main.create_table_fpdf2 import PDF
+import os
+
 
 class UserListSerializers(serializers.ModelSerializer):
     class Meta:
@@ -192,3 +197,10 @@ class TeacherListSerializer(serializers.ModelSerializer):
         serializer_userId = UserListSerializers(id, many=False)
 
         return serializer_userId.data
+
+
+class FileRatingSerializers(serializers.ModelSerializer):
+    class Meta:
+        model = Student
+        fields = ('file_ratings',)
+        
