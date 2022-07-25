@@ -2,10 +2,6 @@ from .serializers import *
 from rest_framework import generics
 from user.models import *
 from rest_framework.permissions import IsAuthenticated
-from rest_framework.views import APIView
-from rest_framework.response import Response
-from main.generation_pdf import pdf_file_mark
-from rest_framework.validators import ValidationError
 
 
 class StudentCreate(generics.CreateAPIView):
@@ -65,16 +61,5 @@ class AdminUpdate(generics.RetrieveUpdateDestroyAPIView):
     serializer_class = AdminCreateSerializer
 
 
-class FileRatings(APIView):
-    
-
-    def get(self, request):
-        file = Student.objects.filter(id = request.user.student.id)[0]
-        if file.file_ratings:
-            serializer = FileRatingSerializers(file)
-            pdf_file_mark(request, file)
-            return Response(serializer.data)
-        
-        raise ValidationError({"msg":"no data"})
 
         

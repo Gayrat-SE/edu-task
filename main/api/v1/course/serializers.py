@@ -7,7 +7,7 @@ class CreateHomeworkSerializer(serializers.ModelSerializer):
     class Meta:
         model = Homework
         fields = ('homework_title', 'homework_file', 'homework_created_time', 'homework_deadline_time',
-        'student_group', 'homework_text')
+        'student_group', 'homework_text', 'student')
 
 
 class SendHomeworkSerializer(serializers.ModelSerializer):

@@ -38,6 +38,18 @@
                         </select>
                     </label>
                 </div>
+                <div class="form-group">
+                    <label>Выберите учиника</label>
+                    <div class="col-lg-10">
+                        <select class="form-control" id="students" multiple="multiple">
+                            {% for groups in list_groups %}
+                                {% for students in groups.student.all %}
+                                    <option id="{{ groups.id }}" value="{{ students.id }}">{{ students }}</option>
+                                {% endfor %}
+                            {% endfor %}
+                        </select>
+                    </div>
+                </div>
                 <div class="alert alert-danger border-0 alert-dismissible" id="error" style="display: None;">
                     <button type="button" class="close" data-dismiss="alert"><span>&times;</span></button>
                     <span class="font-weight-semibold">Oh snap!</span> Error Time
@@ -49,6 +61,18 @@
         </div>
     </div>
     <script>
+   $(document).ready(function()
+   {
+    $groups=$('#groups'),
+    $students=$('#students'),
+    $options=$students.find('option');
+    $groups.on('change', function()
+    {
+        $students.html($options.filter('[id="'+this.value+'"]'));
+    }).trigger('change');
+   });
+    </script>
+    <script>
         $('#submit').on('click', function(){
             let input = document.getElementById('file');
             let crf_token = $('[name="csrfmiddlewaretoken"]').attr('value');
@@ -56,7 +80,11 @@
             let homework_text = $('#description').val();
             let group = $('#groups').val()
             let datetime = $('#datetime').val()
+            let students = $('#students').val()
             let data = new FormData();
+            for (var i=0; i < students.length; i++){
+                data.append('student', students[i])
+            }
             data.append('homework_file', input.files[0]);
             data.append('homework_title', homework_title);
             data.append('homework_text', homework_text);

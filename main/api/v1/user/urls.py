@@ -12,5 +12,4 @@ urlpatterns = [
     path('teacher/update/<int:pk>/', TeacherUpdate.as_view()),
     path('group/detail/<int:pk>/', StudentGroupDetailList.as_view()),
     path('admin/update/<int:pk>/', AdminUpdate.as_view()),
-    path('student/file/rating/', FileRatings.as_view()),
     ]

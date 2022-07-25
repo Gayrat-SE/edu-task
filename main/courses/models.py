@@ -24,7 +24,7 @@ class Homework(Base):
     homework_deadline_time = models.DateTimeField(validators=[deadline_time])
     teacher = models.ForeignKey(Teacher, on_delete=models.PROTECT, blank=True)
     student_group = models.ForeignKey(StudentGroup, on_delete=models.PROTECT, related_name='groups', blank=True, null=True)
-    student = models.ForeignKey(Student, on_delete=models.PROTECT, blank=True, null=True)
+    student = models.ManyToManyField(Student, blank=True, related_name='students')
 
     def filename(self):
         return os.path.basename(self.homework_file.name)

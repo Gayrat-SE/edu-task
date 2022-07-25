@@ -1,3 +1,4 @@
+from urllib import request
 from courses.models import Homework
 from .models import *
 from django.contrib.auth.views import LogoutView
@@ -5,6 +6,7 @@ from django.urls import reverse_lazy
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.views.generic import ListView, DetailView
 from django.core.exceptions import ObjectDoesNotExist
+from django.db.models import Q
 # Create your views here.
 
 
@@ -66,7 +68,7 @@ class StudentGroups(LoginRequiredMixin, ListView):
         context = super().get_context_data(**kwargs)
         try:
             context['groups'] = StudentGroup.objects.filter(student = self.request.user.student.id)
-            context['homeworks'] = Homework.objects.filter(student_group__in = context['groups']).exclude(homeworks__isnull = False)
+            context['homeworks'] = Homework.objects.filter(student = self.request.user.student).exclude(homeworks__student = self.request.user.student)
             return context
         except ObjectDoesNotExist:
             return {"msg":"error"}

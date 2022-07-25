@@ -39,7 +39,6 @@ class Teacher(Base):
 class Student(Base):
     user = models.OneToOneField(User, related_name='student', on_delete=models.CASCADE)
     education_start_date = models.DateField(blank=True, null=True)
-    file_ratings = models.FileField(upload_to='ratings/', blank=True)
     def __str__(self):
         return self.user.username
 
