@@ -50,7 +50,7 @@
 											</div>
 											<div class="col-md-6">
 												<label>Your Gender</label>
-												<select class="form-control form-control-select2" id="gender" data-fouc>
+												<select class="form-control" id="gender">
 													<option value="{{ request.user.gender }}" selected>{{ request.user.gender }}</option> 
 													{% if request.user.gender != "Female" %}
 													<option value="Female">Female</option>  
