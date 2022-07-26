@@ -4,7 +4,7 @@ from .serializers import (
     SubmissionHomeworkList,
     AnswerHomeworkRating
     )
-from rest_framework.generics import CreateAPIView, ListAPIView, ListCreateAPIView
+from rest_framework.generics import CreateAPIView, ListAPIView
 from courses.models import (
     Homework, 
     HomeworkSubmission,
