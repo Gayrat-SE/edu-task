@@ -41,7 +41,12 @@ class Groups(LoginRequiredMixin, ListView):
     context_object_name = "groups"
     model = StudentGroup
     template_name: str = 'users/student/studentGroup_list.html'
-        
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['students'] = Student.objects.filter(student_list__isnull = True)
+
+        return context
 
 class DetailGroup(LoginRequiredMixin, DetailView):
     login_url = "login"

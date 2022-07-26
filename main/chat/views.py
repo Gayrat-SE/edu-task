@@ -1,17 +1,20 @@
-from django.contrib.auth.decorators import login_required
-from django.shortcuts import render
+from user.models import StudentGroup
+from django.contrib.auth.mixins import LoginRequiredMixin
+from django.views.generic import ListView
+from .models import  Message
 
-from .models import Room, Message
 
-@login_required
-def rooms(request):
-    rooms = Room.objects.all()
 
-    return render(request, 'chat/rooms.html', {'rooms': rooms})
 
-@login_required
-def room(request, slug):
-    room = Room.objects.get(slug=slug)
-    messages = Message.objects.filter(room=room)[0:25]
 
-    return render(request, 'chat/room.html', {'room': room, 'messages': messages})
+class Chat(LoginRequiredMixin, ListView):
+    login_url = 'login'
+    model = Message
+    template_name: str = 'chat/room.html'
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['student'] = StudentGroup.objects.filter(student = self.request.user.student)[0]
+        context['messages'] = Message.objects.filter(group = context['student'])
+
+        return context
+

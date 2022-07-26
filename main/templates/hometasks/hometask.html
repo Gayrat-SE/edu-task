@@ -44,7 +44,7 @@
                         <select class="form-control" id="students" multiple="multiple">
                             {% for groups in list_groups %}
                                 {% for students in groups.student.all %}
-                                    <option id="{{ groups.id }}" value="{{ students.id }}">{{ students }}</option>
+                                    <option id="{{ groups.id }}" selected value="{{ students.id }}">{{ students }}</option>
                                 {% endfor %}
                             {% endfor %}
                         </select>

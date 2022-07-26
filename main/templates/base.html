@@ -521,6 +521,15 @@
 							<a href="{% url 'calendar' %}" class="nav-link"><i class="icon-calendar3"></i> <span>Календарь уроки</span></a>
 						</li>
 						{% endif %}
+						{% if request.path == '/chat/' %}
+						<li class="nav-item">
+							<a href="{% url 'room' %}" class="nav-link active"><i class="icon-popout"></i><span>Чат</span></a>
+						</li>
+						{% else %}
+						<li class="nav-item">
+							<a href="{% url 'room' %}" class="nav-link"><i class="icon-popout"></i><span>Чат</span></a>
+						</li>
+						{% endif %}
 						{% endif %}
 					</ul>
 				</div>

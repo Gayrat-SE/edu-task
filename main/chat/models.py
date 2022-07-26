@@ -1,5 +1,5 @@
 from django.db import models
-from user.models import User
+from user.models import StudentGroup, Teacher, Student
 # Create your models here.
 
 class Room(models.Model):
@@ -8,9 +8,9 @@ class Room(models.Model):
 
 
 class Message(models.Model):
-    room = models.ForeignKey(Room, related_name='messages', on_delete=models.CASCADE)
-    user = models.ForeignKey(User, related_name='messages', on_delete=models.CASCADE)
+    group = models.ForeignKey(StudentGroup, related_name='messages', on_delete=models.PROTECT, blank=True, null=True)
     content = models.TextField()
+    student = models.ForeignKey(Student, on_delete=models.PROTECT, blank=True, null=True)
     date_added = models.DateTimeField(auto_now_add=True)
 
     class Meta:

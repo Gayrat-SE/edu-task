@@ -1,10 +1,10 @@
 import json
 
-from user.models import User
+from user.models import Student, User, StudentGroup
 from channels.generic.websocket import AsyncWebsocketConsumer
 from asgiref.sync import sync_to_async
 
-from .models import Room, Message
+from .models import Message
 
 
 class ChatConsumer(AsyncWebsocketConsumer):
@@ -58,7 +58,8 @@ class ChatConsumer(AsyncWebsocketConsumer):
 
     @sync_to_async
     def save_message(self, username, room, message):
-        user = User.objects.get(username=username)
-        room = Room.objects.get(slug=room)
-
-        Message.objects.create(user=user, room=room, content=message)
+        student = Student.objects.get(user__username=username)
+        print(student)
+        group = StudentGroup.objects.filter(student = student)[0]
+        print(group)
+        Message.objects.create(group=group, student=student, content=message)
