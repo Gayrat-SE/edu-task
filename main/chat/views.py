@@ -17,4 +17,3 @@ class Chat(LoginRequiredMixin, ListView):
         context['messages'] = Message.objects.filter(group = context['student'])
 
         return context
-

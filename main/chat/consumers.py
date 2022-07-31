@@ -1,11 +1,9 @@
 import json
-
 from user.models import Student, User, StudentGroup
 from channels.generic.websocket import AsyncWebsocketConsumer
 from asgiref.sync import sync_to_async
 
 from .models import Message
-
 
 class ChatStudent(AsyncWebsocketConsumer):
     async def connect(self):

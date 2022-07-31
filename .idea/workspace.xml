@@ -2,8 +2,10 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="2f62a51e-d796-49cd-aed4-a32f209663f9" name="Changes" comment="">
-      <change beforePath="$PROJECT_DIR$/main/main/settings.py" beforeDir="false" afterPath="$PROJECT_DIR$/main/main/settings.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/main/main/urls.py" beforeDir="false" afterPath="$PROJECT_DIR$/main/main/urls.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/main/chat/consumers.py" beforeDir="false" afterPath="$PROJECT_DIR$/main/chat/consumers.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/main/templates/base.html" beforeDir="false" afterPath="$PROJECT_DIR$/main/templates/base.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/main/templates/users/student/studentMarks.html" beforeDir="false" afterPath="$PROJECT_DIR$/main/templates/users/student/studentMarks.html" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -22,6 +24,8 @@
   <component name="PropertiesComponent">
     <property name="RunOnceActivity.OpenProjectViewOnStart" value="true" />
     <property name="RunOnceActivity.ShowReadmeOnStart" value="true" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$" />
+    <property name="settings.editor.selected.configurable" value="preferences.keymap" />
   </component>
   <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
   <component name="TaskManager">
