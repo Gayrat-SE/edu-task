@@ -25,35 +25,26 @@ class ChatStudent(AsyncWebsocketConsumer):
 
     async def receive(self, text_data):
         data = json.loads(text_data)
-        print(data)
         message = data['message']
         username = data['username']
-        room = data['room']
-
-        await self.save_message(username, room, message)
+        date = data['date']
 
         await self.channel_layer.group_send(
             self.room_group_name,
             {
                 'type': 'chat_message',
                 'message': message,
-                'username': username
+                'username': username,
+                'date':date
             }
         )
 
     async def chat_message(self, event):
         message = event['message']
         username = event['username']
-
+        date = event['date']
         await self.send(text_data=json.dumps({
             'message': message,
-            'username': username
+            'username': username,
+            'date':date
         }))
-
-    @sync_to_async
-    def save_message(self, username, room, message):
-        student = Student.objects.get(user__username=username)
-        print(student)
-        group = StudentGroup.objects.filter(student = student)[0]
-        print(group)
-        Message.objects.create(group=group, student=student, content=message)
