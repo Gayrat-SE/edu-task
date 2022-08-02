@@ -5,7 +5,7 @@
 	<meta charset="utf-8">
 	<meta http-equiv="X-UA-Compatible" content="IE=edge">
 	<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-	<title>Limitless - Responsive Web Application Kit by Eugene Kopyov</title>
+	<title>Edu Task</title>
 	<!-- Global stylesheets -->
 	<link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -372,7 +372,7 @@
 
 							<div class="media-body">
 							{% if request.user.is_authenticated %}
-								<div class="media-title font-weight-semibold">{{ request.user.username }}</div>
+								<div class="media-title font-weight-semibold">{{ request.user.first_name }} {{ request.user.last_name }}</div>
 								<div class="font-size-xs opacity-50">
 								{% if request.user.teacher.user.gender == 'Female' %}
 									Учительница {{ request.user.teacher.position }}
