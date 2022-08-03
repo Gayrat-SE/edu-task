@@ -47,10 +47,3 @@ class RequestMiddleware:
                     },
                 },
             })
-    
-
-    
-
-
-
-    
