@@ -14,7 +14,7 @@
 		                	</div>
 	                	</div>
 					</div>
-						<table id="example" class="table">
+					<table id="example" class="table">
 						<thead>
 							<tr>
 								<th>#</th>
@@ -39,7 +39,7 @@
 								<td></td>
 								{% endif %}
 							</tr>
-                            {% endfor %}
+							{% endfor %}
 						</tbody>
 					</table>
 				</div>
@@ -53,7 +53,12 @@
 				dom: 'Bfrtip',
 				buttons: [
 					'excel',
-					{ extend: 'pdf', text: 'Скачать файл (PDF)'},
+					{ 
+						extend: 'pdf', 
+						text: 'Скачать файл (PDF)',
+
+
+					},
 				],
 			} );
 		} );
