@@ -16,7 +16,7 @@ def zoom_callback(request):
 
     code = request.GET["code"]
     data = requests.post(f"https://zoom.us/oauth/token?grant_type=authorization_code&code={code}&redirect_uri=http://127.0.0.1:8000/zoom/callback/", headers={
-        "Authorization": "Basic " + base64_encode("syht64Z4QdGHg2EAcAWS9Q:hzWXKSixgi3n3CSLcyXUxQwQ3F6v1yp5")
+        "Authorization": "Basic " + base64_encode("iNQAbBxZT_CxsC9NPA8WVQ:nifYbhIcS83TbfUuqAJmNoIzJmS9bRm6")
     })
     request.session["zoom_access_token"] = data.json()["access_token"]
 

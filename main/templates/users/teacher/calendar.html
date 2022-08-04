@@ -47,12 +47,12 @@
 								<button type="button" class="close" data-dismiss="modal">&times;</button>
 							</div>
 
-							<form action="#" class="form-horizontal">
+							<form action="" class="form-horizontal">
 								<div class="modal-body">
 									<div class="form-group row">
 										<label class="col-form-label col-sm-3">Имя учителя</label>
 										<div class="col-sm-9">
-											<input type="text" readonly="readonly" id="teacher"  class="form-control">
+											<input type="text" readonly="readonly"  id="teacher"  class="form-control">
 										</div>
 									</div>
 
@@ -66,13 +66,13 @@
                                     <div class="form-group row">
 										<label class="col-form-label col-sm-3">Заглавие</label>
 										<div class="col-sm-9">
-											<input type="text" readonly="readonly" id="titleBody"  class="form-control">
+											<input type="text"  id="titleBody"  class="form-control">
 										</div>
 									</div>
                                     <div class="form-group row">
 										<label class="col-form-label col-sm-3">Группа</label>
 										<div class="col-sm-9">
-											<input type="text" readonly="readonly" id="groupsBody"  class="form-control">
+											<input type="text" readonly="readonly"  id="groupsBody"  class="form-control">
 										</div>
 									</div>
 
@@ -92,8 +92,8 @@
                                             <input type="text" readonly="readonly" class="form-control" id="time"> 
                                         </div>
 								    </div>
+                                    <button id="update" class="btn btn-primary">Update</button>
 								</div>
-
 							</form>
 						</div>
 					</div>
@@ -191,7 +191,8 @@
                     var position = data[i].teacher.position
                     var zoom_url = data[i].zoom_join_url
                     var group = data[i].groups.name
-                    container.push({title:title, start:start_date, end:end_date, teacher:teacher, position:position,zoom_url:zoom_url, group:group })
+                    var id = data[i].id
+                    container.push({title:title, start:start_date, end:end_date, teacher:teacher, position:position,zoom_url:zoom_url, group:group, id:id })
                     }
                     };
                     successCallback(
@@ -208,6 +209,21 @@
                 $('#position').val(event.event.extendedProps.position);
                 $('#zoom_url').html(event.event.extendedProps.zoom_url)[0].href = event.event.extendedProps.zoom_url
                 $('#groupsBody').val(event.event.extendedProps.group)
+                console.log(event.event._def.publicId)
+                $('#update').on('click', function(){
+                    title = $('#titleBody').val()
+                    $.ajax({
+                        type:"PATCH",
+                        url:"/api/v1/lesson/update/lesson/" + event.event._def.publicId + '/',
+                        data:{
+                            title:title
+                        },
+                        headers: {'X-CSRFToken': csrftoken},
+                        success: function(data){
+                            console.log(data)
+                        }
+                    })
+                })
             },
 
         });

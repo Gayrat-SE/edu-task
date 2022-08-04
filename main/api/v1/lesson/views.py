@@ -2,9 +2,10 @@ from lesson.models import Event
 from user.models import StudentGroup
 from .serializers import (
     CreateEventSerializer,
-    GetEventsSerializer
+    GetEventsSerializer,
+    UpdateEventSerializer
 )
-from rest_framework.generics import ListAPIView, CreateAPIView
+from rest_framework.generics import ListAPIView, CreateAPIView, UpdateAPIView
 
 from rest_framework.permissions import  IsAuthenticated
 from main.requestmixins import RequestLogViewMixin
@@ -14,6 +15,10 @@ class CreateEvent(RequestLogViewMixin, CreateAPIView):
     serializer_class =CreateEventSerializer
     queryset = Event.objects.all()
 
+
+class UpdateEvent(RequestLogViewMixin, UpdateAPIView):
+    serializer_class = UpdateEventSerializer
+    queryset = Event.objects.all()
 
 
 

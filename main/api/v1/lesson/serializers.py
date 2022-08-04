@@ -1,3 +1,4 @@
+from traceback import print_tb
 from lesson.models import Event
 from rest_framework import serializers
 import requests
@@ -37,10 +38,22 @@ class CreateEventSerializer(serializers.ModelSerializer):
 
         lesson.zoom_join_url = data.json()["join_url"]
         lesson.zoom_start_url = data.json()["start_url"]
-
         lesson.save()
         return lesson
 
+
+class UpdateEventSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Event
+        fields = ['title',]
+
+    def update(self, instance, validated_data):
+        for attr, value in validated_data.items():
+            setattr(instance, attr, value)
+
+        instance.save()
+
+        return instance
 
 
 
@@ -51,7 +64,7 @@ class GetEventsSerializer(serializers.ModelSerializer):
     teacher = serializers.SerializerMethodField(read_only = True)
     class Meta:
         model = Event
-        fields = ('title', 'start_date', 'end_date', 'groups', 'teacher', 'zoom_join_url',)
+        fields = ('title', 'start_date', 'end_date', 'groups', 'teacher', 'zoom_join_url','id')
 
     def get_groups(self, obj):
 
