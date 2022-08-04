@@ -8,21 +8,21 @@
             <div class="card-header">
                 <h2>Вопросы</h2>
             </div>
-            <table class="table datatable-basic table-hover">
-                <thead>
-                    <tr>
-                        <th>№</th>
-                        <th>Название Задачи</th>
-                        <th>Предмет</th>
-                        <th>Время Создания Задачи</th>
-                        <th>Срок</th>
-                        <th>Файл Задачи</th>
-                    </tr>
-                </thead>
-                <div class="card-body">
+            <div class="card-body">
+                <table class="table datatable-basic  table-hover">
+                    <thead>
+                        <tr>
+                            <th>№</th>
+                            <th>Название Задачи</th>
+                            <th>Предмет</th>
+                            <th>Время Создания Задачи</th>
+                            <th>Срок</th>
+                            <th>Файл Задачи</th>
+                        </tr>
+                    </thead>
                     <tbody>
                     {% for el in Homework %}
-                        <tr type="button" data-id="{{ el.id }}" id="overlay"  data-toggle="modal" data-target="#modal_full" >
+                        <tr data-id="{{ el.id }}" id="overlay" data-toggle="modal" data-target="#modal_full" >
                             <td>{{ forloop.counter }}</td>
                             <td>{{ el.homework_title }}</td>
                             <td>{{ request.user.teacher.position }}</td>
@@ -32,8 +32,8 @@
                         </tr>
                     {% endfor %}
                     </tbody>
-                </div>
-            </table>
+                </table>
+            </div>
         </div>
     </div>
     <!-- Full width modal -->
@@ -61,7 +61,7 @@
                         </div>
                         <table id="example" class="table datatable-basic table-hover" style="width:100%">
                             <thead>
-                                <tr>
+                                <tr class="bg-blue">
                                     <th></th>
                                     <th>Имя</th>
                                     <th>Фамилия</th>
@@ -140,7 +140,6 @@
                         for (var i=0; i < mytable.$('tr.selected').length; i++){
                             var submission_rating = mytable.$('tr.selected')[i].children[6].lastElementChild.value
                             var id = mytable.$('tr.selected')[i].children[0].children[0].id
-                            console.log(id)
                             $.ajax({
                                 type: 'POST',
                                 url: '/api/v1/course/rating/create/',

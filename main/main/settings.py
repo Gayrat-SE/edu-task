@@ -50,6 +50,7 @@ INSTALLED_APPS = [
     'phonenumber_field',
      #THIRD PARTY
     'rest_framework',
+    "log_viewer",
     #APPS
     'courses',
     'base',
@@ -69,7 +70,6 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
-    'chat.middleware.RequestMiddleware'
 ]
 
 ROOT_URLCONF = 'main.urls'
@@ -156,11 +156,13 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/4.0/howto/static-files/
 
 STATIC_URL = '/static/'
-MEDIA_URL = '/images/'
-MEDIA_ROOT = os.path.join(BASE_DIR, 'static/images')
 STATICFILES_DIRS = [ 
     os.path.join(BASE_DIR, 'static')
 ]
+
+
+MEDIA_URL = '/images/'
+MEDIA_ROOT = os.path.join(BASE_DIR, 'static/images')
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/4.0/ref/settings/#default-auto-field
@@ -177,4 +179,39 @@ REST_FRAMEWORK = {
     'DEFAULT_PERMISSION_CLASSES': [
         'rest_framework.permissions.IsAuthenticated',
     ],
+}
+
+
+
+LOGGING = {
+    'version': 1,
+    'disable_existing_loggers': False,
+    'formatters': {
+        'my_form': {
+            'format': '{levelname} {asctime} {module} {message}',
+            'style': '{',
+        }},
+    'handlers': {
+        'file': {
+            'level': 'INFO',
+            'class': 'logging.handlers.RotatingFileHandler',
+            'filename': os.path.join(BASE_DIR, __import__("datetime").datetime.now().strftime("%Y-%m-%d") + ".log"),
+            'mode': 'w',
+            'formatter': 'my_form',
+            'maxBytes': 5 * 1024 * 1024,
+            'backupCount': 100,
+        },
+    },
+    'root': {
+        'handlers': ['file'],
+        'level': 'INFO',
+        'formatter': 'my_form'
+    },
+    'loggers': {
+        'django': {
+            'handlers': ['file'],
+            'level': 'INFO',
+            'propagate': True,
+        }
+    },
 }

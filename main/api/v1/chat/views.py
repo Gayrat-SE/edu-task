@@ -1,9 +1,9 @@
 from .serializers import ChatSerializersCreate
 from chat.models import Message
 from rest_framework.generics import CreateAPIView
+from main.requestmixins import RequestLogViewMixin
 
-
-class ChatApi(CreateAPIView):
+class ChatApi(RequestLogViewMixin, CreateAPIView):
     serializer_class = ChatSerializersCreate
     model = Message
 

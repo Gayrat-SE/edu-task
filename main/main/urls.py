@@ -29,5 +29,6 @@ urlpatterns = [
     path('zoom/', include("zoom.urls")),
     path('user/dashboard/',Dashboard.as_view(), name='index'),
     path('chat/', include("chat.urls")),
+    path('logs/', include('log_viewer.urls')),
 ]
 urlpatterns+= static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
