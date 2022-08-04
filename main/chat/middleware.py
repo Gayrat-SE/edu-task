@@ -19,7 +19,6 @@ class RequestMiddleware:
         if user_name:
             logging.config.dictConfig({
                 'version': 1,
-                # Version of logging
                 'disable_existing_loggers': False,
                 'formatters': {
 
@@ -38,12 +37,9 @@ class RequestMiddleware:
                 },
                 'loggers': {
                 'django': {
-                        # Add your handlers that have the unbound request filter
                         'handlers': ['file'],
                         'level': 'DEBUG',
                         'propagate': True,
-                        # Optionally, add the unbound request filter to your
-                        # application.
                     },
                 },
             })
