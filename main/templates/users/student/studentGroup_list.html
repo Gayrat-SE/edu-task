@@ -28,7 +28,9 @@
 								<th>Описание</th>
 								<th>Дата создания</th>
 								<th>Count</th>
-								
+								{% if request.user.owner %}
+								<th>Удалить</th>
+								{% endif %}
 							</tr>
 						</thead>
 						<tbody>
@@ -42,6 +44,11 @@
 									<td>
 									{{ i.student.count }}
 									</td>
+									{% if request.user.owner %}
+									<td><a href="" class="list-icons-item" id="delete" data-id="{{ i.id }}" data-toggle="modal" data-target="#remove_modal">
+										<i class="icon-trash"></i>
+									</a></td>
+									{% endif %}
 								</tr>
 							{% endfor %}
 							</tbody>
@@ -49,6 +56,25 @@
 				</div>
 				<!-- /basic datatable -->
 
+			</div>
+			<div id="remove_modal" class="modal fade" role="dialog">
+				<div class="modal-dialog">
+					<div class="modal-content">
+						<div class="modal-header">
+							<h5 class="modal-title">Confirm action</h5>
+							<button type="button" class="close" data-dismiss="modal">&times;</button>
+						</div>
+
+						<div class="modal-body">
+							You are about to remove this row. Are you sure?
+						</div>
+
+						<div class="modal-footer">
+							<button id="remove" type="button" class="btn btn-primary" data-dismiss="modal">Yes, remove</button>
+							<button type="button" class="btn btn-light" data-dismiss="modal">No, thanks</button>
+						</div>
+					</div>
+				</div>
 			</div>
 			<!-- /content area -->
 			{% block js %}

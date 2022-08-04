@@ -8,28 +8,27 @@ from .serializers import (
 from rest_framework.generics import ListAPIView, CreateAPIView, UpdateAPIView
 
 from rest_framework.permissions import  IsAuthenticated
-from main.requestmixins import RequestLogViewMixin
 
-class CreateEvent(RequestLogViewMixin, CreateAPIView):
+class CreateEvent(CreateAPIView):
     permission_classes = [IsAuthenticated]
     serializer_class =CreateEventSerializer
     queryset = Event.objects.all()
 
 
-class UpdateEvent(RequestLogViewMixin, UpdateAPIView):
+class UpdateEvent(UpdateAPIView):
     serializer_class = UpdateEventSerializer
     queryset = Event.objects.all()
 
 
 
-class ListLessonTeacher(RequestLogViewMixin, ListAPIView):
+class ListLessonTeacher(ListAPIView):
     serializer_class = GetEventsSerializer
     def get_queryset(self):
         teacher_lesson = Event.objects.filter(teacher_id = self.request.user.teacher.id,
             start_date__gte = self.request.GET.get('start_date'), end_date__lte = self.request.GET.get('end_date'))
         return teacher_lesson
 
-class ListLessonStudent(RequestLogViewMixin, ListAPIView):
+class ListLessonStudent(ListAPIView):
     serializer_class = GetEventsSerializer
     def get_queryset(self):
         group = StudentGroup.objects.filter(student = self.request.user.student)[0]

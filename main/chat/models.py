@@ -10,7 +10,7 @@ class Room(models.Model):
 class Message(models.Model):
     group = models.ForeignKey(StudentGroup, related_name='messages', on_delete=models.PROTECT, blank=True, null=True)
     content = models.TextField()
-    student = models.ForeignKey(Student, on_delete=models.PROTECT, blank=True, null=True)
+    student = models.ForeignKey(Student, on_delete=models.CASCADE, blank=True, null=True)
     date_added = models.DateTimeField(auto_now_add=True)
     class Meta:
         ordering = ('date_added',)

@@ -9,9 +9,8 @@ from courses.models import (
     Homework, 
     HomeworkSubmission,
     )
-from main.requestmixins import RequestLogViewMixin
 
-class CreateHomework(RequestLogViewMixin, CreateAPIView):
+class CreateHomework(CreateAPIView):
     queryset = Homework.objects.all()
     serializer_class = CreateHomeworkSerializer
 
@@ -19,7 +18,7 @@ class CreateHomework(RequestLogViewMixin, CreateAPIView):
         serializer.save(teacher = self.request.user.teacher)
 
 
-class SendHomework(RequestLogViewMixin, CreateAPIView):
+class SendHomework(CreateAPIView):
     queryset = HomeworkSubmission.objects.all()
     serializer_class = SendHomeworkSerializer
 
@@ -28,7 +27,7 @@ class SendHomework(RequestLogViewMixin, CreateAPIView):
 
 
 
-class HomeworkSubmissions(RequestLogViewMixin, ListAPIView):
+class HomeworkSubmissions(ListAPIView):
     serializer_class = SubmissionHomeworkList
     def get_queryset(self):
         if self.kwargs["pk"]:
@@ -36,6 +35,6 @@ class HomeworkSubmissions(RequestLogViewMixin, ListAPIView):
             return submissions
 
 
-class CreateRatingAnswerHomework(RequestLogViewMixin, CreateAPIView):
+class CreateRatingAnswerHomework(CreateAPIView):
     serializer_class = AnswerHomeworkRating
     queryset = HomeworkSubmission.objects.all()

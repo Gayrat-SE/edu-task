@@ -37,6 +37,5 @@ class RequestMiddleware(MiddlewareMixin):
             'run_time': time.time() - request.start_time,
         }
         logger.info(log_data)
-        if response.status_code > 200:
-            logger.error(msg="" , extra=log_data)
+        logger.error(msg=log_data)
         return response

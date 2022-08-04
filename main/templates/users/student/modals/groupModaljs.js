@@ -25,3 +25,28 @@ $('#submit').on('click', function(){
 	})
 });
 </script>
+
+
+<script>
+	let objects = document.querySelectorAll('#delete')
+        for (let item of objects){
+		   item.addEventListener('click', function() {
+			   get_id(item.dataset.id)
+		   })
+	   }
+	   function get_id(id){
+		var table = $('#example').DataTable();
+		$('#remove').on('click', function(){
+			var group_id = id
+			console.log(group_id)
+			$.ajax({
+				type:'DELETE',
+				url:'/api/v1/user/group/delete/' + id + '/',
+				headers: {'X-CSRFToken': csrftoken},
+				success: function(data){
+					window.location = '/user/student-groups'
+				}
+			})
+		})
+	   }
+</script>
