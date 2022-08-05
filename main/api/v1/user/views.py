@@ -5,9 +5,9 @@ from rest_framework.permissions import IsAuthenticated, IsAdminUser
 
 from rest_framework import status
 from rest_framework.response import Response
+from log_report.api_views import LogCreateAPIView
 
-
-class StudentCreate(generics.CreateAPIView):
+class StudentCreate(LogCreateAPIView, generics.CreateAPIView):
     queryset = Student.objects.all()
     serializer_class = StudentCreateSerializer
     permission_classes = [IsAuthenticated]

@@ -58,6 +58,7 @@ INSTALLED_APPS = [
     'lesson',
     'zoom',
     'chat',
+    'log_report'
 ]
 
 
@@ -179,39 +180,4 @@ REST_FRAMEWORK = {
     'DEFAULT_PERMISSION_CLASSES': [
         'rest_framework.permissions.IsAuthenticated',
     ],
-}
-
-
-
-LOGGING = {
-    'version': 1,
-    'disable_existing_loggers': False,
-    'formatters': {
-        'my_form': {
-            'format': '{levelname} {asctime} {module} {message}',
-            'style': '{',
-        }},
-    'handlers': {
-        'file': {
-            'level': 'INFO',
-            'class': 'logging.handlers.RotatingFileHandler',
-            'filename': os.path.join(BASE_DIR, __import__("datetime").datetime.now().strftime("%Y-%m-%d") + ".log"),
-            'mode': 'w',
-            'formatter': 'my_form',
-            'maxBytes': 5 * 1024 * 1024,
-            'backupCount': 100,
-        },
-    },
-    'root': {
-        'handlers': ['file'],
-        'level': 'INFO',
-        'formatter': 'my_form'
-    },
-    'loggers': {
-        'django': {
-            'handlers': ['file'],
-            'level': 'INFO',
-            'propagate': True,
-        }
-    },
 }
