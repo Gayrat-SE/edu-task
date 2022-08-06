@@ -6,8 +6,9 @@ from .serializers import (
     UpdateEventSerializer
 )
 from rest_framework.generics import ListAPIView, CreateAPIView, UpdateAPIView
-
 from rest_framework.permissions import  IsAuthenticated
+from log_report.api_views import LogListAPIView, LogRetrieveUpdateDestroyAPIView
+
 
 class CreateEvent(CreateAPIView):
     permission_classes = [IsAuthenticated]
@@ -21,14 +22,14 @@ class UpdateEvent(UpdateAPIView):
 
 
 
-class ListLessonTeacher(ListAPIView):
+class ListLessonTeacher(LogListAPIView, ListAPIView):
     serializer_class = GetEventsSerializer
     def get_queryset(self):
         teacher_lesson = Event.objects.filter(teacher_id = self.request.user.teacher.id,
             start_date__gte = self.request.GET.get('start_date'), end_date__lte = self.request.GET.get('end_date'))
         return teacher_lesson
 
-class ListLessonStudent(ListAPIView):
+class ListLessonStudent(LogListAPIView, ListAPIView):
     serializer_class = GetEventsSerializer
     def get_queryset(self):
         group = StudentGroup.objects.filter(student = self.request.user.student)[0]
