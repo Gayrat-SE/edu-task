@@ -1,6 +1,8 @@
 from rest_framework import generics
 from .services import set_error_log, set_success_log
 from rest_framework.renderers import JSONRenderer
+import time
+
 
 class LogCreateAPIView(generics.CreateAPIView):
     def post(self, request, *args, **kwargs):

@@ -5,7 +5,7 @@ from base.models import Base
 
 
 class Log(Base):
-
+    username = models.CharField(max_length=255, blank=True, null=True)
     method = models.CharField(max_length=255, null=True, blank=True)
     request = models.JSONField(null=True, blank=True)
     response = models.JSONField(null=True, blank=True)
@@ -15,6 +15,6 @@ class Log(Base):
     url = models.URLField(null=True, blank=True)
     error = models.TextField(null=True, blank=True)
     description = models.TextField(null=True, blank=True)
-
+    upload_log = models.DateTimeField(auto_now_add=True)
     def __str__(self):
         return f"{self.id}"

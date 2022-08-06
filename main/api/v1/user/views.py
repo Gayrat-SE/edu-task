@@ -2,10 +2,10 @@ from .serializers import *
 from rest_framework import generics
 from user.models import *
 from rest_framework.permissions import IsAuthenticated, IsAdminUser
-
 from rest_framework import status
 from rest_framework.response import Response
 from log_report.api_views import LogCreateAPIView
+
 
 class StudentCreate(LogCreateAPIView, generics.CreateAPIView):
     queryset = Student.objects.all()
