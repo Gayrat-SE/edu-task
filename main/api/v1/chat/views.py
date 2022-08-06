@@ -1,8 +1,9 @@
+from log_report.api_views import LogCreateAPIView
 from .serializers import ChatSerializersCreate
 from chat.models import Message
-from rest_framework.generics import CreateAPIView
 
-class ChatApi(CreateAPIView):
+
+class ChatApi(LogCreateAPIView):
     serializer_class = ChatSerializersCreate
     model = Message
 

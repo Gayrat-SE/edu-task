@@ -4,13 +4,14 @@ from .serializers import (
     SubmissionHomeworkList,
     AnswerHomeworkRating
     )
-from rest_framework.generics import CreateAPIView, ListAPIView
 from courses.models import (
     Homework, 
     HomeworkSubmission,
     )
+from log_report.api_views import *
 
-class CreateHomework(CreateAPIView):
+
+class CreateHomework(LogCreateAPIView):
     queryset = Homework.objects.all()
     serializer_class = CreateHomeworkSerializer
 
@@ -18,7 +19,7 @@ class CreateHomework(CreateAPIView):
         serializer.save(teacher = self.request.user.teacher)
 
 
-class SendHomework(CreateAPIView):
+class SendHomework(LogCreateAPIView):
     queryset = HomeworkSubmission.objects.all()
     serializer_class = SendHomeworkSerializer
 
@@ -27,7 +28,7 @@ class SendHomework(CreateAPIView):
 
 
 
-class HomeworkSubmissions(ListAPIView):
+class HomeworkSubmissions(LogListAPIView):
     serializer_class = SubmissionHomeworkList
     def get_queryset(self):
         if self.kwargs["pk"]:
@@ -35,6 +36,6 @@ class HomeworkSubmissions(ListAPIView):
             return submissions
 
 
-class CreateRatingAnswerHomework(CreateAPIView):
+class CreateRatingAnswerHomework(LogCreateAPIView):
     serializer_class = AnswerHomeworkRating
     queryset = HomeworkSubmission.objects.all()

@@ -1,13 +1,10 @@
 from .serializers import *
-from rest_framework import generics
 from user.models import *
 from rest_framework.permissions import IsAuthenticated, IsAdminUser
-from rest_framework import status
-from rest_framework.response import Response
-from log_report.api_views import LogCreateAPIView, LogRetrieveUpdateDestroyAPIView, LogDestroyAPIView, LogUpdateAPIView
+from log_report.api_views import *
 
 
-class StudentCreate(LogCreateAPIView, generics.CreateAPIView):
+class StudentCreate(LogCreateAPIView):
     queryset = Student.objects.all()
     serializer_class = StudentCreateSerializer
     permission_classes = [IsAuthenticated]
@@ -20,41 +17,41 @@ class StudentUpdate(LogRetrieveUpdateDestroyAPIView):
 
 
 
-class StudentGroupCreate(generics.CreateAPIView):
+class StudentGroupCreate(LogCreateAPIView):
     queryset = StudentGroup.objects.all()
     serializer_class = StudentGroupCreateSerializer
     permission_classes = [IsAuthenticated]
 
 
 
-class TeacherCreate(generics.CreateAPIView):
+class TeacherCreate(LogCreateAPIView):
     queryset = Teacher.objects.all()
     serializer_class = TeacherCreateSerializer
     permission_classes = [IsAuthenticated]
 
 
-class TeacherUpdate(generics.RetrieveUpdateDestroyAPIView):
+class TeacherUpdate(LogRetrieveUpdateDestroyAPIView):
     queryset = Teacher.objects.all()
     serializer_class = TeacherCreateSerializer
 
 
-class StudentList(generics.ListAPIView):
+class StudentList(LogListAPIView):
     queryset = Student.objects.all()
     serializer_class = StudentListSerializer
 
 
 
 
-class StudentGroupList(generics.ListAPIView):
+class StudentGroupList(LogListAPIView):
     queryset = StudentGroup.objects.all()
     serializer_class = StudentGroupListSerializer
 
 
-class StudentGroupDetailList(generics.RetrieveAPIView):
+class StudentGroupDetailList(LogRetrieveAPIView):
     queryset = StudentGroup.objects.all()
     serializer_class = StudentGroupListSerializer
 
-class AdminCreate(generics.CreateAPIView):
+class AdminCreate(LogCreateAPIView):
     queryset = Admin.objects.all()
     serializer_class = AdminCreateSerializer
     permission_classes = [IsAuthenticated]
@@ -64,11 +61,11 @@ class AdminUpdate(LogRetrieveUpdateDestroyAPIView):
     serializer_class = AdminCreateSerializer
 
 
-class UserDelete(LogDestroyAPIView, generics.DestroyAPIView):
+class UserDelete(LogDestroyAPIView):
     queryset = User
     permission_classes = [IsAdminUser]
 
 
-class StudentGroupDelete(generics.DestroyAPIView):
+class StudentGroupDelete(LogDestroyAPIView):
     queryset = StudentGroup
     permission_classes = [IsAdminUser]
