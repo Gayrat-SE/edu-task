@@ -7,7 +7,7 @@ from log_report.models import Log
 
 
 class AdminPanel(admin.ModelAdmin):
-    list_display = ('upload_log', 'username', 'method', 'request', 'status')
+    list_display = ('upload_log', 'username', 'method', 'url', 'status')
     search_fields = ('username', 'upload_log')
     list_filter = ('status',)
 

@@ -29,6 +29,24 @@
                                             {% endfor %}
                                         </select>
                                     </div>
+                                    <div class="form-group">
+                                        <label>Начинает:</label>
+                                        <div class="input-group">
+                                            <span class="input-group-prepend">
+                                                <span class="input-group-text"><i class="icon-calendar22"></i></span>
+                                            </span>
+                                            <input type="datetime-local" class="form-control" id="datetime"> 
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <label>Срок:</label>
+                                        <div class="input-group">
+                                            <span class="input-group-prepend">
+                                                <span class="input-group-text"><i class="icon-calendar22"></i></span>
+                                            </span>
+                                            <input id="end_date" type="datetime-local" class="form-control">
+                                        </div>
+                                    </div>
                                     <div class="modal-footer">
                                         <button type="button" class="btn btn-primary" id="submit">Добавить</button>
                                     </div>
@@ -115,11 +133,13 @@
             },
             select: function(start, end){
                 $('#modal_animation').modal();
+                document.getElementById('datetime').value = start.start.toISOString().slice(0,16);
+                document.getElementById('end_date').value = start.end.toISOString().slice(0,16);
                 $('#submit').on('click', function(){
                     var title = $('#title').val()
                     if (title){
-                        var start_date = start.start.toISOString();
-                        var end_date = start.end.toISOString();
+                        var start_date = $('#datetime').val();
+                        var end_date = $('#end_date').val();
                         var group_select = $('#group_select').val()
                         $.ajax({
                             type:"POST",
@@ -207,7 +227,6 @@
                 $('#position').val(event.event.extendedProps.position);
                 $('#zoom_url').html(event.event.extendedProps.zoom_url)[0].href = event.event.extendedProps.zoom_url
                 $('#groupsBody').val(event.event.extendedProps.group)
-                console.log(event.event._def.publicId)
                 $('#update').on('click', function(){
                     title = $('#titleBody').val()
                     console.log(title)
