@@ -11,7 +11,6 @@
 						<h5 class="card-title">Список студентов</h5>
 						<div class="header-elements">
 							<div class="list-icons">
-		                		<a class="list-icons-item" data-action="collapse"></a>
 								<!-- Modal -->
 								{% block modal %}
 									{% include './modals/listModal.html' %}
@@ -22,42 +21,44 @@
 		                	</div>
 	                	</div>
 					</div>
-					<table class="table datatable-basic">
-						<thead>
-							<tr>
-								<th>№</th>
-								<th>Имя пользователя</th>
-								<th>Имя</th>
-								<th>Фамилия</th>
-								<th>День рождения</th>
-								<th>Email</th>
-								<th>Телефон</th>
-								{% if request.user.owner %}
-								<th>Удалить</th>
-								{% endif %}
-							</tr>
-						</thead>
-						<tbody>
-						{% for el in student %}
-							{% for i in el.student.all %}
-							<tr>
-								<td>{{ forloop.counter }}</td>
-								<td>{{ i.user.username }}</td>
-								<td>{{ i.user.first_name }}</td>
-								<td>{{ i.user.last_name}}</td>
-								<td>{{ i.user.birthday }}</td>
-								<td>{{ i.user.email }}</td>
-								<td>{{ i.user.phone }}</td>
-								{% if request.user.owner %}
-								<td><a href="" class="list-icons-item" id="delete" data-id="{{ i.user.id }}" data-toggle="modal" data-target="#remove_modal">
-									<i class="icon-trash"></i>
-								</a></td>
-								{% endif %}
-							</tr>
+					<div class="card-body">
+						<table class="table datatable-basic myTable" id="ourtable3">
+							<thead>
+								<tr>
+									<th>№</th>
+									<th>Имя пользователя</th>
+									<th>Имя</th>
+									<th>Фамилия</th>
+									<th>День рождения</th>
+									<th>Email</th>
+									<th>Телефон</th>
+									{% if request.user.owner %}
+									<th>Удалить</th>
+									{% endif %}
+								</tr>
+							</thead>
+							<tbody>
+							{% for el in student %}
+								{% for i in el.student.all %}
+								<tr>
+									<td>{{ forloop.counter }}</td>
+									<td>{{ i.user.username }}</td>
+									<td>{{ i.user.first_name }}</td>
+									<td>{{ i.user.last_name}}</td>
+									<td>{{ i.user.birthday }}</td>
+									<td>{{ i.user.email }}</td>
+									<td>{{ i.user.phone }}</td>
+									{% if request.user.owner %}
+									<td><a href="" class="list-icons-item" id="delete" data-id="{{ i.user.id }}" data-toggle="modal" data-target="#remove_modal">
+										<i class="icon-trash"></i>
+									</a></td>
+									{% endif %}
+								</tr>
+								{% endfor %}
 							{% endfor %}
-						{% endfor %}
-						</tbody>
-					</table>
+							</tbody>
+						</table>
+					</div>
 				</div>
 				<!-- /basic datatable -->
 

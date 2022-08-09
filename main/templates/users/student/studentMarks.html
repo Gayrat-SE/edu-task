@@ -14,34 +14,36 @@
 		                	</div>
 	                	</div>
 					</div>
-					<table id="example" class="table">
-						<thead>
-							<tr class="bg-blue">
-								<th>#</th>
-								<th>Предмет</th>
-								<th>Имя</th>
-								<th>Фамилия</th>
-								<th>Задача</th>
-								<th>Оценка</th>
-							</tr>
-						</thead>
-						<tbody>
-						{% for el in ratings %}
-							<tr>
-								<td>{{ forloop.counter }}</td>
-								<td>{{ el.homework.teacher.position }}</td>
-								<td>{{ el.homework.teacher.user.first_name }}</td>
-								<td>{{ el.homework.teacher.user.last_name }}</td>
-								<td>{{ el.homework.homework_title }}</td>
-								{% if el.submission_rating %}
-								<td>{{ el.submission_rating }}</td>
-								{% else %}
-								<td></td>
-								{% endif %}
-							</tr>
-							{% endfor %}
-						</tbody>
-					</table>
+					<div class="card-body">
+						<table id="example" class="table myTable" id="ourtable3">
+							<thead>
+								<tr>
+									<th>#</th>
+									<th>Предмет</th>
+									<th>Имя</th>
+									<th>Фамилия</th>
+									<th>Задача</th>
+									<th>Оценка</th>
+								</tr>
+							</thead>
+							<tbody>
+							{% for el in ratings %}
+								<tr>
+									<td>{{ forloop.counter }}</td>
+									<td>{{ el.homework.teacher.position }}</td>
+									<td>{{ el.homework.teacher.user.first_name }}</td>
+									<td>{{ el.homework.teacher.user.last_name }}</td>
+									<td>{{ el.homework.homework_title }}</td>
+									{% if el.submission_rating %}
+									<td>{{ el.submission_rating }}</td>
+									{% else %}
+									<td></td>
+									{% endif %}
+								</tr>
+								{% endfor %}
+							</tbody>
+						</table>
+					</div>
 				</div>
 				<!-- /open menu on click -->
     </div>

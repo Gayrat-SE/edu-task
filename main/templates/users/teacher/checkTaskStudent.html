@@ -9,7 +9,7 @@
                 <h2>Вопросы</h2>
             </div>
             <div class="card-body">
-                <table class="table datatable-basic  table-hover">
+                <table class="table datatable-basic table-hover myTable">
                     <thead>
                         <tr>
                             <th>№</th>
@@ -50,18 +50,13 @@
                         <button type="button" class="close" data-dismiss="alert"><span>&times;</span></button>
                         <span class="font-weight-semibold" id="text">Oh snap!</span>
                     </div>
-                    <div class="card">
+                    <div class="card-body">
                         <div class="card-header header-elements-inline">
                             <h5 class="card-title">Ответы</h5>
-                            <div class="header-elements">
-                                <div class="list-icons">
-                                    <a class="list-icons-item" data-action="collapse"></a>
-                                </div>
-                            </div>
                         </div>
-                        <table id="example" class="table datatable-basic table-hover" style="width:100%">
+                        <table class="table datatable-basic table-hover myTable" style="width:100%" id="ourtable3">
                             <thead>
-                                <tr class="bg-blue">
+                                <tr>
                                     <th></th>
                                     <th>Имя</th>
                                     <th>Фамилия</th>
@@ -96,7 +91,7 @@
        var editor;
        function get_submissions(homework_id){
                 $(document).ready(function () {
-                    var mytable = $('#example').DataTable({
+                    var mytable = $('#ourtable3').DataTable({
                         "ordering": false,
                         "bDestroy": true,
                         select: {

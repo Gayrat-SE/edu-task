@@ -19,40 +19,42 @@
 		                	</div>
 	                	</div>
 					</div>
-					<table class="table datatable-basic">
-						<thead>
-							<tr>
-								<th>№</th>
-								<th>Имя</th>
-								<th>Владелец</th>
-								<th>Описание</th>
-								<th>Дата создания</th>
-								<th>Count</th>
-								{% if request.user.owner %}
-								<th>Удалить</th>
-								{% endif %}
-							</tr>
-						</thead>
-						<tbody>
-							{% for i in groups %}
+					<div class="card-body">
+						<table class="table datatable-basic myTable" id="ourtable3">
+							<thead>
 								<tr>
-									<td>{{ forloop.counter }}</td>
-									<td><a href="{% url 'students' i.pk %}">{{ i.name }}</a></td>
-									<td>{{ i.owner.user.username }}</td>
-									<td>{{ i.description }}</td>
-									<td>{{ i.created_at }}</td>
-									<td>
-									{{ i.student.count }}
-									</td>
+									<th>№</th>
+									<th>Имя</th>
+									<th>Владелец</th>
+									<th>Описание</th>
+									<th>Дата создания</th>
+									<th>Count</th>
 									{% if request.user.owner %}
-									<td><a href="" class="list-icons-item" id="delete" data-id="{{ i.id }}" data-toggle="modal" data-target="#remove_modal">
-										<i class="icon-trash"></i>
-									</a></td>
+									<th>Удалить</th>
 									{% endif %}
 								</tr>
-							{% endfor %}
-							</tbody>
-					</table>
+							</thead>
+							<tbody>
+								{% for i in groups %}
+									<tr>
+										<td>{{ forloop.counter }}</td>
+										<td><a href="{% url 'students' i.pk %}">{{ i.name }}</a></td>
+										<td>{{ i.owner.user.username }}</td>
+										<td>{{ i.description }}</td>
+										<td>{{ i.created_at }}</td>
+										<td>
+										{{ i.student.count }}
+										</td>
+										{% if request.user.owner %}
+										<td><a href="" class="list-icons-item" id="delete" data-id="{{ i.id }}" data-toggle="modal" data-target="#remove_modal">
+											<i class="icon-trash"></i>
+										</a></td>
+										{% endif %}
+									</tr>
+								{% endfor %}
+								</tbody>
+						</table>
+					</div>
 				</div>
 				<!-- /basic datatable -->
 
