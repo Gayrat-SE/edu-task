@@ -68,7 +68,13 @@
 									<i class="icon-lock2 text-muted"></i>
 								</div>
 							</div>
-
+							{% if form.errors %}
+	                        <div class="text-danger wrong-data">
+	                            <p class="text-left">
+	                                Неправильный логин или пароль
+	                            </p>
+	                        </div>
+	                         {% endif %}
 							<div class="form-group">
 								<button type="submit"  id="pnotify-login-success" class="btn btn-primary btn-block">Войти<i class="icon-circle-right2 ml-2"></i></button>
 							</div>

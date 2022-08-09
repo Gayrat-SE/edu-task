@@ -33,7 +33,7 @@ class CreateEventSerializer(serializers.ModelSerializer):
             data=json.dumps({
                 "topic": f"Interview with { lesson.groups.name }",
                 "type": 2,
-                "start_time": validated_data['end_date'],
+                "start_time": lesson.get_start_datetime(),
             }, default=str))
 
         lesson.zoom_join_url = data.json()["join_url"]

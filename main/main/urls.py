@@ -24,10 +24,10 @@ urlpatterns = [
     path('user/', include("user.urls")),
     path('api/', include('api.urls')),
     path('course/', include("courses.urls")),
-    path('', LoginUser.as_view(), name='login'),
+    path('login/', LoginUser.as_view(), name='login'),
     path('lesson/', include("lesson.urls")),
     path('zoom/', include("zoom.urls")),
-    path('user/dashboard/',Dashboard.as_view(), name='index'),
+    path('',Dashboard.as_view(), name='index'),
     path('chat/', include("chat.urls")),
     path('logs/', include('log_viewer.urls')),
 ]

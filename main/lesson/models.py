@@ -10,3 +10,6 @@ class Event(models.Model):
     zoom_join_url = models.URLField(null=True, blank=True, max_length=500)
     zoom_start_url = models.URLField(null=True, blank=True, max_length=500)
     teacher = models.ForeignKey(Teacher, on_delete=models.PROTECT)
+
+    def get_start_datetime(self):
+        return str(self.end_date)
