@@ -21,9 +21,14 @@ $('#submit').on('click', function(){
 		},
 		success: function(data){
 			window.location = '/user/student-groups'
-		}
+		},
 	})
 });
+$('#cancel').on('click', function(){
+	$('#name').val("")
+	$('#description').val("")
+	$('#student').val("")
+})
 </script>
 
 
@@ -45,7 +50,7 @@ $('#submit').on('click', function(){
 				headers: {'X-CSRFToken': csrftoken},
 				success: function(data){
 					window.location = '/user/student-groups'
-				}
+				},
 			})
 		})
 	   }

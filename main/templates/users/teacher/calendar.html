@@ -18,7 +18,7 @@
                                 <div class="card-body" id="forms-target-left">
                                     <div class="form-group">
                                         <label>Заглавие</label>
-                                        <input type="text" class="form-control" name="name" id="title" placeholder="Введите Название">
+                                        <input type="text" class="form-control" name="name" id="title" placeholder="Введите Название" required>
                                     </div>
                                     <div class="form-group">
                                         <label>Группа</label>
@@ -48,6 +48,7 @@
                                         </div>
                                     </div>
                                     <div class="modal-footer">
+                                        <button type="button" class="btn btn-secondary" id="cancel" data-dismiss="modal">Закрыть</button>
                                         <button type="button" class="btn btn-primary" id="submit">Добавить</button>
                                     </div>
                                 </div>
@@ -132,6 +133,7 @@
                 right: 'month,agendaWeek,agendaDay'
             },
             select: function(start, end){
+                
                 $('#modal_animation').modal();
                 document.getElementById('datetime').value = start.start.toISOString().slice(0,16);
                 document.getElementById('end_date').value = start.end.toISOString().slice(0,16);
@@ -183,6 +185,12 @@
                             }
                         })
                     }
+                })
+                $('#cancel').on('click', function(){
+                    $('#title').val("")
+                    $('#datetime').val("");
+                    $('#end_date').val("");
+                    $('#group_select').val("Выбирайте группу")
                 })
             },
             events: function(info, successCallback){

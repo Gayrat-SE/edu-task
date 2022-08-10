@@ -40,6 +40,17 @@ $('#submit').on('click', function(){
 		}
 	})
 });
+$('#cancel').on('click', function(){
+	$('#username').val("");
+	$('#first-name').val("");
+	$('#last-name').val("");
+	$('#date').val("");
+	$('#gender').val("");
+	$('#email').val("");
+	$('#password').val("");
+	$('#phone').val("");
+	$('#father_name').val("")
+})
 </script>
 
 
