@@ -15,7 +15,7 @@ class User(AbstractUser):
     birthday = models.DateField(blank=True, null=True)
     phone = PhoneNumberField(blank=True, null=True)
     has_profile = models.BooleanField(default=False)
-
+    last_activity = models.DateTimeField(null=True, blank=True)
     def has_profile_true(self):
         self.has_profile = True
 

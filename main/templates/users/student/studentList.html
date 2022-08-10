@@ -29,9 +29,9 @@
 									<th>Имя пользователя</th>
 									<th>Имя</th>
 									<th>Фамилия</th>
-									<th>День рождения</th>
 									<th>Email</th>
 									<th>Телефон</th>
+									<th>Был(а) в сети</th>
 									{% if request.user.owner %}
 									<th>Удалить</th>
 									{% endif %}
@@ -45,9 +45,13 @@
 									<td>{{ i.user.username }}</td>
 									<td>{{ i.user.first_name }}</td>
 									<td>{{ i.user.last_name}}</td>
-									<td>{{ i.user.birthday }}</td>
 									<td>{{ i.user.email }}</td>
 									<td>{{ i.user.phone }}</td>
+									{% if i.user.last_activity %}
+									<td>{{ i.user.last_activity }}</td>
+									{% else %}
+									<td>offline</td>
+									{% endif %}
 									{% if request.user.owner %}
 									<td><a href="" class="list-icons-item" id="delete" data-id="{{ i.user.id }}" data-toggle="modal" data-target="#remove_modal">
 										<i class="icon-trash"></i>
