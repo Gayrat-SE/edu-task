@@ -1,6 +1,5 @@
 import time
 from django.utils.deprecation import MiddlewareMixin
-from log_report.services import set_success_log, set_error_log
 from user.models import User
 from django.utils.timezone import now
 
