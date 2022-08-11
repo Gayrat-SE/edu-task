@@ -45,7 +45,6 @@ $('#cancel').on('click', function(){
 	$('#first-name').val("");
 	$('#last-name').val("");
 	$('#date').val("");
-	$('#gender').val("");
 	$('#email').val("");
 	$('#password').val("");
 	$('#phone').val("");
