@@ -5,7 +5,7 @@ from user.models import StudentGroup, Teacher, Student, User, Admin
 class Room(models.Model):
     name = models.CharField(max_length=255)
     owner = models.ForeignKey(Admin, on_delete=models.CASCADE)
-    group = models.ManyToManyField(StudentGroup, blank=True)
+    group = models.ManyToManyField(StudentGroup, blank=True, related_name='group')
 
 class MessageRoom(models.Model):
     content = models.TextField()

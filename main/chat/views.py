@@ -39,7 +39,7 @@ class RoomView(LoginRequiredMixin, ListView):
             context['group'] = StudentGroup.objects.filter(student=self.request.user.student)[0]
             context['rooms'] = Room.objects.filter(group=context['group'])
         except:
-            context['groups'] = StudentGroup.objects.all()
+            context['groups'] = StudentGroup.objects.all().exclude(group__isnull=False)
             context['rooms'] = Room.objects.all()
 
         return context
