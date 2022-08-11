@@ -1,5 +1,5 @@
 from rest_framework import serializers
-from chat.models import Message
+from chat.models import Message, MessageRoom, Room
 
 
 
@@ -14,3 +14,13 @@ class ChatSerializersCreate(serializers.ModelSerializer):
         message = Message.objects.create(**validated_data)
 
         return message
+
+class ChatMessageSerializers(serializers.ModelSerializer):
+    class Meta:
+        model = MessageRoom
+        fields = ['content', 'room', 'date_added', 'users']
+
+class RoomSerializersCreate(serializers.ModelSerializer):
+    class Meta:
+        model = Room
+        fields = ['name', 'group', 'owner']

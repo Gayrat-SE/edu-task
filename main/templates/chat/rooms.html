@@ -2,19 +2,103 @@
 
 
 {% block content %}
-<div class="p-10 lg:p-20 text-center">
-    <h1 class="text-3xl lg:text-6xl text-white">Rooms</h1>
-</div>
+<div class="content">
+    <div class="p-10 lg:p-20 text-center">
+        <h1 class="text-3xl lg:text-6xl text-black">Rooms</h1>
+    </div>
 
-<div class="w-full flex flex-wrap items-center">
-    {% for room in rooms %}
+    <div class="w-full flex flex-wrap items-center">
+            {% if request.user.owner %}
+                <button type="button" class="btn btn-primary text-center" data-toggle="modal" data-target="#exampleModal">
+                    Создать группу
+                </button>
+            {% endif %}
+            {% for room in rooms %}
+            <div class="w-full lg:w-1/4 px-3 py-3">
+                <div class="p-4 bg-white shadow rounded-xl text-center">
+                    <h2 class="mb-5 text-2xl font-semibold">{{ room.name }}</h2>
+
+                    <a href="{% url 'roomGroup' room.pk %}" class="px-5 py-3 block rounded-xl text-white bg-teal-600 hover:bg-teal-700">Join</a>
+                </div>
+            </div>
+        {% endfor %}
+        {% if group %}
         <div class="w-full lg:w-1/4 px-3 py-3">
             <div class="p-4 bg-white shadow rounded-xl text-center">
-                <h2 class="mb-5 text-2xl font-semibold">{{ room.name }}</h2>
-
-                <a href="{% url 'room' room.slug %}" class="px-5 py-3 block rounded-xl text-white bg-teal-600 hover:bg-teal-700">Join</a>
+                <h2 class="mb-5 text-2xl font-semibold">{{ group.name }}</h2>
+                <a href="{% url 'room' %}" class="px-5 py-3 block rounded-xl text-white bg-teal-600 hover:bg-teal-700">Join</a>
             </div>
         </div>
-    {% endfor %}
+        {% endif %}
+    </div>
 </div>
+<!-- Modal -->
+<div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">Регистрация студенческих групп</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+            <form action="" method="post">
+                <div class="form-group">
+                    <label>Имя</label>
+                    <input type="text" class="form-control" name="name" id="name" placeholder="Введите Имя">
+                </div>
+                <div class="form-group">
+                    <label>Владелец</label>
+                    <select disabled class="form-control form-control-sm" aria-label="Default select example" id="owner">
+                        <option selected  value={{ request.user.owner.id }}>{{ request.user.owner }}</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label>Выберите Студентов</label>
+                        <select multiple="multiple" class="form-control" id="groups">
+                        {% for i in groups %}
+                            <option value="{{ i.id }}">{{ i.name }}</option>   
+                        {% endfor %}
+                        </select>
+                </div>
+            </form>
+        </div>
+            <div class="modal-footer">
+            <button type="button" class="btn btn-secondary" id="cancel" data-dismiss="modal">Закрыть</button>
+            <button type="button" class="btn btn-primary" id="submit">Добавить</button>
+        </div>
+    </div>
+    </div>
+</div>
+
+
+<script>
+$('#submit').on('click', function(){
+	var name = $('#name').val()
+	var groups = $('#groups').val()
+    var owner = $('#owner').val()
+	$.ajax({
+		type: "POST",
+		url: '/api/v1/chat/group/create/',
+		data:JSON.stringify({
+			group:groups,
+			name:name,
+			csrfmiddlewaretoken: csrftoken,
+            owner:owner
+		}),
+		contentType: "application/json; charset=utf-8",
+		dataType: "json",
+		beforeSend: function (xhr) {
+			xhr.setRequestHeader("X-CSRFToken", csrftoken);
+		},
+		success: function(data){
+			window.location = '/chat/rooms/'
+		},
+	})
+});
+$('#cancel').on('click', function(){
+	$('#name').val("")
+})
+</script>
 {% endblock %}
