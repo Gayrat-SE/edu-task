@@ -2,12 +2,12 @@ from .serializers import *
 from user.models import *
 from rest_framework.permissions import IsAuthenticated, IsAdminUser
 from log_report.api_views import *
-
+from .permissions import IsAdminOrReadOnly, IsStudent, IsTeacher
 
 class StudentCreate(LogCreateAPIView):
     queryset = Student.objects.all()
     serializer_class = StudentCreateSerializer
-    permission_classes = [IsAuthenticated]
+    permission_classes = [IsAdminOrReadOnly]
     
 
 class StudentUpdate(LogRetrieveUpdateDestroyAPIView):
@@ -20,14 +20,14 @@ class StudentUpdate(LogRetrieveUpdateDestroyAPIView):
 class StudentGroupCreate(LogCreateAPIView):
     queryset = StudentGroup.objects.all()
     serializer_class = StudentGroupCreateSerializer
-    permission_classes = [IsAuthenticated]
+    permission_classes = [IsAdminOrReadOnly]
 
 
 
 class TeacherCreate(LogCreateAPIView):
     queryset = Teacher.objects.all()
     serializer_class = TeacherCreateSerializer
-    permission_classes = [IsAuthenticated]
+    permission_classes = [IsAdminOrReadOnly]
 
 
 class TeacherUpdate(LogRetrieveUpdateDestroyAPIView):
@@ -54,7 +54,7 @@ class StudentGroupDetailList(LogRetrieveAPIView):
 class AdminCreate(LogCreateAPIView):
     queryset = Admin.objects.all()
     serializer_class = AdminCreateSerializer
-    permission_classes = [IsAuthenticated]
+    permission_classes = [IsAdminOrReadOnly]
 
 class AdminUpdate(LogRetrieveUpdateDestroyAPIView):
     queryset = Admin.objects.all()

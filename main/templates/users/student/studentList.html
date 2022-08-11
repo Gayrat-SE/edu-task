@@ -50,7 +50,7 @@
 									{% if i.user.last_activity %}
 									<td>{{ i.user.last_activity }}</td>
 									{% else %}
-									<td>offline</td>
+									<td><span class="badge badge-danger">Offline</span></td>
 									{% endif %}
 									{% if request.user.owner %}
 									<td><a href="" class="list-icons-item" id="delete" data-id="{{ i.user.id }}" data-toggle="modal" data-target="#remove_modal">
