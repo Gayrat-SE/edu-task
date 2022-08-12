@@ -52,6 +52,33 @@ $('#cancel').on('click', function(){
 })
 </script>
 
+<script>
+	"group/detail/<int:pk>/"
+</script>
+
+<script>
+	$('#save').on('click', function(){
+		let students = $('#students').val()
+		let data = new FormData();
+		for (var i=0; i < students.length; i++){
+                data.append('student', students[i])
+        }
+		{% for id in student %}
+		fetch('/api/v1/user/group/detail/{{ id.id }}/', {
+		method: 'PATCH',
+		headers: {
+			'X-CSRFToken': csrftoken,
+		},
+		body:data,
+		}).then(response => {
+                return response.json();
+		}).then(data => {
+			window.location = '/user/student-list/{{ id.id }}';
+		})
+		{% endfor %}
+
+	});
+</script>
 
 <script>
 	let objects = document.querySelectorAll('#delete')

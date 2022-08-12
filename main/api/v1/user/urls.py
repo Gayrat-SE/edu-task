@@ -13,5 +13,6 @@ urlpatterns = [
     path('group/detail/<int:pk>/', StudentGroupDetailList.as_view()),
     path('admin/update/<int:pk>/', AdminUpdate.as_view()),
     path('delete/<int:pk>/', UserDelete.as_view()),
-    path('group/delete/<int:pk>/', StudentGroupDelete.as_view())
+    path('group/delete/<int:pk>/', StudentGroupDelete.as_view()),
+    path('student/file/create/', StudentBulk.as_view()),
     ]

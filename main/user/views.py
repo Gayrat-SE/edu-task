@@ -54,6 +54,7 @@ class DetailGroup(LoginRequiredMixin, DetailView):
     template_name: str = 'users/student/studentList.html'
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
+        context['students'] = Student.objects.all().exclude(student_list__id=self.object.id)
         context['student'] = StudentGroup.objects.filter(id=self.object.id)
         return context
 
@@ -78,3 +79,13 @@ class StudentGroups(LoginRequiredMixin, ListView):
         except ObjectDoesNotExist:
             return {"msg":"error"}
 
+class RegisterStudentWithFile(LoginRequiredMixin, ListView):
+    login_url = "login"
+    model = Student
+    template_name: str = 'users/student/studentAll.html'
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+
+        context['students'] = Student.objects.all().order_by('-id')
+        return context

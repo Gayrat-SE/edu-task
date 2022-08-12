@@ -2,7 +2,7 @@ from django.db import models
 from base.models import Base
 from django.contrib.auth.models import AbstractUser
 from phonenumber_field.modelfields import PhoneNumberField
-
+from django.core.validators import FileExtensionValidator
 
 class User(AbstractUser):
     gender_choice = (
@@ -50,3 +50,9 @@ class StudentGroup(Base):
     description = models.TextField(blank=True, null=True)
     created_at = models.DateField(auto_now=True)
     status = models.BooleanField(default=False)
+
+
+
+class StudentBulkUpload(Base):
+    date_uploaded = models.DateTimeField(auto_now=True)
+    csv_file = models.FileField(upload_to='students/bulkupload/', validators=[FileExtensionValidator(allowed_extensions=["csv"])])

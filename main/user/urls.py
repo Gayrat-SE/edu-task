@@ -1,4 +1,5 @@
 from django.urls import path
+
 from .views import *
 urlpatterns = [
     path('logout', UserLogoutView.as_view(), name='logout'),
@@ -10,6 +11,7 @@ urlpatterns = [
 
     path('student-groups', Groups.as_view(), name='student-group'),
     path('student-list/<int:pk>', DetailGroup.as_view(), name='students'),
+    path('students/', RegisterStudentWithFile.as_view(), name='studentsAll'),
 
     path('teacher-list/', TeacherList.as_view(), name='teacher-list'),
     

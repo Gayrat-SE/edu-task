@@ -443,6 +443,15 @@
 						{% endif %}
 						{% endif %}
 						{% if request.user.owner %}
+						{% if request.path == '/user/students/' %}
+						<li class="nav-item">
+							<a href="{% url 'studentsAll' %}" class="nav-link active"><i class="icon-people"></i> <span>Список Студентов</span></a>
+						</li>
+						{% else %}
+						<li class="nav-item">
+							<a href="{% url 'studentsAll' %}" class="nav-link"><i class="icon-people"></i> <span>Список Студентов</span></a>
+						</li>
+						{% endif %}
 						<li class="nav-item">
 							<a href="" class="nav-link"><i class="icon-stack"></i> <span>Список Администраторов</span></a>
 						</li>

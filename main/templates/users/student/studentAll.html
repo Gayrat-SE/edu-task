@@ -1,0 +1,160 @@
+{% extends '../../base.html' %}
+
+<!-- base -->
+{% block content %}
+			<!-- Content area -->
+			<div class="content">
+
+				<!-- Basic datatable -->
+				<div class="card">
+					<div class="card-header header-elements-inline">
+						<h5 class="card-title">Список студентов</h5>
+						<div class="header-elements">
+							<div class="list-icons">
+								<button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModal">
+                                    Добавить Ученика через файл (CSV)
+                                </button>
+
+                                <!-- Modal -->
+                                <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                                    <div class="modal-dialog" role="document">
+                                        <div class="modal-content">
+                                            <div class="modal-header">
+                                                <h5 class="modal-title" id="exampleModalLabel">Регистрация студента (CSV)</h5>
+                                                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                                    <span aria-hidden="true">&times;</span>
+                                                </button>
+                                            </div>
+                                            <div class="modal-body">
+                                            <form action="" method="post">
+                                                <div class="form-group">
+                                                    <label>Файл</label>
+                                                    <input type="file" class="form-input-styled" id="file" data-fouc>
+                                                </div>
+                                            </form>
+                                        </div>
+                                            <div class="modal-footer">
+                                            <button type="button" class="btn btn-secondary" id="cancel" data-dismiss="modal">Закрыть</button>
+                                            <button type="button" class="btn btn-primary" id="save">Добавить</button>
+                                        </div>
+                                    </div>
+                                    </div>
+                                </div>
+
+
+								
+		                	</div>
+	                	</div>
+					</div>
+					<div class="card-body">
+						<table class="table datatable-basic myTable" id="ourtable3">
+							<thead>
+								<tr>
+									<th>№</th>
+									<th>Имя пользователя</th>
+									<th>Имя</th>
+									<th>Фамилия</th>
+									<th>Email</th>
+									<th>Телефон</th>
+									<th>Был(а) в сети</th>
+									{% if request.user.owner %}
+									<th>Удалить</th>
+									{% endif %}
+								</tr>
+							</thead>
+							<tbody>
+							{% for i in students %}
+								<tr>
+									<td>{{ forloop.counter }}</td>
+									<td>{{ i.user.username }}</td>
+									<td>{{ i.user.first_name }}</td>
+									<td>{{ i.user.last_name}}</td>
+									<td>{{ i.user.email }}</td>
+									<td>{{ i.user.phone }}</td>
+									{% if i.user.last_activity %}
+									<td>{{ i.user.last_activity }}</td>
+									{% else %}
+									<td><span class="badge badge-danger">Offline</span></td>
+									{% endif %}
+									{% if request.user.owner %}
+									<td><a href="" class="list-icons-item" id="delete" data-id="{{ i.user.id }}" data-toggle="modal" data-target="#remove_modal">
+										<i class="icon-trash"></i>
+									</a></td>
+									{% endif %}
+								</tr>
+							{% endfor %}
+							</tbody>
+						</table>
+					</div>
+				</div>
+				<!-- /basic datatable -->
+
+			</div>
+			<!-- /content area -->
+			<!-- Remove modal -->
+			<div id="remove_modal" class="modal fade" role="dialog">
+				<div class="modal-dialog">
+					<div class="modal-content">
+						<div class="modal-header">
+							<h5 class="modal-title">Confirm action</h5>
+							<button type="button" class="close" data-dismiss="modal">&times;</button>
+						</div>
+
+						<div class="modal-body">
+							You are about to remove this row. Are you sure?
+						</div>
+
+						<div class="modal-footer">
+							<button id="remove" type="button" class="btn btn-primary" data-dismiss="modal">Yes, remove</button>
+							<button type="button" class="btn btn-light" data-dismiss="modal">No, thanks</button>
+						</div>
+					</div>
+				</div>
+			</div>
+			<!-- /remove modal -->
+
+<script>
+	$('#save').on('click', function(){
+		let file = document.getElementById('file');
+		let data = new FormData();
+		data.append('csv_file', file.files[0]);
+		fetch('/api/v1/user/student/file/create/', {
+		method: 'POST',
+		headers: {
+			'X-CSRFToken': csrftoken,
+		},
+		body:data,
+		}).then(response => {
+                return response.json();
+		}).then(data => {
+			window.location = '/user/students/';
+		})
+
+	});
+</script>
+
+<script>
+	let objects = document.querySelectorAll('#delete')
+        for (let item of objects){
+		   item.addEventListener('click', function() {
+			   get_id(item.dataset.id)
+		   })
+	   }
+	   function get_id(id){
+		var table = $('#example').DataTable();
+		$('#remove').on('click', function(){
+			var user_id = id
+			console.log(user_id)
+			$.ajax({
+				type:'DELETE',
+				url:'/api/v1/user/delete/' + id + '/',
+				headers: {'X-CSRFToken': csrftoken},
+				success: function(data){
+					window.location = '/user/students/';
+				}
+			})
+		})
+	   }
+</script>
+{% endblock content %}
+<!-- /base -->

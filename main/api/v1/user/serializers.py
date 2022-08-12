@@ -1,6 +1,13 @@
 from rest_framework import serializers
-from user.models import User, Student, Teacher, Admin, StudentGroup
+from user.models import User, Student, Teacher, Admin, StudentGroup, StudentBulkUpload
 from rest_framework.validators import UniqueValidator
+
+
+class StudentBulkCreateSerializers(serializers.ModelSerializer):
+    class Meta:
+        model = StudentBulkUpload
+        fields = ['csv_file',]
+
 
 
 class UserListSerializers(serializers.ModelSerializer):
