@@ -11,9 +11,11 @@
 						<h5 class="card-title">Список студентов</h5>
 						<div class="header-elements">
 							<div class="list-icons">
+							{% if request.user.owner %}
 								<button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModal">
                                     Добавить Ученика через файл (CSV)
                                 </button>
+							{% endif %}
 
                                 <!-- Modal -->
                                 <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
@@ -26,6 +28,11 @@
                                                 </button>
                                             </div>
                                             <div class="modal-body">
+											<div class="alert alert-primary border-0 alert-dismissible">
+												<span class="font-weight-semibold">
+												Пожалуйста, <a href="http://127.0.0.1:8000/images/students/bulkupload/register.csv" class="alert-link">загрузите CSV-файл, прикрепленный здесь</a>. Заполните лист и загрузите тот же файл обратно на эту страницу. НЕ РЕДАКТИРУЙТЕ ПЕРВУЮ СТРОКУ 
+												</span>
+											</div>
                                             <form action="" method="post">
                                                 <div class="form-group">
                                                     <label>Файл</label>
