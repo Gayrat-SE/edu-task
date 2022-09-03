@@ -16,7 +16,6 @@
 	<link href="{% static 'css/layout.min.css' %}" rel="stylesheet" type="text/css">
 	<link href="{% static 'css/components.min.css' %}" rel="stylesheet" type="text/css">
 	<link href="{% static 'css/colors.min.css' %}" rel="stylesheet" type="text/css">
-    <link href="{% static 'css/groups.css' %}" rel="stylesheet" type="text/css">
 	
 	<!-- /global stylesheets -->
 	<!-- Core JS files -->
@@ -30,13 +29,11 @@
 	<script src="{% static 'js/core/js/plugins/forms/styling/uniform.min.js'%}"></script>
 	<script src="{% static 'js/core/app.js' %}"></script>
 	<script src="{% static 'js/core/js/demo_pages/datatables_basic.js' %}"></script>
-	<script src="{% static 'js/core/js/demo_pages/form_inputs.js' %}"></script>
 	<script src="{% static 'js/core/js/demo_pages/extension_dnd.js' %}"></script>
 	<script src="{% static 'js/core/js/demo_pages/picker_date.js' %}"></script>
 	<!-- /theme JS files -->
 	<script src="{% static 'js/core/js/plugins/ui/moment/moment.min.js' %}"></script>
     <script src="{% static 'js/core/js/plugins/pickers/daterangepicker.js' %}"></script>
-	<script src="{% static 'js/core/js/plugins/pickers/picker.js' %}"></script>
 	<script src="{% static 'js/core/js/plugins/pickers/legacy.js' %}"></script>
 	<script src="https://momentjs.com/downloads/moment-with-locales.min.js"></script>
 
@@ -117,83 +114,6 @@
 			<span class="badge bg-success ml-md-3 mr-md-auto">Online</span>
 
 			<ul class="navbar-nav">
-				<li class="nav-item dropdown">
-					<a href="#" class="navbar-nav-link dropdown-toggle caret-0" data-toggle="dropdown">
-						<i class="icon-people"></i>
-						<span class="d-md-none ml-2">Users</span>
-					</a>
-					
-					<div class="dropdown-menu dropdown-menu-right dropdown-content wmin-md-300">
-						<div class="dropdown-content-header">
-							<span class="font-weight-semibold">Users online</span>
-							<a href="#" class="text-default"><i class="icon-search4 font-size-base"></i></a>
-						</div>
-
-						<div class="dropdown-content-body dropdown-scrollable">
-							<ul class="media-list">
-								<li class="media">
-									<div class="mr-3">
-										<img src="../../../../global_assets/images/placeholders/placeholder.jpg" width="36" height="36" class="rounded-circle" alt="">
-									</div>
-									<div class="media-body">
-										<a href="#" class="media-title font-weight-semibold">Jordana Ansley</a>
-										<span class="d-block text-muted font-size-sm">Lead web developer</span>
-									</div>
-									<div class="ml-3 align-self-center"><span class="badge badge-mark border-success"></span></div>
-								</li>
-
-								<li class="media">
-									<div class="mr-3">
-										<img src="../../../../global_assets/images/placeholders/placeholder.jpg" width="36" height="36" class="rounded-circle" alt="">
-									</div>
-									<div class="media-body">
-										<a href="#" class="media-title font-weight-semibold">Will Brason</a>
-										<span class="d-block text-muted font-size-sm">Marketing manager</span>
-									</div>
-									<div class="ml-3 align-self-center"><span class="badge badge-mark border-danger"></span></div>
-								</li>
-
-								<li class="media">
-									<div class="mr-3">
-										<img src="../../../../global_assets/images/placeholders/placeholder.jpg" width="36" height="36" class="rounded-circle" alt="">
-									</div>
-									<div class="media-body">
-										<a href="#" class="media-title font-weight-semibold">Hanna Walden</a>
-										<span class="d-block text-muted font-size-sm">Project manager</span>
-									</div>
-									<div class="ml-3 align-self-center"><span class="badge badge-mark border-success"></span></div>
-								</li>
-
-								<li class="media">
-									<div class="mr-3">
-										<img src="../../../../global_assets/images/placeholders/placeholder.jpg" width="36" height="36" class="rounded-circle" alt="">
-									</div>
-									<div class="media-body">
-										<a href="#" class="media-title font-weight-semibold">Dori Laperriere</a>
-										<span class="d-block text-muted font-size-sm">Business developer</span>
-									</div>
-									<div class="ml-3 align-self-center"><span class="badge badge-mark border-warning-300"></span></div>
-								</li>
-
-								<li class="media">
-									<div class="mr-3">
-										<img src="../../../../global_assets/images/placeholders/placeholder.jpg" width="36" height="36" class="rounded-circle" alt="">
-									</div>
-									<div class="media-body">
-										<a href="#" class="media-title font-weight-semibold">Vanessa Aurelius</a>
-										<span class="d-block text-muted font-size-sm">UX expert</span>
-									</div>
-									<div class="ml-3 align-self-center"><span class="badge badge-mark border-grey-400"></span></div>
-								</li>
-							</ul>
-						</div>
-
-						<div class="dropdown-content-footer bg-light">
-							<a href="#" class="text-grey mr-auto">All users</a>
-							<a href="#" class="text-grey"><i class="icon-gear"></i></a>
-						</div>
-					</div>
-				</li>
 
 				<li class="nav-item dropdown">
 					<a href="#" class="navbar-nav-link dropdown-toggle caret-0" data-toggle="dropdown">
@@ -211,10 +131,6 @@
 						<div class="dropdown-content-body dropdown-scrollable">
 							<ul class="media-list">
 								<li class="media">
-									<div class="mr-3 position-relative">
-										<img src="../../../../global_assets/images/placeholders/placeholder.jpg" width="36" height="36" class="rounded-circle" alt="">
-									</div>
-
 									<div class="media-body">
 										<div class="media-title">
 											<a href="#">
@@ -225,72 +141,7 @@
 
 										<span class="text-muted">who knows, maybe that would be the best thing for me...</span>
 									</div>
-								</li>
-
-								<li class="media">
-									<div class="mr-3 position-relative">
-										<img src="../../../../global_assets/images/placeholders/placeholder.jpg" width="36" height="36" class="rounded-circle" alt="">
-									</div>
-
-									<div class="media-body">
-										<div class="media-title">
-											<a href="#">
-												<span class="font-weight-semibold">Margo Baker</span>
-												<span class="text-muted float-right font-size-sm">12:16</span>
-											</a>
-										</div>
-
-										<span class="text-muted">That was something he was unable to do because...</span>
-									</div>
-								</li>
-
-								<li class="media">
-									<div class="mr-3">
-										<img src="../../../../global_assets/images/placeholders/placeholder.jpg" width="36" height="36" class="rounded-circle" alt="">
-									</div>
-									<div class="media-body">
-										<div class="media-title">
-											<a href="#">
-												<span class="font-weight-semibold">Jeremy Victorino</span>
-												<span class="text-muted float-right font-size-sm">22:48</span>
-											</a>
-										</div>
-
-										<span class="text-muted">But that would be extremely strained and suspicious...</span>
-									</div>
-								</li>
-
-								<li class="media">
-									<div class="mr-3">
-										<img src="../../../../global_assets/images/placeholders/placeholder.jpg" width="36" height="36" class="rounded-circle" alt="">
-									</div>
-									<div class="media-body">
-										<div class="media-title">
-											<a href="#">
-												<span class="font-weight-semibold">Beatrix Diaz</span>
-												<span class="text-muted float-right font-size-sm">Tue</span>
-											</a>
-										</div>
-
-										<span class="text-muted">What a strenuous career it is that I've chosen...</span>
-									</div>
-								</li>
-
-								<li class="media">
-									<div class="mr-3">
-										<img src="../../../../global_assets/images/placeholders/placeholder.jpg" width="36" height="36" class="rounded-circle" alt="">
-									</div>
-									<div class="media-body">
-										<div class="media-title">
-											<a href="#">
-												<span class="font-weight-semibold">Richard Vango</span>
-												<span class="text-muted float-right font-size-sm">Mon</span>
-											</a>
-										</div>
-										
-										<span class="text-muted">Other travelling salesmen live a life of luxury...</span>
-									</div>
-								</li>
+								</li> 
 							</ul>
 						</div>
 
@@ -591,14 +442,6 @@
 						<a href="#" class="header-elements-toggle text-default d-md-none"><i class="icon-more"></i></a>
 					</div>
 
-					<div class="header-elements d-none">
-						<div class="breadcrumb justify-content-center">
-							<a href="#" class="breadcrumb-elements-item">
-								<i class="icon-comment-discussion mr-2"></i>
-								Support
-							</a>	
-						</div>
-					</div>
 				</div>
 			</div>
 			<!-- /page header -->

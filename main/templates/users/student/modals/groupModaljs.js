@@ -24,11 +24,10 @@ $('#submit').on('click', function(){
 		},
 	})
 });
-$('#cancel').on('click', function(){
-	$('#name').val("")
-	$('#description').val("")
-	$('#student').val("")
-})
+closeBtn = document.getElementById('closeBtn')
+    closeBtn.addEventListener('click', function () {
+        document.getElementById('CreateStudentForm').reset();
+    })
 </script>
 
 

@@ -48,7 +48,7 @@
                                         </div>
                                     </div>
                                     <div class="modal-footer">
-                                        <button type="button" class="btn btn-secondary" id="cancel" data-dismiss="modal">Закрыть</button>
+                                        <button type="button" class="btn btn-secondary" id="closeBtn" data-dismiss="modal">Закрыть</button>
                                         <button type="button" class="btn btn-primary" id="submit">Добавить</button>
                                     </div>
                                 </div>
@@ -186,12 +186,6 @@
                         })
                     }
                 })
-                $('#cancel').on('click', function(){
-                    $('#title').val("")
-                    $('#datetime').val("");
-                    $('#end_date').val("");
-                    $('#group_select').val("Выбирайте группу")
-                })
             },
             events: function(info, successCallback){
                 var start_date = info.start.toISOString();
@@ -261,6 +255,10 @@
     } else {
             loadCalendar();
     }
+    closeBtn = document.getElementById('closeBtn')
+    closeBtn.addEventListener('click', function () {
+        document.getElementById('post-form').reset();
+    })
 </script>
 </div>
 {% endif %}

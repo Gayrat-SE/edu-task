@@ -50,12 +50,18 @@
 								<div class="col-md-6">
 									<label>Your Gender</label>
 									<select class="form-control" id="gender">
+									{% if request.user.gender %}
 										<option value="{{ request.user.gender }}" selected>{{ request.user.gender }}</option> 
 										{% if request.user.gender != "Female" %}
 										<option value="Female">Female</option>  
-										{% else %}
+										{% elif request.user.gender != "Male" %}
 										<option value="Male">Male</option> 
 										{% endif %}
+									{% else %}
+										<option selected>Выбирайте</option> 
+										<option value="Female">Female</option>  
+										<option value="Male">Male</option> 
+									{% endif %}
 									</select>
 								</div>
 							</div>
