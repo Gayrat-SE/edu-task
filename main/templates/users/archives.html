@@ -1,0 +1,63 @@
+{% extends '../base.html' %}
+
+{% block content %}
+
+<div class="content">
+    <!-- Open menu on click -->
+    <div class="card">
+        <div class="card-header header-elements-inline">
+            <h5 class="card-title">Open menu on click</h5>
+            <div class="header-elements">
+                <div class="list-icons">
+                    <a class="list-icons-item" data-action="collapse"></a>
+                    <a class="list-icons-item" data-action="reload"></a>
+                </div>
+            </div>
+        </div>
+        <div class="card-body">
+            <table class="table datatable-basic table-hover myTable" style="width:100%" id="ourtable3">
+                <thead>
+                    <tr>
+                        <th>Имя</th>
+                        <th>Метод</th>
+                        <th>Запрос</th>
+                        <th>Время Создания</th>
+                        <th>Статус</th>
+                        <th>Продолжительность</th>
+                    </tr>
+                </thead>
+            </table>
+        </div>
+    </div>
+        <!-- /open menu on click -->
+</div>
+<script>
+    $(document).ready(function () {
+                    var mytable = $('#ourtable3').DataTable({
+                        "ordering": false,
+                        "bDestroy": true,
+                        order: [[1, 'asc']],
+                        
+                        "language": {
+                            "emptyTable": "Нет никакого ответа",
+                            "infoEmpty": "Отображение от 0 до 0 из 0 записей",
+                            "search": "Поиск:   ",
+                            "info": "Отображение от _START_ до _END_ из _TOTAL_ записей",
+                        },
+                        ajax: {
+                            url: '/api/v1/archive/list/',
+                            dataSrc: '',
+                        }, 
+                        columns: [
+                            {data: 'username.username'},
+                            {data: 'method'},
+                            {data: 'request'},
+                            {data: 'created_at', render: function(date){ return moment(date).locale('uz').format('lll') }},
+                            {data: 'status'},
+                            {data: 'duration'}
+                        ],
+                    });
+                    // Handle form submission event
+                });
+</script>
+{% endblock %}

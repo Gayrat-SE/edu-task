@@ -5,4 +5,5 @@ urlpatterns = [
     path('course/', include('api.v1.course.urls')),
     path('lesson/', include('api.v1.lesson.urls')),
     path('chat/', include("api.v1.chat.urls")),
+    path('archive/', include("api.v1.post.urls")),
     ]
