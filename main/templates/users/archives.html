@@ -37,24 +37,21 @@
                         "ordering": false,
                         "bDestroy": true,
                         order: [[1, 'asc']],
-                        
+                        "serverSide": true,
                         "language": {
                             "emptyTable": "Нет никакого ответа",
                             "infoEmpty": "Отображение от 0 до 0 из 0 записей",
                             "search": "Поиск:   ",
                             "info": "Отображение от _START_ до _END_ из _TOTAL_ записей",
                         },
-                        ajax: {
-                            url: '/api/v1/archive/list/',
-                            dataSrc: '',
-                        }, 
+                        "ajax": "/api/v1/archive/list/?format=datatables",
                         columns: [
-                            {data: 'username.username'},
-                            {data: 'method'},
-                            {data: 'request'},
-                            {data: 'created_at', render: function(date){ return moment(date).locale('uz').format('lll') }},
-                            {data: 'status'},
-                            {data: 'duration'}
+                            {"data": 'username.username'},
+                            {"data": 'method'},
+                            {"data": 'request'},
+                            {"data": 'created_at', render: function(date){ return moment(date).locale('uz').format('lll') }},
+                            {"data": 'status'},
+                            {"data": 'duration'}
                         ],
                     });
                     // Handle form submission event

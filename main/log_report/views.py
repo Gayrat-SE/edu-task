@@ -9,3 +9,4 @@ class ListArchivePost(LoginRequiredMixin, generic.ListView):
     login_url = "login"
     model = Log
     template_name: str = 'users/archives.html'
+    

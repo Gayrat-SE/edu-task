@@ -4,9 +4,11 @@ from api.v1.user.serializers import UserListSerializers
 
 class ArchiveSerializers(serializers.ModelSerializer):
     username = serializers.SerializerMethodField(read_only = True)
+    id = serializers.IntegerField(read_only=True)
     class Meta:
         model = Log
         fields = '__all__'
+        datatables_always_serialize = ('id',)
     
     def get_username(self, obj):
         id = obj.username
