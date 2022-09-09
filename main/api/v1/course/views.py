@@ -2,14 +2,15 @@ from .serializers import (
     CreateHomeworkSerializer,
     SendHomeworkSerializer,
     SubmissionHomeworkList,
-    AnswerHomeworkRating
+    AnswerHomeworkRating,
+    HomeworkListSerializers,
     )
 from courses.models import (
     Homework, 
     HomeworkSubmission,
     )
 from log_report.api_views import *
-
+from rest_framework.generics import ListAPIView
 
 class CreateHomework(LogCreateAPIView):
     queryset = Homework.objects.all()
@@ -39,3 +40,21 @@ class HomeworkSubmissions(LogListAPIView):
 class CreateRatingAnswerHomework(LogCreateAPIView):
     serializer_class = AnswerHomeworkRating
     queryset = HomeworkSubmission.objects.all()
+
+class GetHomeworkArchive(LogListAPIView):
+    serializer_class = HomeworkListSerializers
+    def get_queryset(self):
+        try:
+            homework = Homework.objects.filter(teacher = self.request.user.teacher)
+            return homework
+        except:
+            return None
+
+class GetAnswerHomeworkArchive(ListAPIView):
+    serializer_class = SubmissionHomeworkList
+    def get_queryset(self):
+        try:
+            answer = HomeworkSubmission.objects.filter(student = self.request.user.student)
+            return answer
+        except:
+            return None

@@ -15,18 +15,37 @@ class SendHomeworkSerializer(serializers.ModelSerializer):
         model = HomeworkSubmission
         fields = ('homework', 'upload_homework_time', 'submission_homework_file',)
 
-
-class SubmissionHomeworkList(serializers.ModelSerializer):
-    student = serializers.SerializerMethodField(read_only=True)
+class HomeworkListSerializers(serializers.ModelSerializer):
     class Meta:
-        model = HomeworkSubmission
-        fields = "__all__"
-    
+        model = Homework
+        fields = "__all__"    
+
     def get_student(self, obj):
         user = obj.student
         serializer_user = StudentListSerializer(user, many=False)
 
         return serializer_user.data
+
+class SubmissionHomeworkList(serializers.ModelSerializer):
+    student = serializers.SerializerMethodField(read_only=True)
+    homework = serializers.SerializerMethodField(read_only = True)
+    class Meta:
+        model = HomeworkSubmission
+        fields = "__all__"
+
+    def get_student(self, obj):
+        user = obj.student
+        serializer_user = StudentListSerializer(user, many=False)
+
+        return serializer_user.data
+    
+    def get_homework(self, obj):
+        homework_obj = obj.homework
+
+        serializer_homework = HomeworkListSerializers(homework_obj, many=False)
+
+        return serializer_homework.data
+
 
 
 class AnswerHomeworkRating(serializers.ModelSerializer):

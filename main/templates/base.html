@@ -397,6 +397,21 @@
                             </a>
                         </li>
 						{% endif %}
+						{% if request.path == '/course/archive/' %}
+						<li class="nav-item">
+							<a href="{% url 'archive' %}" class="nav-link active">
+								<i class="icon-archive"></i> 
+								<span>Архив</span>
+                            </a>
+                        </li>
+						{% else %}
+						<li class="nav-item">
+							<a href="{% url 'archive' %}" class="nav-link">
+								<i class="icon-archive"></i> 
+								<span>Архив</span>
+                            </a>
+                        </li>
+						{% endif %}
 						{% if request.path == '/lesson/calendar' %}
 						<li class="nav-item">
 							<a href="{% url 'calendar' %}" class="nav-link active"><i class="icon-calendar3"></i> <span>Календарь уроки</span></a>

@@ -67,3 +67,8 @@ class GetStudentMark(LoginRequiredMixin, ListView):
         except ObjectDoesNotExist:
             return {"error":"you dont have permission"}
         return context
+
+class GetAnswerArchive(LoginRequiredMixin, ListView):
+    login_url = "login"
+    model = HomeworkSubmission
+    template_name: str = 'users/student/archive_answer_homework.html'

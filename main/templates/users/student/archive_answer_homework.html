@@ -1,0 +1,61 @@
+{% extends '../../base.html' %}
+
+{% block content %}
+
+<div class="content">
+    <!-- Open menu on click -->
+    <div class="card">
+        <div class="card-header header-elements-inline">
+            <h5 class="card-title">Open menu on click</h5>
+            <div class="header-elements">
+                <div class="list-icons">
+                    <a class="list-icons-item" data-action="collapse"></a>
+                    <a class="list-icons-item" data-action="reload"></a>
+                </div>
+            </div>
+        </div>
+        <div class="card-body">
+            <table class="table datatable-basic table-hover myTable" style="width:100%" id="ourtable3">
+                <thead>
+                    <tr>
+                        <th>Название домашнего задания</th>
+                        <th>Время сдачи</th>
+                        <th>Файл с ответами</th>
+                        <th>Студент</th>
+                        <th>Рейтинг</th>
+                        <th>Статус</th>
+                    </tr>
+                </thead>
+            </table>
+        </div>
+    </div>
+        <!-- /open menu on click -->
+</div>
+<script>
+    $(document).ready(function () {
+                    var mytable = $('#ourtable3').DataTable({
+                        "ordering": false,
+                        processing: true,
+                        "bDestroy": true,
+                        order: [[1, 'asc']],
+                        "serverSide": true,
+                        "language": {
+                            "emptyTable": "Нет никакого ответа",
+                            "infoEmpty": "Отображение от 0 до 0 из 0 записей",
+                            "search": "Поиск:   ",
+                            "info": "Отображение от _START_ до _END_ из _TOTAL_ записей",
+                        },
+                        "ajax": "/api/v1/course/answer/archive/?format=datatables",
+                        columns: [
+                            {"data": 'homework.homework_title'},
+                            {"data": 'upload_homework_time', render: function(date){ return moment(date).locale('uz').format('lll') }},
+                            {"data": 'submission_homework_file', render: function (file) { return '<a href="' + file + '" target="_blank">Download File</a>'; }},
+                            {"data": 'student.user.username'},
+                            {"data": 'submission_rating'},
+                            {"data": 'is_answered'},
+                        ],
+                    });
+                    // Handle form submission event
+                });
+</script>
+{% endblock %}

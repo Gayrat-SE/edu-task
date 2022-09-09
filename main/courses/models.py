@@ -6,7 +6,7 @@ from datetime import datetime
 import pytz
 from rest_framework.exceptions import ValidationError
 from django.core.validators import MaxValueValidator, MinValueValidator
-
+from simple_history.models import HistoricalRecords
 
 
 def deadline_time(value):
@@ -25,7 +25,7 @@ class Homework(Base):
     teacher = models.ForeignKey(Teacher, on_delete=models.PROTECT, blank=True)
     student_group = models.ForeignKey(StudentGroup, on_delete=models.PROTECT, related_name='groups', blank=True, null=True)
     student = models.ManyToManyField(Student, blank=True, related_name='students')
-
+    history = HistoricalRecords(inherit=True)
     def filename(self):
         return os.path.basename(self.homework_file.name)
 
@@ -43,5 +43,6 @@ class HomeworkSubmission(Base):
         validators=[FileExtensionValidator(allowed_extensions=["pdf", "doc", "docx", "ppt"])])
     submission_rating = models.IntegerField(blank=True, validators=[MaxValueValidator(5), MinValueValidator(0)], null=True)
     is_answered = models.BooleanField(default=False)
+    history = HistoricalRecords(inherit=True)
     def filename(self):
         return os.path.basename(self.submission_homework_file.name)

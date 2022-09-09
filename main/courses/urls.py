@@ -6,4 +6,5 @@ urlpatterns = [
     path('check/homeworks', CheckHomeworkGroup.as_view(), name='checkhomeworkgroup'),
     path('detail/students/<int:pk>', CheckHomeworkStudent.as_view(), name='checkhomeworkstudent'),
     path('rating/', GetStudentMark.as_view(), name='rating'),
+    path('archive/', GetAnswerArchive.as_view(), name='archive'),
 ]
