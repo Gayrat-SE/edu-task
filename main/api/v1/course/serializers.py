@@ -34,7 +34,7 @@ class AnswerHomeworkRating(serializers.ModelSerializer):
     class Meta:
         model = HomeworkSubmission
         fields = ['id', 'submission_rating',]
-
+        datatables_always_serialize = ('id',)
 
     def create(self, validated_data):
         answer = HomeworkSubmission.objects.get(id = validated_data['id'])

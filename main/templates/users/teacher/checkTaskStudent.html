@@ -109,10 +109,7 @@
                                         rows: "%d выбранные строки"
                                     }
                         },
-                        ajax: {
-                            url: '/api/v1/course/submissions/list/' + homework_id + '/',
-                            dataSrc: '',
-                        }, 
+                        "ajax": "/api/v1/course/submissions/list/" + homework_id + "/?format=datatables",
                         columnDefs:[{
                             className: 'select-checkbox',
                             targets:   0,

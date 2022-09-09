@@ -35,6 +35,7 @@
     $(document).ready(function () {
                     var mytable = $('#ourtable3').DataTable({
                         "ordering": false,
+                        processing: true,
                         "bDestroy": true,
                         order: [[1, 'asc']],
                         "serverSide": true,
