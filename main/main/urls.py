@@ -30,6 +30,6 @@ urlpatterns = [
     path('',Dashboard.as_view(), name='index'),
     path('chat/', include("chat.urls")),
     path('logs/', include('log_viewer.urls')),
-    path('', include("log_report.urls")),
+    path('log/', include("log_report.urls")),
 ]
 urlpatterns+= static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

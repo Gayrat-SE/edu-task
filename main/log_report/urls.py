@@ -3,6 +3,6 @@ from .views import ListArchivePost
 
 
 urlpatterns = [
-    path('archive/', ListArchivePost.as_view(), name='archive')
+    path('list/', ListArchivePost.as_view(), name='log')
 
 ]

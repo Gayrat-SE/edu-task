@@ -8,5 +8,5 @@ from django.contrib.auth.mixins import LoginRequiredMixin
 class ListArchivePost(LoginRequiredMixin, generic.ListView):
     login_url = "login"
     model = Log
-    template_name: str = 'users/archives.html'
+    template_name: str = 'users/log_report.html'
     

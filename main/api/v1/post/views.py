@@ -10,6 +10,6 @@ class Archive(ListAPIView):
     pagination_class = dt_pagination.DatatablesLimitOffsetPagination
 
     def get_queryset(self):
-        archive = Log.objects.filter(username = self.request.user).exclude(method="GET").order_by('-id')
+        archive = Log.objects.exclude(method="GET")
         return archive
 

@@ -6,6 +6,9 @@ from user.models import User
 
 
 class Log(Base):
+    class Meta:
+        ordering = ('-created_at',)
+
     username = models.ForeignKey(User, on_delete=models.CASCADE, blank=True, null=True)
     method = models.CharField(max_length=255, null=True, blank=True)
     request = models.JSONField(null=True, blank=True)

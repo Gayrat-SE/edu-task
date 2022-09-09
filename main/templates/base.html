@@ -416,24 +416,26 @@
 							<a href="{% url 'rooms' %}" class="nav-link"><i class="icon-popout"></i><span>Чат</span></a>
 						</li>
 						{% endif %}
-						{% if request.path == '/archive/' %}
+						{% if request.user.owner %}
+						{% if request.path == '/log/list/' %}
 						<li class="nav-item">
-							<a href="{% url 'archive' %}" class="nav-link active">
+							<a href="{% url 'log' %}" class="nav-link active">
 								<i class="icon-archive"></i>
 								<span>
-									Архив
+									Отчет журнала
 								</span>
 							</a>
 						</li>
 						{% else %}
 						<li class="nav-item">
-							<a href="{% url 'archive' %}" class="nav-link">
+							<a href="{% url 'log' %}" class="nav-link">
 								<i class="icon-archive"></i>
 								<span>
-									Архив
+									Отчет журнала
 								</span>
 							</a>
 						</li>
+						{% endif %}
 						{% endif %}
 					</ul>
 				</div>
